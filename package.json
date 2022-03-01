@@ -1,0 +1,25 @@
+{
+  "name": "howtocookonminiprogram",
+  "version": "1.0.0",
+  "description": "小程序版本程序员做菜指南，将程序员精神进行到底",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeJim/HowToCookOnMiniprogram.git"
+  },
+  "keywords": [
+    "cook"
+  ],
+  "author": "leejimqiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeeJim/HowToCookOnMiniprogram/issues"
+  },
+  "homepage": "https://github.com/LeeJim/HowToCookOnMiniprogram#readme",
+  "dependencies": {
+    "tdesign-miniprogram": "^0.5.3"
+  }
+}

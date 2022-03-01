@@ -1,0 +1,11 @@
+<!--index.wxml-->
+<view class="container">
+  <t-tab-bar
+    value="{{value}}"
+    bindchange="onChange"
+  >
+    <t-tab-bar-item wx:for="{{tabbars}}" wx:key="index" icon="{{item.icon}}">
+      {{item.text}}
+    </t-tab-bar-item>
+  </t-tab-bar>
+</view>
