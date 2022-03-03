@@ -1,9 +1,12 @@
 // index.js
+import { groupBy } from 'lodash'
+import infos from '../../data'
 // 获取应用实例
 const app = getApp()
 
 Page({
   data: {
+    list: [],
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
@@ -21,18 +24,43 @@ Page({
       icon: 'user'
     }]
   },
-  // 事件处理函数
-  bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
   onLoad() {
+    const menu = groupBy(infos.dishes, 'category');
+    const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
+      const nameMap = {
+        breakfast: '早餐 Breakfast',
+        condiment: '佐料 Condiment',
+        dessert: '甜品 Dessert',
+        drink: '饮品 Drink',
+        'home-cooking': '烹饪 Cooking',
+        'semi-finished': '速食 FastFood',
+        'soup': '汤 Soup',
+        'staple': '主食 Staple'
+      }
+      return {
+        name: nameMap[catetory],
+        icon: `/assets/images/${catetory}.png`,
+        list
+      }
+    })
+    this.setData({
+      list
+    })
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true
       })
     }
+  },
+  handleTap(e) {
+    const { item } = e.detail;
+    
+    wx.navigateTo({
+      url: '../detail/index',
+      success(res) {
+        res.eventChannel.emit('acceptDataFromOpenerPage', { data: item.child })
+      }
+    })
   },
   getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
@@ -55,7 +83,13 @@ Page({
       hasUserInfo: true
     })
   },
-  onChange(e) {
-    console.log(e);
+  handleTabbarChange({ detail }) {
+    const { value } = detail;
+    
+    if (value == 1) {
+      wx.redirectTo({
+        url: '../my/index'
+      })
+    }
   }
 })

@@ -1,8 +1,15 @@
 <!--index.wxml-->
 <view class="container">
+  <list 
+    wx:for="{{list}}" 
+    name="{{item.name}}"
+    icon="{{item.icon}}"
+    wx:key="name"
+    bind:click="handleTap"
+    list="{{item.list}}" />
   <t-tab-bar
     value="{{value}}"
-    bindchange="onChange"
+    bindchange="handleTabbarChange"
   >
     <t-tab-bar-item wx:for="{{tabbars}}" wx:key="index" icon="{{item.icon}}">
       {{item.text}}

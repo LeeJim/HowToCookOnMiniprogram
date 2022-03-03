@@ -1,0 +1,30 @@
+<view class="container">
+  <t-cell
+    title="点击复制仓库地址"
+    arrow
+    description="Github 搜索 HowToCookOnMiniprogram"
+    t-class-image="title-image"
+    data-msg="abc"
+    bind:click="handleCopy"
+  >
+  <view class="avatar" slot="left-icon">
+    <open-data type="userAvatarUrl" />
+  </view>
+</t-cell>
+<t-cell title="订阅更新" hover arrow />
+<t-cell title="收藏" hover arrow>
+  <t-tag theme="info" slot="note" variant="light-outline">未实现</t-tag>
+</t-cell>
+<t-cell title="PowerBy" hover arrow bind:click="handleCopy" data-msg="https://github.com/Tencent/tdesign-miniprogram">
+  <t-tag theme="primary" slot="note" variant="light-outline">TDesign Miniprogram</t-tag>
+</t-cell>
+<t-toast id="t-toast" />
+<t-tab-bar
+    value="{{value}}"
+    bindchange="handleTabbarChange"
+  >
+    <t-tab-bar-item wx:for="{{tabbars}}" value="{{item.value}}" wx:key="index" icon="{{item.icon}}">
+      {{item.text}}
+    </t-tab-bar-item>
+  </t-tab-bar>
+</view>

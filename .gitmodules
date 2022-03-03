@@ -1,0 +1,3 @@
+[submodule "HowToCook"]
+	path = HowToCook
+	url = git@github.com:Anduin2017/HowToCook.git

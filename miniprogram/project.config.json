@@ -1,7 +1,16 @@
 {
   "description": "项目配置文件",
   "packOptions": {
-    "ignore": []
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "HowToCook"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules"
+      }
+    ]
   },
   "setting": {
     "urlCheck": true,
@@ -20,7 +29,7 @@
     "checkInvalidKey": true,
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
+    "compileHotReLoad": true,
     "lazyloadPlaceholderEnable": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
@@ -38,7 +47,9 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
+    "useCompilerPlugins": [
+      "less"
+    ],
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",

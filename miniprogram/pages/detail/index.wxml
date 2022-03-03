@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="title">{{title}}</view>
+  <view class="desc">{{desc}}</view>
+
+  <t-tabs defaultValue="{{0}}">
+    <t-tab-panel wx:for="{{sections}}" wx:for-item="section" label="{{section.value}}" value="{{index}}">
+      <view class="tab-panel">
+        <block wx:for="{{section.child}}">
+          <view wx:if="{{section.value == '操作'}}" class="steps">
+            <t-steps wx:if="{{item.type == 'list'}}" current="{{stepIndex}}" bind:change="handleStepChange" layout="vertical">
+              <t-step wx:for="{{item.value}}" wx:for-item="step" title="{{step}}">
+                <view wx:if="{{stepIndex == index}}" slot="extra">
+                  <view class="button-group">
+                    <block wx:if="{{index < item.value.length - 1}}">
+                      <view class="button" bind:tap="toNext">下一步</view>
+                    </block>
+                    <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toAgain">重新做一次</view>
+                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" bind:tap="handleStart">
+                      开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
+                    </view>
+                    <t-count-down wx:if="{{startCountDown}}" content="default" time="{{_.getTime(step) * 1000}}" theme="square" bind:change="handleCountdown" />
+                  </view>
+                </view>
+              </t-step>
+            </t-steps>
+            <view class="paragraph" wx:else>{{item.value}}</view>
+          </view>
+          <view wx:elif="{{item.type === 'list'}}" class="list">
+            <view wx:for="{{item.value}}" wx:for-item="text" class="item">{{text}}</view>
+          </view>
+          <view class="paragraph" wx:else>{{item.value}}</view>
+        </block>
+      </view>
+    </t-tab-panel>
+  </t-tabs>
+</view>
+
+<wxs module="_">
+module.exports.getTime = function(str) {
+  var res = getRegExp('([0-9一两]+)\s*(min|分钟|秒)').exec(str);
+  if (res) {
+    var unit = ['min', '分钟'].indexOf(res[2]) > -1 ? 60 : 1;
+    var map = {
+      '一': 1,
+      '两': 2
+    };
+    var val = res[1];
+    val = getRegExp('\d+').test(val) ? val : map[val];
+    
+    return val * unit;
+  }
+}
+</wxs>
