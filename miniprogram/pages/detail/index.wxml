@@ -5,19 +5,21 @@
   <t-tabs defaultValue="{{0}}">
     <t-tab-panel wx:for="{{sections}}" wx:for-item="section" label="{{section.value}}" value="{{index}}">
       <view class="tab-panel">
-        <block wx:for="{{section.child}}">
+        <block wx:for="{{section.child}}" wx:for-index="sectionIndex">
           <view wx:if="{{section.value == '操作'}}" class="steps">
-            <t-steps wx:if="{{item.type == 'list'}}" current="{{stepIndex}}" bind:change="handleStepChange" layout="vertical">
+            <t-steps wx:if="{{item.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
               <t-step wx:for="{{item.value}}" wx:for-item="step" title="{{step}}">
-                <view wx:if="{{stepIndex == index}}" slot="extra">
+                <view wx:if="{{stepIndexes[sectionIndex] == index}}" slot="extra">
                   <view class="button-group">
                     <block wx:if="{{index < item.value.length - 1}}">
-                      <view class="button" bind:tap="toNext">下一步</view>
+                      <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">下一步</view>
                     </block>
-                    <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toAgain">重新做一次</view>
+                    <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">重新做一次</view>
                     <view wx:if="{{_.getTime(step)}}" class="button button--primary" bind:tap="handleStart">
+                      {{_.getTime(step)}}
                       开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
                     </view>
+                    {{_.getTime(step) * 1000}}
                     <t-count-down wx:if="{{startCountDown}}" content="default" time="{{_.getTime(step) * 1000}}" theme="square" bind:change="handleCountdown" />
                   </view>
                 </view>

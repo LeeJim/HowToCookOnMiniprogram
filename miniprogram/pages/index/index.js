@@ -1,6 +1,6 @@
 // index.js
-import { groupBy } from 'lodash'
 import infos from '../../data'
+import utils from '../../utils/index.js'
 // 获取应用实例
 const app = getApp()
 
@@ -25,7 +25,7 @@ Page({
     }]
   },
   onLoad() {
-    const menu = groupBy(infos.dishes, 'category');
+    const menu = utils.groupBy(infos.dishes, 'category');
     const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
       const nameMap = {
         breakfast: '早餐 Breakfast',
@@ -56,10 +56,7 @@ Page({
     const { item } = e.detail;
     
     wx.navigateTo({
-      url: '../detail/index',
-      success(res) {
-        res.eventChannel.emit('acceptDataFromOpenerPage', { data: item.child })
-      }
+      url: '../detail/index?id=' + item.id
     })
   },
   getUserProfile(e) {
@@ -75,21 +72,19 @@ Page({
       }
     })
   },
-  getUserInfo(e) {
-    // 不推荐使用getUserInfo获取用户信息，预计自2021年4月13日起，getUserInfo将不再弹出弹窗，并直接返回匿名的用户个人信息
-    console.log(e)
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
   handleTabbarChange({ detail }) {
     const { value } = detail;
     
-    if (value == 1) {
+    if (value == 'my') {
       wx.redirectTo({
         url: '../my/index'
       })
     }
-  }
+  },
+  onShareAppMessage() {
+    return {
+      title: '程序员做饭',
+      path: '/pages/index/index'
+    }
+  },
 })

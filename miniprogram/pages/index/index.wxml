@@ -11,7 +11,7 @@
     value="{{value}}"
     bindchange="handleTabbarChange"
   >
-    <t-tab-bar-item wx:for="{{tabbars}}" wx:key="index" icon="{{item.icon}}">
+    <t-tab-bar-item wx:for="{{tabbars}}" wx:key="index" value="{{item.value}}" icon="{{item.icon}}">
       {{item.text}}
     </t-tab-bar-item>
   </t-tab-bar>

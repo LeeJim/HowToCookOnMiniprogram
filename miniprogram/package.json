@@ -21,6 +21,6 @@
   "homepage": "https://github.com/LeeJim/HowToCookOnMiniprogram#readme",
   "dependencies": {
     "lodash": "^4.17.21",
-    "tdesign-miniprogram": "^0.5.3"
+    "tdesign-miniprogram": "^0.5.4"
   }
 }

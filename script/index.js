@@ -11,21 +11,23 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
     console.log(err)
   }
   const dishes = []
-  let i = 0
+  let id = 0
 
   for(let p of files) {
-    // if (++i > 1) break;
     const { name } = path.parse(p)
     const [ ,category ] = /dishes\/([\w-]+)\//g.exec(p)
     const content = fs.readFileSync(path.resolve(p), { encoding: 'utf-8'})
     let detail = {
+      id,
       name,
       category,
       child: []
     }
     let objectPath = [detail]
+
+    id++;
     target = detail
-    marked.lexer(content).forEach((token, index) => {
+    marked.lexer(content).forEach((token) => {
       if (token.type == 'heading') {
         const rect = {
           type: token.type,
@@ -38,11 +40,8 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
         } while (!target)
 
         objectPath[token.depth] = rect
-        try {
-          target.child.push(rect)
-        } catch(e) {
-          console.log(e);
-        }
+        target.child.push(rect)
+        
         target = rect
       } else if (token.type !== 'space') {
         let value = token.text

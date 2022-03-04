@@ -14,6 +14,19 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
-module.exports = {
-  formatTime
+const groupBy = (arr, identity) => {
+  const rect = {}
+  arr.forEach(item => {
+    const key = item[identity]
+    if (!(key in rect)) {
+      rect[key] = []
+    }
+    rect[key].push(item)
+  })
+  return rect;
+}
+
+export default {
+  formatTime,
+  groupBy
 }
