@@ -12,13 +12,13 @@
 
 有些步骤会存在计时的需求，当前做到识别时间，并可以内嵌计时器
 
-<img src="./assets/1646455041897.jpg" width="375" />
+<img src="./assets/countdown.jpg" width="375" />
 
 ### 可视化分类 😊
 
 简洁、美观
 
-<img src="./assets/1646455273540.jpg" width="375" />
+<img src="./assets/home.jpg" width="375" />
 
 ## 如何贡献
 
