@@ -64,3 +64,24 @@ page {
     justify-content: flex-start;
   }
 }
+
+.popup {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 32rpx 0;
+  transform: translateY(-100%);
+  transition: all .3s ease-in-out;
+
+  &--top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &--active {
+    transform: translateY(0);
+  }
+}

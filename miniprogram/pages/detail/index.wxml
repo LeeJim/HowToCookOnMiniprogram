@@ -15,10 +15,9 @@
                       <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">下一步</view>
                     </block>
                     <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">重新做一次</view>
-                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-index="{{sectionIndex}}" bind:tap="handleStart">
+                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
                       开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
                     </view>
-                    <t-count-down wx:if="{{countdownIndexes[sectionIndex]}}" content="default" time="{{_.getTime(step) * 1000}}" theme="square" bind:change="handleCountdown" />
                   </view>
                 </view>
               </t-step>
@@ -33,17 +32,24 @@
       </view>
     </t-tab-panel>
   </t-tabs>
+
   <t-toast id="t-toast" />
+  <view class="popup popup--top popup--{{startTimeout ? 'active' : 'normal'}}">
+    <t-count-down wx:if="{{timeout}}" content="default" time="{{timeout}}" size="large" theme="square" bind:change="handleCountdown" />
+  </view>
 </view>
 
 <wxs module="_">
 module.exports.getTime = function(str) {
-  var res = getRegExp('([0-9一两]+)\s*(min|分钟|秒)').exec(str);
+  var res = getRegExp('([0-9\.半一两三四]+)\s*(小时|min|分钟|秒|s)').exec(str);
   if (res) {
     var unit = ['min', '分钟'].indexOf(res[2]) > -1 ? 60 : 1;
+    if (res[2] == '小时') unit = 3600;
     var map = {
+      '半': 0.5,
       '一': 1,
-      '两': 2
+      '两': 2,
+      '三': 3,
     };
     var val = res[1];
     val = getRegExp('\d+').test(val) ? val : map[val];

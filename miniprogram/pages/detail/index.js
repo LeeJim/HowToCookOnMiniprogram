@@ -5,6 +5,7 @@ Page({
   data: {
     index: 0,
     id: null,
+    visible: true,
     stepIndexes: new Array(10).fill(0),
     countdownIndexes: new Array(10).fill(false),
   },
@@ -37,33 +38,30 @@ Page({
 
     wx.vibrateShort()
     this.setData({
+      startTimeout: false,
+      timeout: 0,
       [`stepIndexes[${index}]`]: (this.data.stepIndexes[index] + 1) % max,
     })
-    this.setCountdown(false)
   },
 
   handleStart(e) {
-    const { index } = e.target.dataset;
+    const { time } = e.target.dataset;
 
     wx.vibrateShort()
-    this.setData({ countdownIndex: index })
-    this.setCountdown(true)
-  },
-
-  setCountdown(falg) {
-    const { countdownIndex: index } = this.data;
-    if (index == undefined) return
     this.setData({
-      [`countdownIndexes[${index}]`]: falg
-    });
+      startTimeout: true,
+      timeout: time * 1000
+    })
   },
 
   handleCountdown(e) {
-    const { minutes, seconds } = e.detail
+    const { hours, minutes, seconds } = e.detail
 
-    if (minutes <= 0 && seconds <= 0) {
+    if (hours <= 0 && minutes <= 0 && seconds <= 0) {
       wx.vibrateLong()
-      this.setCountdown(false)
+      this.setData({
+        startTimeout: false
+      })
       Toast({
         context: this,
         selector: '#t-toast',
