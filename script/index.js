@@ -46,12 +46,12 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
       } else if (token.type !== 'space') {
         let value = token.text
         if (token.type === 'list') {
-          value = token.items.map(item => item.text)
+          value = token.items.map(item => item.text.replaceAll('**', ''))
         }
         if (token.type == 'table') {
           value = token.rows
         }
-        
+
         target.child.push({
           value,
           type: token.type,

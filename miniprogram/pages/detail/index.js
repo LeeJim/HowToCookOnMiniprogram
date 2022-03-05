@@ -1,11 +1,12 @@
 import infos from '../../data'
+import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
   data: {
     index: 0,
     id: null,
     stepIndexes: new Array(10).fill(0),
-    startCountDown: false,
+    countdownIndexes: new Array(10).fill(false),
   },
 
   onLoad(options) {
@@ -37,20 +38,40 @@ Page({
     wx.vibrateShort()
     this.setData({
       [`stepIndexes[${index}]`]: (this.data.stepIndexes[index] + 1) % max,
-      startCountDown: false
     })
+    this.setCountdown(false)
   },
-  handleStart() {
-    this.setData({ startCountDown: true })
+
+  handleStart(e) {
+    const { index } = e.target.dataset;
+
+    wx.vibrateShort()
+    this.setData({ countdownIndex: index })
+    this.setCountdown(true)
   },
+
+  setCountdown(falg) {
+    const { countdownIndex: index } = this.data;
+    if (index == undefined) return
+    this.setData({
+      [`countdownIndexes[${index}]`]: falg
+    });
+  },
+
   handleCountdown(e) {
     const { minutes, seconds } = e.detail
 
     if (minutes <= 0 && seconds <= 0) {
       wx.vibrateLong()
-      this.setData({ startCountDown: false })
+      this.setCountdown(false)
+      Toast({
+        context: this,
+        selector: '#t-toast',
+        message: '时间到！',
+      });
     }
   },
+  
   onShareAppMessage() {
     return {
       title: this.data.title || '程序员做饭',

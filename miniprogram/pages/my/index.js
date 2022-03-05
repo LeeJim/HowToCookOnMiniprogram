@@ -45,6 +45,7 @@ Page({
       }
     })
   },
+  
   onShareAppMessage() {
     return {
       title: '程序员做饭',

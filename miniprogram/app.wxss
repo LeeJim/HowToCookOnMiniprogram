@@ -1,10 +1,7 @@
-/**app.wxss**/
-
 page {
   width: 100%;
   box-sizing: border-box;
   background-color: #f6f6f6;
-  /* padding: 48rpx 32rpx; */
 }
 
 .container {

@@ -15,12 +15,10 @@
                       <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">下一步</view>
                     </block>
                     <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">重新做一次</view>
-                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" bind:tap="handleStart">
-                      {{_.getTime(step)}}
+                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-index="{{sectionIndex}}" bind:tap="handleStart">
                       开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
                     </view>
-                    {{_.getTime(step) * 1000}}
-                    <t-count-down wx:if="{{startCountDown}}" content="default" time="{{_.getTime(step) * 1000}}" theme="square" bind:change="handleCountdown" />
+                    <t-count-down wx:if="{{countdownIndexes[sectionIndex]}}" content="default" time="{{_.getTime(step) * 1000}}" theme="square" bind:change="handleCountdown" />
                   </view>
                 </view>
               </t-step>
@@ -35,6 +33,7 @@
       </view>
     </t-tab-panel>
   </t-tabs>
+  <t-toast id="t-toast" />
 </view>
 
 <wxs module="_">
