@@ -12,13 +12,13 @@
 
 有些步骤会存在计时的需求，当前做到识别时间，并可以内嵌计时器
 
-<img src="./assets/1646455041897.jpg" />
+<img src="./assets/1646455041897.jpg" width="375" />
 
 ### 可视化分类 😊
 
 简洁、美观
 
-<img src="./assets/1646455273540.jpg">
+<img src="./assets/1646455273540.jpg" width="375" />
 
 ## 如何贡献
 
@@ -33,3 +33,9 @@
 - [ ] 支持搜索
 - [ ] 支持个人分享 （可能受限个人小程序无法做到）
 - [ ] 视觉优化 （由于是个人开发的，没有太多视觉上的优化，欢迎设计师帮助）
+
+## 补充
+
+组件库使用的是 [TDesign Miniprogram](https://github.com/Tencent/tdesign-miniprogram)
+
+如果你觉得还不错的话，希望可以点个 star。感恩 🙏🙏
