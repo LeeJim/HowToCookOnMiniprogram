@@ -34,7 +34,7 @@ Page({
   },
 
   handleStart(e) {
-    const { time } = e.target.dataset;
+    const { time } = e.currentTarget.dataset;
 
     wx.vibrateShort()
     this.setData({
