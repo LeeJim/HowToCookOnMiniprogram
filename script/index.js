@@ -3,6 +3,7 @@ const fs = require('fs')
 const glob = require('glob')
 const {marked} = require('marked')
 const MagicString = require('magic-string')
+const md5 = require('md5')
 
 
 
@@ -11,21 +12,22 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
     console.log(err)
   }
   const dishes = []
-  let id = 0
+  let no = 0
 
   for(let p of files) {
     const { name } = path.parse(p)
     const [ ,category ] = /dishes\/([\w-]+)\//g.exec(p)
     const content = fs.readFileSync(path.resolve(p), { encoding: 'utf-8'})
     let menu = {
-      id,
+      no,
+      id: md5(name),
       name,
       category,
       detail: [],
       desc: []
     }
 
-    id++;
+    no++;
     target = null;
 
     marked.lexer(content).forEach((token) => {
@@ -71,7 +73,14 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
     })
     dishes.push(menu)
   }
+  
+  const jsonData = new MagicString('');
   const s = new MagicString(JSON.stringify(dishes))
+  dishes.forEach(item => {
+    jsonData.append(JSON.stringify(item) + '\n')
+  })
+
   s.prepend('export default ')
   fs.writeFileSync('./miniprogram/data.js', s.toString())
+  fs.writeFileSync('./miniprogram/data.json', jsonData.toString())
 })

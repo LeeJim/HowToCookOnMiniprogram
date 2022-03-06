@@ -23,5 +23,8 @@
     "magic-string": "^0.26.1",
     "marked": "^4.0.12",
     "tdesign-miniprogram": "^0.5.4"
+  },
+  "devDependencies": {
+    "md5": "^2.3.0"
   }
 }
