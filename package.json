@@ -21,6 +21,7 @@
   "dependencies": {
     "glob": "^7.2.0",
     "magic-string": "^0.26.1",
-    "marked": "^4.0.12"
+    "marked": "^4.0.12",
+    "tdesign-miniprogram": "^0.5.4"
   }
 }

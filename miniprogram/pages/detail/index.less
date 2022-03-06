@@ -23,6 +23,35 @@ page {
   padding: 48rpx 24rpx;
 }
 
+.title-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-title {
+  position: relative;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  margin: 32rpx 0 52rpx;
+  background: #fff;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -20rpx;
+    top: 50%;
+    width: 52rpx;
+    height: 52rpx;
+    transform: translateY(-50%);
+    background-color: pink;
+    border-radius: 50%;
+    opacity: .3;
+  }
+}
+
 .paragraph {
   margin: 8rpx;
 }

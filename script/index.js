@@ -17,52 +17,61 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
     const { name } = path.parse(p)
     const [ ,category ] = /dishes\/([\w-]+)\//g.exec(p)
     const content = fs.readFileSync(path.resolve(p), { encoding: 'utf-8'})
-    let detail = {
+    let menu = {
       id,
       name,
       category,
-      child: []
+      detail: [],
+      desc: []
     }
-    let objectPath = [detail]
 
     id++;
-    target = detail
+    target = null;
+
     marked.lexer(content).forEach((token) => {
-      if (token.type == 'heading') {
-        const rect = {
-          type: token.type,
-          value: token.text,
-          child: [],
-        }
-        let i = 1
-        do {
-          target = objectPath[token.depth - i++] // 原本是 token.depth - 1，但标题有可能跨级
-        } while (!target)
+      const { text, type, depth } = token;
 
-        objectPath[token.depth] = rect
-        target.child.push(rect)
-        
-        target = rect
-      } else if (token.type !== 'space') {
-        let value = token.text
-        if (token.type === 'list') {
-          value = token.items.map(item => item.text.replaceAll('**', ''))
+      if (type == 'heading') {
+        if (depth == 1) {
+          menu.title = text
         }
-        if (token.type == 'table') {
-          value = token.rows
+        if (depth == 2) {
+          const tmp = {
+            text,
+            content: []
+          }
+          menu.detail.push(tmp)
+          target = tmp.content
+          if (text.includes('原料')) {
+            tmp.text = '原料和工具'
+          }
         }
+        if (depth > 2) {
+          target.push({ type, text })
+        }
+      } else if (type !== 'space') {
+        if (target == null) {
+          menu.desc.push({
+            text,
+            type
+          })
+        } else {
+          const tmp = { type, text }
 
-        target.child.push({
-          value,
-          type: token.type,
-        })
+          if (type === 'list') {
+            tmp.items = token.items.map(item => item.text.replaceAll('**', ''))
+          }
+          if (type == 'table') {
+            tmp.rows = token.rows
+          }
+  
+          target.push(tmp)
+        }
       }
     })
-    dishes.push(detail)
+    dishes.push(menu)
   }
-  
-  const s = new MagicString(JSON.stringify({ dishes }))
+  const s = new MagicString(JSON.stringify(dishes))
   s.prepend('export default ')
-  // s.append('}')
   fs.writeFileSync('./miniprogram/data.js', s.toString())
 })

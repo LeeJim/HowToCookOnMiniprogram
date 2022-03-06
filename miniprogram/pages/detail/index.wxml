@@ -1,20 +1,23 @@
 <view class="container">
   <view class="title">{{title}}</view>
-  <view class="desc">{{desc}}</view>
+  
+  <view wx:if="{{desc.length == 0}}" class="desc">可以动手试试</view>
+
+  <view wx:for="{{desc}}" wx:key="{{index}}" class="desc">{{item.text}}</view>
 
   <t-tabs defaultValue="{{0}}">
-    <t-tab-panel wx:for="{{sections}}" wx:for-item="section" label="{{section.value}}" value="{{index}}">
+    <t-tab-panel wx:for="{{detail}}" wx:for-item="section" label="{{section.text}}" value="{{index}}">
       <view class="tab-panel">
-        <block wx:for="{{section.child}}" wx:for-index="sectionIndex">
-          <view wx:if="{{section.value == '操作'}}" class="steps">
-            <t-steps wx:if="{{item.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
-              <t-step wx:for="{{item.value}}" wx:for-item="step" title="{{step}}">
+        <block wx:for="{{section.content}}" wx:for-item="detail" wx:key="index" wx:for-index="sectionIndex">
+          <view wx:if="{{section.text == '操作'}}" class="steps">
+            <t-steps wx:if="{{detail.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
+              <t-step wx:for="{{detail.items}}" wx:for-item="step" title="{{step}}">
                 <view wx:if="{{stepIndexes[sectionIndex] == index}}" slot="extra">
                   <view class="button-group">
-                    <block wx:if="{{index < item.value.length - 1}}">
-                      <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">下一步</view>
+                    <block wx:if="{{index < detail.items.length - 1}}">
+                      <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">下一步</view>
                     </block>
-                    <view wx:elif="{{index == item.value.length - 1}}" class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{item.value.length}}">重新做一次</view>
+                    <view wx:elif="{{index == detail.items.length - 1}}" class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">重新做一次</view>
                     <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
                       开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
                     </view>
@@ -22,12 +25,18 @@
                 </view>
               </t-step>
             </t-steps>
-            <view class="paragraph" wx:else>{{item.value}}</view>
+            <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
+              <view class="detail-title">{{detail.text}}</view>
+            </view>
+            <view wx:else class="paragraph">{{detail.text}}</view>
           </view>
-          <view wx:elif="{{item.type === 'list'}}" class="list">
-            <view wx:for="{{item.value}}" wx:for-item="text" class="item">{{text}}</view>
+          <view wx:elif="{{detail.type === 'list'}}" class="list">
+            <view wx:for="{{detail.items}}" wx:for-item="text" class="item">{{text}}</view>
           </view>
-          <view class="paragraph" wx:else>{{item.value}}</view>
+          <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
+              <view class="detail-title">{{detail.text}}</view>
+            </view>
+          <view class="paragraph" wx:else>{{detail.text}}</view>
         </block>
       </view>
     </t-tab-panel>

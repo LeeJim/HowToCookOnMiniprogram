@@ -17,7 +17,7 @@ Page({
   },
   
   onLoad() {
-    const menu = utils.groupBy(infos.dishes, 'category');
+    const menu = utils.groupBy(infos, 'category');
     const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
       const nameMap = {
         breakfast: '早餐 Breakfast',
