@@ -41,6 +41,12 @@ Page({
     })
   },
 
+  handleToMP() {
+    wx.navigateToMiniProgram({
+      appId: 'wx6f3e38f61d138c04'
+    })
+  },
+
   handleSubscribe() {
     const tmpId = 'vjEDlUYrVJ05CauSw_V9jIWF-okt3OMCBtlz9yvjrfg';
     wx.requestSubscribeMessage({
