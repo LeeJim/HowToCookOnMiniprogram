@@ -4,7 +4,7 @@
     arrow
     description="GitHub 搜索 HowToCookOnMiniprogram"
     t-class-image="title-image"
-    data-msg="abc"
+    data-msg="https://github.com/LeeJim/HowToCookOnMiniprogram"
     bind:click="handleCopy"
   >
   <view class="avatar" slot="left-icon">
