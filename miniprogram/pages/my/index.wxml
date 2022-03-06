@@ -22,6 +22,11 @@
     <t-icon name="chart-bubble" slot="left-icon" />
     <t-tag theme="primary" slot="note" variant="light-outline">TDesign Miniprogram</t-tag>
   </t-cell>
+  <t-cell title="当前版本" hover bind:click="handleCopy" data-msg="https://github.com/Tencent/tdesign-miniprogram">
+    <t-icon name="info-circle" slot="left-icon" />
+    <view slot="note">{{version}}</view>
+  </t-cell>
+
   <t-toast id="t-toast" />
   <t-tab-bar value="{{value}}" bindchange="handleTabbarChange">
     <t-tab-bar-item wx:for="{{tabbars}}" value="{{item.value}}" wx:key="index" icon="{{item.icon}}">

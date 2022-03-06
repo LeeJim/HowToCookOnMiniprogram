@@ -11,7 +11,16 @@ Page({
       text: '个人中心',
       value: 'my',
       icon: 'user'
-    }]
+    }],
+    version: ''
+  },
+
+  onLoad() {
+    const { miniProgram } = wx.getAccountInfoSync();
+
+    this.setData({
+      version: miniProgram.version || '0.1.0'
+    })
   },
 
   handleTabbarChange({ detail }) {
