@@ -2,6 +2,7 @@
 
 .container {
   padding: 32rpx;
+  padding-bottom: calc(88rpx + 24rpx + env(safe-area-inset-bottom));
 }
 
 .title {
@@ -127,7 +128,10 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: env(safe-area-inset-bottom, 28rpx);
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 28rpx);
+  background-color: #fff;
+  box-shadow: #ccc 0 0 10px;
 
   &__button {
     display: flex;

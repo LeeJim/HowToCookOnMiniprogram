@@ -2,12 +2,13 @@
   "pages": [
     "pages/index/index",
     "pages/detail/index",
-    "pages/my/index"
+    "pages/my/index",
+    "pages/myStarred/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "程序员做饭指南",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
@@ -17,6 +18,7 @@
     "t-button-group": "tdesign-miniprogram/button-group/button-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-count-down": "tdesign-miniprogram/count-down/count-down",
+    "t-empty": "tdesign-miniprogram/empty/empty",
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tag": "tdesign-miniprogram/tag/tag",
@@ -24,6 +26,7 @@
     "t-tab-bar-item": "tdesign-miniprogram/tab-bar/tab-bar-item",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-loading": "tdesign-miniprogram/loading/loading",
     "t-steps": "tdesign-miniprogram/steps/steps",
     "t-step": "tdesign-miniprogram/steps/step-item"
   }

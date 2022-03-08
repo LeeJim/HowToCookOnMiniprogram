@@ -1,0 +1,16 @@
+<view class="container">
+  <!-- <view class="title">我的收藏</view> -->
+  <view wx:if="{{loading}}" class="box">
+    <t-loading theme="circular" size="40rpx" loading text="加载中..."></t-loading>
+  </view>
+  <block wx:elif="{{list.length > 0}}">
+    <block wx:for="{{list}}" wx:key="{{index}}">
+      <t-cell title="{{item.name}}" hover arrow url="/pages/detail/index?id={{item.id}}">
+        <t-tag slot="note" size="small" theme="{{themeMap[item.category] || 'primary'}}" variant="light">{{chineseMap[item.category]}}</t-tag>
+      </t-cell>
+    </block>
+  </block>
+  <view wx:else class="empty-box">
+    <t-empty icon="info-circle-filled" style="margin-top: 200rpx" description="什么都没有" />
+  </view>
+</view>

@@ -14,9 +14,8 @@
   <t-cell title="订阅更新" hover arrow bind:click="handleSubscribe">
     <t-icon name="notification" slot="left-icon" />
   </t-cell>
-  <t-cell title="收藏" hover arrow>
+  <t-cell title="收藏" hover arrow url="../myStarred/index">
     <t-icon name="control-platform" slot="left-icon" />
-    <t-tag theme="info" slot="note" variant="light-outline">未实现</t-tag>
   </t-cell>
   <t-cell title="PowerBy" hover arrow bind:click="handleToMP">
     <t-icon name="chart-bubble" slot="left-icon" />

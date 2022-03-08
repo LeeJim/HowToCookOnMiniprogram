@@ -1,5 +1,6 @@
 import infos from '../../data'
 import utils from '../../utils/index.js'
+import config from '../../config/index.js'
 
 Page({
   data: {
@@ -19,18 +20,8 @@ Page({
   onLoad() {
     const menu = utils.groupBy(infos, 'category');
     const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
-      const nameMap = {
-        breakfast: '早餐 Breakfast',
-        condiment: '佐料 Condiment',
-        dessert: '甜品 Dessert',
-        drink: '饮品 Drink',
-        'home-cooking': '烹饪 Cooking',
-        'semi-finished': '速食 FastFood',
-        'soup': '汤 Soup',
-        'staple': '主食 Staple'
-      }
       return {
-        name: nameMap[catetory],
+        name: config.titleMap[catetory],
         icon: `/assets/images/${catetory}.png`,
         list
       }

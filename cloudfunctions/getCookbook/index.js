@@ -11,30 +11,38 @@ exports.main = async (event) => {
   const size = 10
 
   if (id) {
-    const { data } = await db.collection('cookbook').where({ id }).limit(1).get()
+    const { data } = await db.collection('cookbook').where({ id }).get()
     if (data.length) {
       const [cookbook] = data;
+      const { starreds = [], likeds = []} = cookbook;
+      const starred = !!starreds && starreds.some(item => item.creator == OPENID && !item.isDel)
+      const liked = !!likeds && likeds.some(item => item.creator == OPENID && !item.isDel);
+
       return {
         errno: 0,
         errmsg: '',
         data: {
           cookbook,
-          starred: !!cookbook.starreds && cookbook.starreds.some(item => item.creator == OPENID && !item.isDel),
-          liked: !!cookbook.likeds && cookbook.likeds.some(item => item.creator == OPENID && !item.isDel),
+          starreds: starreds.filter(item => !item.isDel).length,
+          starred,
+          likeds: likeds.filter(item => !item.isDel).length,
+          liked,
         }
       }
     }
   }
 
   const { data } = await db.collection('cookbook').where({
-    [`${kind}s`]: {
-      creator: _.eq(OPENID)
-    }
-  }).limit(size).skip(current * size).get()
+    [`${kind}s`]: _.elemMatch({
+      creator: _.eq(OPENID),
+      isDel: _.eq(false)
+    })
+  }).get()
+  // }).limit(size).skip(current * size).get()
 
   return {
     errno: 0,
     errmsg: '',
-    data: data[0]
+    data,
   }
 }

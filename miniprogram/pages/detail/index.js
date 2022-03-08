@@ -20,26 +20,38 @@ Page({
         this.setData({
           ...target
         })
-
-        try {
-          const { result } = await wx.cloud.callFunction({
-            name: 'getCookbook',
-            data: {
-              id
-            }
-          })
-          if (result.errno == 0) {
-            const { liked, starred } = result.data
-  
-            this.setData({
-              liked,
-              starred
-            })
-          }
-        } catch(e) {
-          console.log(e);
-        }
+        this.getData()
       }
+    }
+  },
+
+  async getData() {
+    const { id } = this.data;
+    wx.showLoading({
+      title: '加载中',
+    })
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'getCookbook',
+        data: {
+          id
+        }
+      })
+      wx.hideLoading()
+      if (result.errno == 0) {
+        const { likeds, liked, starreds, starred } = result.data
+
+        this.setData({
+          liked,
+          likeds,
+          starreds,
+          starred
+        })
+      }
+    } catch(e) {
+      console.log(e);
+    } finally {
+      wx.hideLoading()
     }
   },
 
@@ -83,25 +95,33 @@ Page({
   async toggleStarOrLike(e) {
     const { dataset } = e.currentTarget;
     const { id } = this.data;
+    const { type } = dataset;
 
     try {
+      wx.showLoading({
+        title: '加载中',
+      })
       const { result } = await wx.cloud.callFunction({
         name: 'setCookbook',
         data: {
           id,
-          type: dataset.type,
+          type,
         }
       })
+      wx.hideLoading()
       if (result.errno == 0) {
-        const { liked, starred } = result.data
+        const { liked, starred, likeds } = result.data
 
         this.setData({
+          likeds,
           liked,
           starred
         })
       }
     } catch(e) {
       console.log(e);
+    } finally {
+      wx.hideLoading()
     }
   },
   

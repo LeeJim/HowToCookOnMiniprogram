@@ -2,6 +2,14 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database()
 const _ = db.command
+const collection = db.collection('cookbook')
+
+const getLikes = async (id) => {
+  const { data } = await collection.where({ id }).get();
+  const { likeds = [] } = data[0]
+  
+  return likeds.filter(item => !item.isDel).length
+}
 
 
 // 云函数入口函数
@@ -10,11 +18,9 @@ exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const kind = `${type}s`;
   
-  const { data } = await db.collection('cookbook').where({
-    id
-  }).limit(1).get()
-  const addToSet = async () => {
-    const { stats } = await db.collection('cookbook').where({
+  const { data } = await collection.where({ id }).get()
+  const addToSet = async (cookbook) => {
+    const { stats } = await collection.where({
       id
     }).update({
       data: {
@@ -30,7 +36,8 @@ exports.main = async (event) => {
       errno: 0,
       errmsg: '',
       data: {
-        [type]: stats.updated ? true : false
+        [type]: stats.updated ? true : false,
+        likeds: type == 'liked' ? 1 : (cookbook.likeds ? cookbook.likeds.filter(item => !item.isDel).length : 0)
       }
     }
   }
@@ -42,21 +49,24 @@ exports.main = async (event) => {
       if (target) {
         target.isDel = !target.isDel
         target.updateTime = new Date()
-        await db.collection('cookbook').doc(cookbook._id).update({ data: {
+        await collection.doc(cookbook._id).update({ data: {
           [kind]: cookbook[kind]
         } })
+        const likeds = cookbook.likeds ? cookbook.likeds.filter(item => !item.isDel).length : 0;
+        
         return {
           errno: 0,
           errmsg: '',
           data: {
-            [type]: !target.isDel
+            [type]: !target.isDel,
+            likeds
           }
         }
       } else {
-        return await addToSet()
+        return await addToSet(cookbook)
       }
     } else {
-      return await addToSet()
+      return await addToSet(cookbook)
     }
   }
   

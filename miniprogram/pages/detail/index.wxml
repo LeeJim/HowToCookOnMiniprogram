@@ -51,7 +51,7 @@
 <view class="actions">
     <t-button-group>
       <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike">
-        <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/> 喜欢
+        <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/> {{likeds ? likeds + ' 人' : ''}}喜欢
       </t-button>
       <t-button t-class="actions__button" size="large" block data-type="starred" bind:tap="toggleStarOrLike">
         <t-icon name="star{{starred ? '-filled' : ''}}" color="{{starred ? '#ed7b2f': ''}}" size="36rpx" class="actions__icon"/> 收藏
