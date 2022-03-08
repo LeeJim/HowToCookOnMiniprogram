@@ -8,6 +8,7 @@ Page({
     visible: true,
     liked: false,
     starred: false,
+    done: false,
     stepIndexes: new Array(10).fill(0),
   },
 
@@ -27,9 +28,8 @@ Page({
 
   async getData() {
     const { id } = this.data;
-    wx.showLoading({
-      title: '加载中',
-    })
+    
+    this.setData({ done: false })
     try {
       const { result } = await wx.cloud.callFunction({
         name: 'getCookbook',
@@ -37,10 +37,9 @@ Page({
           id
         }
       })
-      wx.hideLoading()
       if (result.errno == 0) {
         const { likeds, liked, starreds, starred } = result.data
-
+        this.setData({ done: true })
         this.setData({
           liked,
           likeds,
@@ -51,7 +50,7 @@ Page({
     } catch(e) {
       console.log(e);
     } finally {
-      wx.hideLoading()
+      this.setData({ done: true })
     }
   },
 
@@ -100,6 +99,7 @@ Page({
     try {
       wx.showLoading({
         title: '加载中',
+        mask: true
       })
       const { result } = await wx.cloud.callFunction({
         name: 'setCookbook',

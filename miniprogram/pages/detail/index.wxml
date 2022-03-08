@@ -48,7 +48,7 @@
   </view>
 </view>
 
-<view class="actions">
+<view class="actions actions--{{done ? 'active' : ''}}">
     <t-button-group>
       <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike">
         <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/> {{likeds ? likeds + ' 人' : ''}}喜欢

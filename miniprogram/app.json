@@ -6,6 +6,7 @@
     "pages/myStarred/index"
   ],
   "window": {
+    "backgroundColor": "#f6f6f6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "程序员做饭指南",

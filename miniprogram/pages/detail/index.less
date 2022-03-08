@@ -132,6 +132,12 @@
   padding-bottom: env(safe-area-inset-bottom, 28rpx);
   background-color: #fff;
   box-shadow: #ccc 0 0 10px;
+  transform: translateY(100%);
+  transition: all .3s ease;
+
+  &--active {
+    transform: translateY(0);
+  }
 
   &__button {
     display: flex;
