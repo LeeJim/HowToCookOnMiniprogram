@@ -20,6 +20,13 @@
 
 <img src="./assets/home.jpg" width="375" />
 
+### 收藏 & 点赞 👍
+
+方便快速找回常用的菜谱
+
+<img src="./assets/detail-actions.jpg" width="375" style="margin-right: 20px" />
+<img src="./assets/starred.jpg" width="375" />
+
 ## 如何贡献
 
 - 源代码位于 miniprogram 目录
@@ -29,7 +36,7 @@
 
 ## 后续更新
 
-- [ ] 增加个人收藏
+- [x] 增加个人收藏 (v0.2.0 at 2022.3.9)
 - [ ] 支持搜索
 - [ ] 支持个人分享 （可能受限个人小程序无法做到）
 - [ ] 视觉优化 （由于是个人开发的，没有太多视觉上的优化，欢迎设计师帮助）
