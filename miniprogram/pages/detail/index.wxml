@@ -48,6 +48,17 @@
   </view>
 </view>
 
+<view class="actions">
+    <t-button-group>
+      <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike">
+        <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/> 喜欢
+      </t-button>
+      <t-button t-class="actions__button" size="large" block data-type="starred" bind:tap="toggleStarOrLike">
+        <t-icon name="star{{starred ? '-filled' : ''}}" color="{{starred ? '#ed7b2f': ''}}" size="36rpx" class="actions__icon"/> 收藏
+      </t-button>
+    </t-button-group>
+  </view>
+
 <wxs module="_">
 module.exports.getTime = function(str) {
   var res = getRegExp('([0-9\.半一两三四]+)\s*(小时|min|分钟|秒|s)').exec(str);

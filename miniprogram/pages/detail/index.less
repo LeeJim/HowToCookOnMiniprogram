@@ -1,6 +1,6 @@
 @primary-color: #0052d9;
 
-page {
+.container {
   padding: 32rpx;
 }
 
@@ -112,5 +112,33 @@ page {
 
   &--active {
     transform: translateY(0);
+  }
+}
+
+.no-border-radius {
+  border-radius: none;
+}
+
+.no-border {
+  border: 0;
+}
+
+.actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 28rpx);
+
+  &__button {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    margin-right: 8rpx;
+
+    &--active {
+      color: #0052d9;
+    }
   }
 }

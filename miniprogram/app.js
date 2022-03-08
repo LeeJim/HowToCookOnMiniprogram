@@ -1,7 +1,9 @@
 // app.js
 App({
   onLaunch() {
-    // todo
+    wx.cloud.init({
+      env: ""
+    });
   },
   globalData: {
     userInfo: null

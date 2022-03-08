@@ -13,9 +13,10 @@
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "list": "./components/pull-down-list/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-button-group": "tdesign-miniprogram/button-group/button-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-count-down": "tdesign-miniprogram/count-down/count-down",
-    "t-button": "tdesign-miniprogram/button/button",
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tag": "tdesign-miniprogram/tag/tag",

@@ -6,18 +6,39 @@ Page({
     index: 0,
     id: null,
     visible: true,
+    liked: false,
+    starred: false,
     stepIndexes: new Array(10).fill(0),
-    countdownIndexes: new Array(10).fill(false),
   },
 
-  onLoad(options) {
-    if (options.id) {
-      this.setData({ id: options.id })
-      const target = infos.find(item => item.id == options.id)
+  async onLoad(options) {
+    const { id } = options;
+    if (id) {
+      this.setData({ id })
+      const target = infos.find(item => item.id == id)
       if (target) {
         this.setData({
           ...target
         })
+
+        try {
+          const { result } = await wx.cloud.callFunction({
+            name: 'getCookbook',
+            data: {
+              id
+            }
+          })
+          if (result.errno == 0) {
+            const { liked, starred } = result.data
+  
+            this.setData({
+              liked,
+              starred
+            })
+          }
+        } catch(e) {
+          console.log(e);
+        }
       }
     }
   },
@@ -56,6 +77,31 @@ Page({
         selector: '#t-toast',
         message: '时间到！',
       });
+    }
+  },
+
+  async toggleStarOrLike(e) {
+    const { dataset } = e.currentTarget;
+    const { id } = this.data;
+
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'setCookbook',
+        data: {
+          id,
+          type: dataset.type,
+        }
+      })
+      if (result.errno == 0) {
+        const { liked, starred } = result.data
+
+        this.setData({
+          liked,
+          starred
+        })
+      }
+    } catch(e) {
+      console.log(e);
     }
   },
   
