@@ -24,8 +24,10 @@
 
 方便快速找回常用的菜谱
 
-<img src="./assets/detail-actions.jpg" width="375" style="margin-right: 20px" />
+<p>
+<img src="./assets/detail-actions.jpg" width="375" />
 <img src="./assets/starred.jpg" width="375" />
+</p>
 
 ## 如何贡献
 
