@@ -39,6 +39,13 @@ exports.main = async (event) => {
     })
   }).get()
   // }).limit(size).skip(current * size).get()
+  
+  data.sort((a, b) => {
+    const atime = a[`${kind}s`].find(item => item.creator == OPENID)
+    const btime = b[`${kind}s`].find(item => item.creator == OPENID)
+
+    return btime.updateTime - atime.updateTime
+  })
 
   return {
     errno: 0,
