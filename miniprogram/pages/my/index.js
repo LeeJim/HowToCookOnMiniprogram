@@ -48,14 +48,15 @@ Page({
   },
 
   handleSubscribe() {
-    const tmpId = 'vjEDlUYrVJ05CauSw_V9jIWF-okt3OMCBtlz9yvjrfg';
+    const tmplIds = ['vjEDlUYrVJ05CauSw_V9jIWF-okt3OMCBtlz9yvjrfg', 'Sbtj4X4gIKWRy0xDeWU8xCl8LejbTpIQ3gWiKh5JFp4'];
     wx.requestSubscribeMessage({
-      tmplIds: [tmpId],
-      success: (res) => {
+      tmplIds,
+      success: async (res) => {
+        const accept = tmplIds.some(key => res[key] === 'accept')
         Toast({
           context: this,
           selector: '#t-toast',
-          message: res[tmpId] == 'accept' ? '订阅成功' : '你拒绝了订阅',
+          message: accept ? '订阅成功' : '你拒绝了订阅',
         });
       }
     })
