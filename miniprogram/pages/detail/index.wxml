@@ -42,7 +42,10 @@
     </t-tab-panel>
   </t-tabs>
 
-  <ad-custom wx:if="{{adFlag}}" unit-id="adunit-376059436c4aaff9" style="margin-top: 32rpx"></ad-custom>
+  <block wx:if="{{adFlag}}" >
+    <ad-custom unit-id="adunit-376059436c4aaff9" style="margin-top: 32rpx"></ad-custom>
+    <view class="ad-tips">广告可以在 <text class="ad-tips__route" bind:tap="toMyCenter">“个人中心”</text> 关闭</view>
+  </block>
 
   <t-toast id="t-toast" />
   <view class="popup popup--top popup--{{startTimeout ? 'active' : 'normal'}}">

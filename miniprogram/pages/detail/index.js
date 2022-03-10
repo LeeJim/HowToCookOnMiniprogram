@@ -63,6 +63,12 @@ Page({
     }
   },
 
+  toMyCenter() {
+    wx.navigateTo({
+      url: '/pages/my/index'
+    })
+  },
+
   toNext(e) {
     const { max, index } = e.target.dataset;
 
