@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -14,6 +15,13 @@
         {
           "name": "收藏页",
           "pathName": "pages/myStarred/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "个人中心",
+          "pathName": "pages/my/index",
           "query": "",
           "scene": null,
           "launchMode": "default"

@@ -42,7 +42,7 @@
     </t-tab-panel>
   </t-tabs>
 
-  <ad-custom unit-id="adunit-376059436c4aaff9" style="margin-top: 32rpx"></ad-custom>
+  <ad-custom wx:if="{{adFlag}}" unit-id="adunit-376059436c4aaff9" style="margin-top: 32rpx"></ad-custom>
 
   <t-toast id="t-toast" />
   <view class="popup popup--top popup--{{startTimeout ? 'active' : 'normal'}}">

@@ -10,6 +10,7 @@ Page({
     starred: false,
     done: false,
     stepIndexes: new Array(10).fill(0),
+    adFlag: false,
   },
 
   async onLoad(options) {
@@ -24,6 +25,14 @@ Page({
         this.getData()
       }
     }
+  },
+
+  onShow() {
+    const adFlagStorage = wx.getStorageSync('ad-flag')
+
+    this.setData({
+      adFlag: adFlagStorage === '' ? true : adFlagStorage,
+    })
   },
 
   async getData() {

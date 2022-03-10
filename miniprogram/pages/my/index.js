@@ -12,7 +12,8 @@ Page({
       value: 'my',
       icon: 'user'
     }],
-    version: ''
+    version: '',
+    adFlag: true,
   },
 
   onLoad() {
@@ -20,6 +21,14 @@ Page({
 
     this.setData({
       version: miniProgram.version || '0.1.0'
+    })
+  },
+
+  onShow() {
+    const adFlagStorage = wx.getStorageSync('ad-flag')
+
+    this.setData({
+      adFlag: adFlagStorage === '' ? true : adFlagStorage,
     })
   },
 
@@ -59,6 +68,15 @@ Page({
           message: accept ? '订阅成功' : '你拒绝了订阅',
         });
       }
+    })
+  },
+
+  handleToggleAd({ detail }) {
+    const adFlag = detail.value
+
+    wx.setStorageSync('ad-flag',adFlag)
+    this.setData({
+      adFlag
     })
   },
   
