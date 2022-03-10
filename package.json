@@ -21,10 +21,10 @@
   "dependencies": {
     "glob": "^7.2.0",
     "magic-string": "^0.26.1",
-    "marked": "^4.0.12",
-    "tdesign-miniprogram": "^0.5.4"
+    "marked": "^4.0.12"
   },
   "devDependencies": {
+    "commonmark": "^0.30.0",
     "md5": "^2.3.0"
   }
 }
