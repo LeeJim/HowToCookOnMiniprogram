@@ -23,6 +23,13 @@
           "name": "个人中心",
           "pathName": "pages/my/index",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "更新日志",
+          "pathName": "pages/changelog/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

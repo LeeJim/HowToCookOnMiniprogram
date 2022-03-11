@@ -25,6 +25,9 @@
     <t-icon name="chart-bubble" slot="left-icon" />
     <t-tag theme="primary" slot="note" variant="light-outline">TDesign Miniprogram</t-tag>
   </t-cell>
+  <t-cell title="更新日志" hover arrow url="../changelog/index">
+    <t-icon name="history" slot="left-icon" />
+  </t-cell>
   <t-cell title="当前版本">
     <t-icon name="info-circle" slot="left-icon" />
     <view slot="note">{{version}}</view>

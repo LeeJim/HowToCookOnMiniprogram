@@ -1,0 +1,7 @@
+<view class="container">
+  <block wx:for="{{detail}}" wx:key="index" >
+    <t-cell description="{{item.value}}">
+      <t-tag theme="{{item.type == 'bug' ? 'danger' : 'primary'}}" variant="light" slot="left-icon">{{item.type}}</t-tag>
+    </t-cell>
+  </block>
+</view>

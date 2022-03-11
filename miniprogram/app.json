@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/detail/index",
     "pages/my/index",
-    "pages/myStarred/index"
+    "pages/myStarred/index",
+    "pages/changelog/index",
+    "pages/changelog/detail"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

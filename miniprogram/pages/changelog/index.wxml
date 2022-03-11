@@ -1,0 +1,5 @@
+<view class="container">
+  <block wx:for="{{log}}" wx:key="index" >
+    <t-cell title="v{{item.version}} 更新" url="./detail?index={{index}}" description="{{item.date}}" hover arrow />
+  </block>
+</view>
