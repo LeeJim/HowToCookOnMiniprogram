@@ -5,7 +5,56 @@ const {marked} = require('marked')
 const MagicString = require('magic-string')
 const md5 = require('md5')
 
-
+const flattenToken = (token) => {
+  const { type, tokens, text, href } = token
+  switch(type) {
+    case 'list':
+      const items = token.items.map(item => flattenToken(item))
+      return { type, items }
+    case 'list_item':
+      if (tokens.length == 1 && tokens[0].tokens.length == 1) {
+        const final = tokens[0].tokens[0];
+        return final.type == 'text' ? text : flattenToken(final);
+      }
+      if (tokens.length == 1) {
+        return flattenToken(tokens[0])
+      }
+      // console.log(token);
+      return tokens.map(item => flattenToken(item))
+    case 'row':
+      return { type, row: token.rows }
+    case 'text':
+    case 'paragraph':
+      if (!tokens) return text
+      if (tokens.length == 1) {
+        return tokens[0].type == 'text' ? text : flattenToken(tokens[0])
+      }
+      return tokens.map(item => flattenToken(item))
+    case 'strong':
+    case 'codespan':
+    case 'em':
+      return { type, text }
+    case 'html':
+      const ans = /<img.+src="([\w\.\/-]+)"/.exec(text)
+      if (ans) {
+        return { type: 'image', href: ans[1], text: '图片' }
+      }
+      return ''
+    case 'image':
+      // todo upload image
+      // token.href
+      return { type, text, href }
+    case 'link':
+      return { type, text, href }
+    case 'space':
+      return ''
+    case 'blockquote':
+      return text
+    default:
+      console.log(token) 
+  }
+  return token
+}
 
 glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) => {
   if (err) {
@@ -15,7 +64,7 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
   let no = 0
 
   for(let p of files) {
-    const { name } = path.parse(p)
+    const { name, dir } = path.parse(p)
     const [ ,category ] = /dishes\/([\w-]+)\//g.exec(p)
     const content = fs.readFileSync(path.resolve(p), { encoding: 'utf-8'})
     let menu = {
@@ -30,7 +79,10 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
     no++;
     target = null;
 
-    marked.lexer(content).forEach((token) => {
+    marked.lexer(content, {
+      baseUrl: dir,
+      xhtml: true
+    }).forEach((token) => {
       const { text, type, depth } = token;
 
       if (type == 'heading') {
@@ -53,20 +105,9 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
         }
       } else if (type !== 'space') {
         if (target == null) {
-          menu.desc.push({
-            text,
-            type
-          })
+          menu.desc.push(flattenToken(token))
         } else {
-          const tmp = { type, text }
-
-          if (type === 'list') {
-            tmp.items = token.items.map(item => item.text.replaceAll('**', ''))
-          }
-          if (type == 'table') {
-            tmp.rows = token.rows
-          }
-  
+          const tmp = flattenToken(token)
           target.push(tmp)
         }
       }
@@ -75,7 +116,7 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, (err, files) =>
   }
   
   const jsonData = new MagicString('');
-  const s = new MagicString(JSON.stringify(dishes))
+  const s = new MagicString(JSON.stringify(dishes, null, 2))
   dishes.forEach(item => {
     jsonData.append(JSON.stringify(item) + '\n')
   })
