@@ -9,7 +9,7 @@ Page({
     liked: false,
     starred: false,
     done: false,
-    stepIndexes: new Array(10).fill(0),
+    stepIndexes: [],
     adFlag: false,
   },
 
@@ -22,6 +22,13 @@ Page({
         this.setData({
           ...target
         })
+        const operation = this.data.detail.find(item => item.text == '操作')
+        if (operation) {
+          let count = operation.content.filter(item => item.type == 'list').length
+          this.setData({
+            stepIndexes: new Array(count).fill(0)
+          })
+        }
         this.getData()
       }
     }
