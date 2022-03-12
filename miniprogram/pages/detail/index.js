@@ -145,6 +145,10 @@ Page({
       wx.hideLoading()
     }
   },
+
+  handlePreview(e) {
+    console.log(e);
+  },
   
   onShareAppMessage() {
     return {

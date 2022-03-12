@@ -3,7 +3,9 @@
   
   <view wx:if="{{desc.length == 0}}" class="desc">可以动手试试</view>
 
-  <view wx:for="{{desc}}" wx:key="index" class="desc">{{item.text}}</view>
+  <view wx:for="{{desc}}" wx:key="index" class="desc">
+    <template is="hyper-text" data="{{ tokens: item }}"></template>
+  </view>
 
   <t-tabs defaultValue="{{0}}">
     <t-tab-panel wx:for="{{detail}}" wx:key="index" wx:for-item="section" label="{{section.text}}" value="{{index}}">
@@ -11,7 +13,23 @@
         <block wx:for="{{section.content}}" wx:for-item="detail" wx:key="index" wx:for-index="sectionIndex">
           <view wx:if="{{section.text == '操作'}}" class="steps">
             <t-steps wx:if="{{detail.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
-              <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step" title="{{step}}">
+              <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step">
+                <view slot="title">
+                  <text wx:if="{{_.getType(step) == 'string'}}">{{step}}</text>
+                  <block wx:elif="{{_.getType(step) == 'object'}}">
+                    <template is="hyper-text" data="{{ tokens: step }}"></template>
+                  </block>
+                  <block wx:else>
+                    <block wx:for="{{step}}" wx:key="index">
+                      <view wx:if="{{item.type == 'list'}}" class="list list--inner">
+                        <view wx:for="{{item.items}}" wx:key="index" class="item">
+                          <template is="hyper-text" data="{{ tokens: item }}"></template>
+                        </view>
+                      </view>
+                      <template wx:else is="hyper-text" data="{{ tokens: item }}"></template>
+                    </block>
+                  </block>
+                </view>
                 <view wx:if="{{stepIndexes[sectionIndex] == index}}" slot="extra">
                   <view class="button-group">
                     <block wx:if="{{index < detail.items.length - 1}}">
@@ -30,15 +48,21 @@
             <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
               <view class="detail-title">{{detail.text}}</view>
             </view>
-            <view wx:else class="paragraph">{{detail.text}}</view>
+            <view wx:else class="paragraph">
+              <template is="hyper-text" data="{{ tokens: detail }}"></template>
+            </view>
           </view>
           <view wx:elif="{{detail.type === 'list'}}" class="list">
-            <view wx:for="{{detail.items}}" wx:key="index" wx:for-item="text" class="item">{{text}}</view>
+            <view wx:for="{{detail.items}}" wx:key="index" class="item">
+              <template is="hyper-text" data="{{ tokens: item }}"></template>
+            </view>
           </view>
           <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
               <view class="detail-title">{{detail.text}}</view>
             </view>
-          <view class="paragraph" wx:else>{{detail.text}}</view>
+          <view class="paragraph" wx:else>
+            <template is="hyper-text" data="{{ tokens: detail }}"></template>
+          </view>
         </block>
       </view>
     </t-tab-panel>
@@ -56,20 +80,46 @@
 </view>
 
 <view class="actions actions--{{done ? 'active' : ''}}">
-    <t-button-group>
-      <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike">
-        <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/>
-        <text class="actions__text">{{likeds ? likeds + ' 人' : ''}}喜欢</text>
-      </t-button>
-      <t-button t-class="actions__button" size="large" block data-type="starred" bind:tap="toggleStarOrLike">
-        <t-icon name="star{{starred ? '-filled' : ''}}" color="{{starred ? '#ed7b2f': ''}}" size="36rpx" class="actions__icon"/>
-        <text class="actions__text">收藏</text>
-      </t-button>
-    </t-button-group>
-  </view>
+  <t-button-group>
+    <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike">
+      <t-icon name="heart{{liked ? '-filled' : ''}}" color="{{liked ? '#e34d59' : ''}}" size="36rpx" class="actions__icon"/>
+      <text class="actions__text">{{likeds ? likeds + ' 人' : ''}}喜欢</text>
+    </t-button>
+    <t-button t-class="actions__button" size="large" block data-type="starred" bind:tap="toggleStarOrLike">
+      <t-icon name="star{{starred ? '-filled' : ''}}" color="{{starred ? '#ed7b2f': ''}}" size="36rpx" class="actions__icon"/>
+      <text class="actions__text">收藏</text>
+    </t-button>
+  </t-button-group>
+</view>
+
+<template name="hyper-text">
+  <text wx:if="{{_.getType(tokens) == 'string'}}">{{tokens}}</text>
+  <block wx:elif="{{_.getType(tokens) == 'array'}}">
+    <block wx:for="{{tokens}}" wx:key="index">
+      <template is="super-text" data="{{ item }}"></template>
+    </block>
+  </block>
+  <block wx:else>
+    <template is="super-text" data="{{ item: tokens }}"></template>
+  </block>
+</template>
+
+<template name="super-text">
+  <text wx:if="{{_.getType(item) == 'string'}}">{{item}}</text>
+  <text wx:elif="{{item.type == 'strong' || item.type == 'em'}}" class="text--bold"> {{item.text}} </text>
+  <text wx:elif="{{item.type == 'codespan'}}" class="text--code">{{item.text}}</text>
+  <text wx:elif="{{item.type == 'image'}}" bind:tap="handlePreview" data-src="{{item.href}}" class="text--image"> {{item.text}}</text>
+  <text wx:elif="{{item.type == 'link'}}" bind:tap="handleToCopy" data-src="{{item.href}}" class="text--link"> {{item.text}}</text>
+  <text wx:else>{{item.text}}</text>
+</template>
 
 <wxs module="_">
 module.exports.getTime = function(str) {
+  if (typeof str != 'string') {
+    str = str.map(function(item) {
+     return typeof item == 'string' ? item : item.text
+    }).join('')
+  }
   var res = getRegExp('([0-9\.半一两三四]+)\s*(小时|min|分钟|秒|s)').exec(str);
   if (res) {
     var unit = ['min', '分钟'].indexOf(res[2]) > -1 ? 60 : 1;
@@ -86,4 +136,10 @@ module.exports.getTime = function(str) {
     return val * unit;
   }
 }
+
+module.exports.getType = function(obj) {
+  if ("Array" === obj.constructor) return 'array'
+  
+  return typeof obj;
+} 
 </wxs>
