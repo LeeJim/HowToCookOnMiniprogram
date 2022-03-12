@@ -24,9 +24,8 @@ Page({
         })
         const operation = this.data.detail.find(item => item.text == '操作')
         if (operation) {
-          let count = operation.content.filter(item => item.type == 'list').length
           this.setData({
-            stepIndexes: new Array(count).fill(0)
+            stepIndexes: new Array(operation.content.length).fill(0)
           })
         }
         this.getData()
