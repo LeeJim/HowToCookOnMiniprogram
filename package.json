@@ -24,7 +24,10 @@
     "marked": "^4.0.12"
   },
   "devDependencies": {
+    "axios": "^0.26.1",
+    "cli-progress": "^3.10.0",
     "commonmark": "^0.30.0",
+    "form-data": "^4.0.0",
     "md5": "^2.3.0"
   }
 }
