@@ -12,36 +12,62 @@
 
 有些步骤会存在计时的需求，当前做到识别时间，并可以内嵌计时器
 
-<img src="./assets/countdown.jpg" width="375" />
+<img src="./assets/v2/timber.jpg" width="375" />
 
 ### 可视化分类 😊
 
 简洁、美观
 
-<img src="./assets/home.jpg" width="375" />
+<img src="./assets/v2/home.jpg" width="375" />
 
 ### 收藏 & 点赞 👍
 
 方便快速找回常用的菜谱
 
 <p>
-<img src="./assets/detail-actions.jpg" width="375" />
-<img src="./assets/starred.jpg" width="375" />
+<img src="./assets/v2/star.jpg" width="375" />
+<img src="./assets/v2/mystar.jpg" width="375" />
 </p>
+
+### 图片 & 链接 🔗
+
+支持图片预览、链接跳转
+
+> 目前外部链接仅支持复制链接地址
+
+<img src="./assets/v2/preview.gif" />
 
 ## 如何贡献
 
-- 源代码位于 miniprogram 目录
-- 解析 markdown 菜谱的脚本位于 `srcipt/index.js`; 对应命令: `npm run gen-data`
-> 目前比较简陋，为了快速上线，后续将优化一下
+### 小程序
 
+源代码位于 miniprogram 目录
+
+### 云开发
+
+源代码位于 cloudfunctions 目录
+
+### 数据解析
+
+- 解析 markdown 菜谱的脚本位于 `srcipt/index.js`
+- 对应命令: `npm run gen-data`
+
+由于需要使用云开发 API 来上传图片，因此需要在根目录创建 `config.js`，提供如下配置：
+
+```js
+module.exports = {
+  appid: 'wx01462be634a0d447', // appid
+  secret: '', // 小程序 secret；在微信公众平台获取
+  cloudEnvId: '' // 云开发环境
+}
+```
 
 ## 后续更新
 
 ### v1.0.0
 
-- [x] 增加个人收藏 (v0.2.0)
-- [ ] 解析并展示 MarkDown 的图片资源、各种格式
+- [x] 增加个人收藏 `v0.2.0`
+- [x] 解析并展示 MarkDown 的图片、链接和各种格式 `v0.4.0`
 - [ ] 增加【厨房准备】模块
 - [ ] 发送订阅消息
 
