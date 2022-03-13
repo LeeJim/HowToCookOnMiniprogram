@@ -30,6 +30,13 @@
           "name": "更新日志",
           "pathName": "pages/changelog/index",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "Learn",
+          "pathName": "pages/learn/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

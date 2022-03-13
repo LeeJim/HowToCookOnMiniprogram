@@ -5,7 +5,9 @@
     "pages/my/index",
     "pages/myStarred/index",
     "pages/changelog/index",
-    "pages/changelog/detail"
+    "pages/changelog/detail",
+    "pages/learn/index",
+    "pages/learn/detail"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

@@ -1,0 +1,16 @@
+
+<import src="/templates/hyperText.wxml" />
+
+<view class="container">
+  <block wx:for="{{info}}" wx:key="index" wx:for-item="section">
+    <view wx:if="{{section.type == 'heading'}}" class="h{{section.depth}}">{{section.text}}</view>
+    <view wx:elif="{{section.type == 'list'}}" class="list">
+      <block wx:for="{{section.items}}" wx:key="index">
+        <view class="item">
+          <template is="hyper-text" data="{{ tokens: item }}"></template>
+        </view>
+      </block>
+    </view>
+    <view wx:else>{{section.text}}</view>
+  </block>
+</view>

@@ -61,37 +61,6 @@
   margin: 8rpx;
 }
 
-.list {
-  padding-left: 10rpx;
-
-  .item {
-    position: relative;
-    line-height: 40rpx;
-    padding-left: 28rpx;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 15rpx;
-      left: 0;
-      display: block;
-      width: 12rpx;
-      height: 12rpx;
-      border-radius: 50%;
-      border: 4rpx solid #555;
-      box-sizing: border-box;
-    }
-
-    + .item {
-      margin-top: 16rpx;
-    }
-  }
-
-  &--inner {
-    margin: 24rpx 0;
-  }
-}
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -188,38 +157,5 @@
 
   &__route {
     color: #0052d9;
-  }
-}
-
-.text {
-
-  &--bold {
-    font-weight: bolder;
-  }
-
-  &--code {
-    background: #e6eefb;
-    color: #0052d9;
-    padding: 0 4px;
-    border-radius: 4px;
-  }
-
-  &--image {
-    font-family: 't';
-    color: #333;
-    text-decoration: underline;
-
-    &::before {
-      content: '\E074';
-    }
-  }
-
-  &--link {
-    font-family: 't';
-    text-decoration: underline;
-
-    &:before {
-      content: '\E07C';
-    }
   }
 }

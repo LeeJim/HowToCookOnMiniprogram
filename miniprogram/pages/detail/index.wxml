@@ -1,3 +1,5 @@
+<import src="/templates/hyperText.wxml" />
+
 <view class="container">
   <view class="title">{{title}}</view>
   
@@ -93,27 +95,6 @@
     </t-button>
   </t-button-group>
 </view>
-
-<template name="hyper-text">
-  <text wx:if="{{_.getType(tokens) == 'string'}}">{{tokens}}</text>
-  <block wx:elif="{{_.getType(tokens) == 'array'}}">
-    <block wx:for="{{tokens}}" wx:key="index">
-      <template is="super-text" data="{{ item }}"></template>
-    </block>
-  </block>
-  <block wx:else>
-    <template is="super-text" data="{{ item: tokens }}"></template>
-  </block>
-</template>
-
-<template name="super-text">
-  <text wx:if="{{_.getType(item) == 'string'}}">{{item}}</text>
-  <text wx:elif="{{item.type == 'strong' || item.type == 'em'}}" class="text--bold"> {{item.text}} </text>
-  <text wx:elif="{{item.type == 'codespan'}}" class="text--code">{{item.text}}</text>
-  <text wx:elif="{{item.type == 'image'}}" bind:tap="handlePreview" data-src="{{item.href}}" class="text--image"> {{item.text}}</text>
-  <text wx:elif="{{item.type == 'link'}}" bind:tap="handleLink" data-src="{{item.href}}" class="text--link"> {{item.text}}</text>
-  <text wx:else>{{item.text}}</text>
-</template>
 
 <wxs module="_">
 module.exports.getTime = function(str) {

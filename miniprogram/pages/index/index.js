@@ -10,6 +10,10 @@ Page({
       text: '首页',
       value: 'home',
       icon: 'home'
+    },{
+      text: '学习',
+      value: 'learn',
+      icon: 'laptop'
     }, {
       text: '个人中心',
       value: 'my',
@@ -47,11 +51,9 @@ Page({
   handleTabbarChange({ detail }) {
     const { value } = detail;
     
-    if (value == 'my') {
-      wx.redirectTo({
-        url: '../my/index'
-      })
-    }
+    wx.redirectTo({
+      url: `../${value}/index`
+    })
   },
 
   onShareAppMessage() {
