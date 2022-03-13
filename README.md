@@ -35,7 +35,7 @@
 
 > 目前外部链接仅支持复制链接地址
 
-<img src="./assets/v2/preview.gif" />
+<img src="./assets/v2/preview.gif" width="375" />
 
 ## 如何贡献
 
