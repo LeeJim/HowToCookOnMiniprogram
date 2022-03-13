@@ -23,7 +23,7 @@ Page({
   onShareAppMessage: function () {
     const { index, item } = this.data
     return {
-      title: `程序员做饭 - v${item.version} 更新`,
+      title: `程序员做饭指南 - v${item.version} 更新`,
       path: `/pages/changelog/detail?index=${index}`
     }
   }

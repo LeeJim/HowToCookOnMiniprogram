@@ -14,7 +14,7 @@
           <view wx:if="{{section.text == '操作'}}" class="steps">
             <t-steps wx:if="{{detail.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
               <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step">
-                <view slot="title">
+                <view class="step-title" slot="title">
                   <text wx:if="{{_.getType(step) == 'string'}}">{{step}}</text>
                   <block wx:elif="{{_.getType(step) == 'object'}}">
                     <template is="hyper-text" data="{{ tokens: step }}"></template>
@@ -74,6 +74,8 @@
   </block>
 
   <t-toast id="t-toast" />
+  <t-message id="t-message" />
+  
   <view class="popup popup--top popup--{{startTimeout ? 'active' : 'normal'}}">
     <t-count-down wx:if="{{timeout}}" content="default" time="{{timeout}}" size="large" theme="square" bind:change="handleCountdown" />
   </view>
@@ -109,7 +111,7 @@
   <text wx:elif="{{item.type == 'strong' || item.type == 'em'}}" class="text--bold"> {{item.text}} </text>
   <text wx:elif="{{item.type == 'codespan'}}" class="text--code">{{item.text}}</text>
   <text wx:elif="{{item.type == 'image'}}" bind:tap="handlePreview" data-src="{{item.href}}" class="text--image"> {{item.text}}</text>
-  <text wx:elif="{{item.type == 'link'}}" bind:tap="handleToCopy" data-src="{{item.href}}" class="text--link"> {{item.text}}</text>
+  <text wx:elif="{{item.type == 'link'}}" bind:tap="handleLink" data-src="{{item.href}}" class="text--link"> {{item.text}}</text>
   <text wx:else>{{item.text}}</text>
 </template>
 

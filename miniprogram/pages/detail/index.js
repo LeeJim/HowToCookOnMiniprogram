@@ -1,5 +1,6 @@
 import infos from '../../data'
 import Toast from 'tdesign-miniprogram/toast/index';
+import Message from 'tdesign-miniprogram/message/index';
 
 Page({
   data: {
@@ -146,13 +147,58 @@ Page({
     }
   },
 
-  handlePreview(e) {
-    console.log(e);
+  handlePreview({ target }) {
+    const { src } = target.dataset;
+
+    wx.previewImage({
+      urls: [src],
+      success() {
+        console.log('success');
+      },
+      fail(e) {
+        console.log(e);
+      }
+    })
+  },
+
+  handleLink({ target }) {
+
+    const { src } = target.dataset;
+
+    if (src.startsWith('http')) {
+      wx.setClipboardData({
+        data: src,
+      }).then(() => {
+        Message.info({
+          offset: [20, 32],
+          duration: 5000,
+          content: '链接已复制，暂不支持直接打开网页',
+        });
+      }).catch(() => {
+        Message.info({
+          offset: [20, 32],
+          duration: 5000,
+          content: '链接无法复制，请稍后重试',
+        });
+      })
+    } else {
+      const match = /\/([^\/]+)\.md/.exec(src);
+
+      if (match[1]) {
+        const cookbook = infos.find(item => item.name.includes(match[1]))
+        
+        if (cookbook) {
+          wx.navigateTo({
+            url: './index?id=' + cookbook.id
+          })
+        }
+      }
+    }
   },
   
   onShareAppMessage() {
     return {
-      title: this.data.title || '程序员做饭',
+      title: this.data.title || '程序员做饭指南',
       path: '/pages/detail/index?id=' + this.data.id
     }
   },

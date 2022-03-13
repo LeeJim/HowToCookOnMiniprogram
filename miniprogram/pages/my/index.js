@@ -82,7 +82,7 @@ Page({
   
   onShareAppMessage() {
     return {
-      title: '程序员做饭',
+      title: '程序员做饭指南',
       path: '/pages/index/index'
     }
   },
