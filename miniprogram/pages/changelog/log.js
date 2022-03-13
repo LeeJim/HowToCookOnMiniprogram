@@ -1,4 +1,17 @@
 export default [{
+  version: '0.4.0',
+  detail: [{
+    type: 'feature',
+    value: '支持图片预览'
+  }, {
+    type: 'feature',
+    value: '支持链接跳转'
+  }, {
+    type: 'feature',
+    value: '展示各种文字格式'
+  }],
+  date: '2022-03-13'
+}, {
   version: '0.3.1',
   detail: [{
     type: 'feature',
