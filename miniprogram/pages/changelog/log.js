@@ -1,4 +1,11 @@
 export default [{
+  version: '0.5.0',
+  detail: [{
+    type: 'feature',
+    value: '增加学习模块'
+  }],
+  date: '2022-03-14'
+}, {
   version: '0.4.0',
   detail: [{
     type: 'feature',
