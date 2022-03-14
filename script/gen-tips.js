@@ -3,8 +3,10 @@ const fs = require('fs')
 const glob = require('glob')
 const { marked } = require('marked')
 const MagicString = require('magic-string')
-const { flattenToken } = require('./helper')
+const cliProgress = require('cli-progress');
 
+const { flattenToken } = require('./helper')
+const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 const dest = path.resolve(__dirname, '../miniprogram/pages/learn/data.js')
 
 glob(path.resolve(__dirname, '../HowToCook/tips/**/*.md'), {}, async (err, files) => {
@@ -12,13 +14,15 @@ glob(path.resolve(__dirname, '../HowToCook/tips/**/*.md'), {}, async (err, files
   const ans = []
   let no = 0;
   
+  bar.start(files.length, 0);
+
   for (let p of files) {
-    const { name: title, dir } = path.parse(p)
+    const { name, dir } = path.parse(p)
     const content = fs.readFileSync(path.resolve(p), { encoding: 'utf-8'})
     const tokens = marked.lexer(content);
     const article = {
       no: no++,
-      title,
+      name,
       content: [],
     }
 
@@ -32,10 +36,11 @@ glob(path.resolve(__dirname, '../HowToCook/tips/**/*.md'), {}, async (err, files
     }
 
     ans.push(article)
-
-    const s = new MagicString(JSON.stringify(ans))
-    s.prepend('export default ')
-
-    fs.writeFileSync(dest, s.toString())
+    bar.update(no)
   }
+
+  bar.stop()
+  const s = new MagicString(JSON.stringify(ans, null, 2))
+  s.prepend('export default ')
+  fs.writeFileSync(dest, s.toString())
 })

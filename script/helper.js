@@ -1,6 +1,11 @@
+const path = require('path')
+const fs = require('fs')
+const axios = require('axios')
+const FormData = require('form-data')
+
 const config = require('../config')
 
-const accessToken = ''
+let accessToken = ''
 
 const getAccessToken = async() => {
   if (accessToken) return accessToken
@@ -91,7 +96,10 @@ const flattenToken = async (token, dir) => {
         const data = await uploadImage(path.resolve(dir, href))
         return { type, text, href: data }
       case 'link':
-        return { type, text, href }
+        if (href.startsWith('http')) {
+          return { type, text, href }
+        }
+        return { type: 'page', text, href }
       case 'space':
         return ''
       case 'code':
