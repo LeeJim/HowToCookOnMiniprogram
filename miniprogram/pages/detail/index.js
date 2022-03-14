@@ -1,4 +1,5 @@
 import infos from '../../data'
+import tips from '../learn/data'
 import Toast from 'tdesign-miniprogram/toast/index';
 import Message from 'tdesign-miniprogram/message/index';
 
@@ -190,6 +191,13 @@ Page({
         if (cookbook) {
           wx.navigateTo({
             url: './index?id=' + cookbook.id
+          })
+        }
+
+        const tip = tips.find(item => item.name.includes(match[1]))
+        if (tip) {
+          wx.navigateTo({
+            url: '/pages/learn/detail?no=' + tip.no
           })
         }
       }

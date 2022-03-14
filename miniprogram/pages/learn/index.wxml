@@ -1,5 +1,7 @@
 <view class="container">
   <block wx:for="{{info}}" wx:key="index">
-    <t-cell title="{{item.title}}" hover arrow url="./detail?index={{index}}" />
+    <t-cell title="{{item.name}}" hover arrow url="./detail?no={{item.no}}" />
   </block>
 </view>
+
+<include src="/templates/tabbar.wxml" />

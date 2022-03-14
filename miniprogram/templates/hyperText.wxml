@@ -2,6 +2,16 @@
   <text wx:if="{{_.getType(tokens) == 'string'}}">{{tokens}}</text>
   <block wx:elif="{{_.getType(tokens) == 'array'}}">
     <block wx:for="{{tokens}}" wx:key="index">
+      <view wx:if="{{item.type == 'list'}}" class="list">
+        <block wx:for="{{item.items}}" wx:key="index">
+          <view class="item">
+            <block wx:if="{{_.getType(item) == 'array'}}">
+              <template wx:for="{{item}}" wx:key="index" is="super-text" data="{{ item }}" />
+            </block>
+            <template wx:else is="super-text" data="{{ item }}" />
+          </view>
+        </block>
+      </view>
       <template is="super-text" data="{{ item }}"></template>
     </block>
   </block>
@@ -16,6 +26,8 @@
   <text wx:elif="{{item.type == 'codespan'}}" class="text--code">{{item.text}}</text>
   <text wx:elif="{{item.type == 'image'}}" bind:tap="handlePreview" data-src="{{item.href}}" class="text--image"> {{item.text}}</text>
   <text wx:elif="{{item.type == 'link'}}" bind:tap="handleLink" data-src="{{item.href}}" class="text--link"> {{item.text}}</text>
+  <text wx:elif="{{item.type == 'page'}}" bind:tap="handleLink" data-src="{{item.href}}" class="text--page"> {{item.text}}</text>
+  <text wx:elif="{{item.type == 'blockquote'}}" class="text--quote">{{item.text}}</text>
   <text wx:else>{{item.text}}</text>
 </template>
 

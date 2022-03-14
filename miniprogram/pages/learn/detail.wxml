@@ -3,7 +3,10 @@
 
 <view class="container">
   <block wx:for="{{info}}" wx:key="index" wx:for-item="section">
-    <view wx:if="{{section.type == 'heading'}}" class="h{{section.depth}}">{{section.text}}</view>
+    <view wx:if="{{section.type == 'heading' && section.depth == 2}}" class="flex-box">
+      <view class="flex-box__title h{{section.depth}}">{{section.text}}</view>
+    </view>
+    <view wx:elif="{{section.type == 'heading'}}" class="h{{section.depth}}">{{section.text}}</view>
     <view wx:elif="{{section.type == 'list'}}" class="list">
       <block wx:for="{{section.items}}" wx:key="index">
         <view class="item">
@@ -11,6 +14,11 @@
         </view>
       </block>
     </view>
-    <view wx:else>{{section.text}}</view>
+    <view wx:else class="paragraph">
+      <template is="hyper-text" data="{{ tokens: section }}"></template>
+    </view>
   </block>
 </view>
+
+<t-toast id="t-toast" />
+<t-message id="t-message" />

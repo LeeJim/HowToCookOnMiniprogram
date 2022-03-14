@@ -5,10 +5,10 @@ import config from '../../config/index.js'
 Page({
   data: {
     list: [],
-    value: 'home',
+    value: 'index',
     tabbars: [{
       text: '首页',
-      value: 'home',
+      value: 'index',
       icon: 'home'
     },{
       text: '学习',

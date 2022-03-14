@@ -34,9 +34,6 @@
   </t-cell>
 
   <t-toast id="t-toast" />
-  <t-tab-bar value="{{value}}" bindchange="handleTabbarChange">
-    <t-tab-bar-item wx:for="{{tabbars}}" value="{{item.value}}" wx:key="index" icon="{{item.icon}}">
-      {{item.text}}
-    </t-tab-bar-item>
-  </t-tab-bar>
 </view>
+
+<include src="/templates/tabbar.wxml" />

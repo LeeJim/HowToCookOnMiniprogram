@@ -7,12 +7,6 @@
     wx:key="name"
     bind:click="handleTap"
     list="{{item.list}}" />
-  <t-tab-bar
-    value="{{value}}"
-    bindchange="handleTabbarChange"
-  >
-    <t-tab-bar-item wx:for="{{tabbars}}" wx:key="index" value="{{item.value}}" icon="{{item.icon}}">
-      {{item.text}}
-    </t-tab-bar-item>
-  </t-tab-bar>
 </view>
+
+<include src="/templates/tabbar.wxml" />

@@ -2695,7 +2695,7 @@ export default [
               "冰块",
               [
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "蔗糖糖浆",
                   "href": "../../condiment/蔗糖糖浆/蔗糖糖浆.md"
                 },
@@ -3069,7 +3069,7 @@ export default [
               "苏打气泡水",
               "柠檬",
               {
-                "type": "link",
+                "type": "page",
                 "text": "蔗糖糖浆",
                 "href": "../../condiment/蔗糖糖浆/蔗糖糖浆.md"
               },
@@ -4398,7 +4398,7 @@ export default [
               [
                 "然后进行腌肉，加入生抽，淀粉，油，均匀搅拌，静止 30 分钟。腌肉方法也可参考",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "学习腌",
                   "href": "../../tips/learn/学习腌.md"
                 }
@@ -6581,7 +6581,7 @@ export default [
           [
             "建议在此之前查看炒",
             {
-              "type": "link",
+              "type": "page",
               "text": "糖色",
               "href": "./../../condiment/糖色.md"
             },
@@ -6654,7 +6654,7 @@ export default [
               [
                 "炒",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "糖色",
                   "href": "./../../condiment/糖色.md"
                 },
@@ -7203,7 +7203,7 @@ export default [
               [
                 "油热，将锅关至小火，如果你不明白为何要这样做，请查看",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "学习炒与煎",
                   "href": "../../tips/learn/学习炒与煎.md"
                 },
@@ -8298,7 +8298,7 @@ export default [
               [
                 "用砂锅/铝锅炖肉时，水开后转中小火/小火，使用高压锅见",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "学习使用压力锅",
                   "href": "./../../../tips/learn/高压力锅.md"
                 }
@@ -8777,7 +8777,7 @@ export default [
               [
                 "煎",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "溏心蛋",
                   "href": "../../breakfast/溏心蛋.md"
                 }
@@ -8785,7 +8785,7 @@ export default [
               [
                 "将",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "米饭",
                   "href": "../../staple/米饭/米饭.md"
                 },
@@ -9272,7 +9272,7 @@ export default [
               [
                 "胡萝卜洗净，切成丝，将胡萝卜丝",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "焯水",
                   "href": "../../tips/learn/学习焯水.md"
                 },
@@ -10480,7 +10480,7 @@ export default [
               [
                 "出锅后也可以加入水煮荷包蛋（",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "太阳蛋",
                   "href": "../../dishes/breakfast/太阳蛋.md"
                 },
@@ -10496,7 +10496,7 @@ export default [
       [
         "馄饨是一种起源于中国的一种民间传统面食，",
         {
-          "type": "link",
+          "type": "page",
           "text": "饺子",
           "href": "./速冻水饺.md"
         },
@@ -11750,7 +11750,7 @@ export default [
               [
                 "煎蛋或",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "太阳蛋",
                   "href": "../../breakfast/太阳蛋.md"
                 }
@@ -11880,7 +11880,7 @@ export default [
           [
             "冷藏的咖喱每次取出需要吃的份量，加热后盖在",
             {
-              "type": "link",
+              "type": "page",
               "text": "米饭",
               "href": "../米饭/米饭.md"
             },
@@ -12289,7 +12289,7 @@ export default [
               [
                 "白菜（或其他菜）切丝，",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "焯水",
                   "href": "../../tips/learn/学习焯水.md"
                 },
@@ -12367,7 +12367,7 @@ export default [
               [
                 "离醒面完成时间还有 10 分钟时，请查看",
                 {
-                  "type": "link",
+                  "type": "page",
                   "text": "小技巧",
                   "href": "../../condiment/油酥.md"
                 },
@@ -12886,7 +12886,7 @@ export default [
           [
             "准备时，米饭可以参考",
             {
-              "type": "link",
+              "type": "page",
               "text": "米饭的做法",
               "href": "./米饭/米饭.md"
             },

@@ -1,69 +1,81 @@
 const info = require('./data.js').default
+const cookbooks = require('../../data').default
+// import Toast from 'tdesign-miniprogram/toast/index';
+import Message from 'tdesign-miniprogram/message/index';
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     info: []
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    const { index = 0 } = options;
-    const target = info[index];
+    const { no = 0 } = options;
+    const target = info.find(item => item.no == no);
 
-    this.setData({
-      info: target.content
+    if (target) {
+      this.setData({
+        info: target.content
+      })
+      wx.setNavigationBarTitle({
+        title: target.name
+      })
+    }
+  },
+
+  handlePreview({ target }) {
+    const { src } = target.dataset;
+
+    wx.previewImage({
+      urls: [src],
+      success() {
+        console.log('success');
+      },
+      fail(e) {
+        console.log(e);
+      }
     })
-    wx.setNavigationBarTitle({
-      title: target.title
-    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  handleLink({ target }) {
 
-  },
+    const { src } = target.dataset;
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+    if (src.startsWith('http')) {
+      wx.setClipboardData({
+        data: src,
+      }).then(() => {
+        Message.info({
+          offset: [20, 32],
+          duration: 5000,
+          content: '链接已复制，暂不支持直接打开网页',
+        });
+      }).catch(() => {
+        Message.info({
+          offset: [20, 32],
+          duration: 5000,
+          content: '链接无法复制，请稍后重试',
+        });
+      })
+    } else {
+      const match = /\/([^\/]+)\.md/.exec(src);
 
-  },
+      if (match[1]) {
+        const cookbook = cookbooks.find(item => item.name.includes(match[1]))
+        
+        if (cookbook) {
+          wx.navigateTo({
+            url: '/pages/detail/index?id=' + cookbook.id
+          })
+        }
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+        const tips = info.find(item => item.name.includes(match[1]))
+        if (tips) {
+          wx.navigateTo({
+            url: '/pages/learn/detail?no=' + tips.no
+          })
+        }
+      }
+    }
   },
 
   /**

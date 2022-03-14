@@ -5,8 +5,12 @@ Page({
     value: 'my',
     tabbars: [{
       text: '首页',
-      value: 'home',
+      value: 'index',
       icon: 'home'
+    },{
+      text: '学习',
+      value: 'learn',
+      icon: 'laptop'
     }, {
       text: '个人中心',
       value: 'my',
@@ -34,12 +38,10 @@ Page({
 
   handleTabbarChange({ detail }) {
     const { value } = detail;
-
-    if (value == 'home') {
-      wx.redirectTo({
-        url: '../index/index'
-      })
-    }
+    
+    wx.redirectTo({
+      url: `../${value}/index`
+    })
   },
 
   handleCopy({ target }) {

@@ -1,5 +1,7 @@
 page {
   background-color: #fff;
+  font-size: 28rpx;
+  line-height: 46rpx;
 }
 
 .container {
@@ -9,6 +11,7 @@ page {
 .h1, .h2, .h3, .h4 {
   font-weight: bold;
   margin-bottom: 12rpx;
+  line-height: 1.5;
 }
 
 .h1 {
@@ -27,8 +30,40 @@ page {
   font-size: 30rpx;
 }
 
+.paragraph {
+  margin: 12rpx 0;
+}
+
 .list {
-  margin-bottom: 24rpx;
+  margin: 24rpx 0;
   font-size: 28rpx;
   line-height: 36rpx;
+}
+
+.flex-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+    margin: 32rpx 0 52rpx;
+    background: #fff;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -20rpx;
+      top: 50%;
+      width: 52rpx;
+      height: 52rpx;
+      transform: translateY(-50%);
+      background-color: pink;
+      border-radius: 50%;
+      opacity: .3;
+    }
+  }
 }
