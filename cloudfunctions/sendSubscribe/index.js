@@ -6,16 +6,11 @@ cloud.init()
 const db = cloud.database()
 const _ = db.command
 
-const SIZE = 100
+const SIZE = 100 // 分片读数据的大小
+const MAX = 1 // 限制发送人数
 
-async function sendSubscribeMessage({ openid, templateId, version, content }) {
-  // const { OPENID } = cloud.getWXContext()
-
-  // const openid = 'oSi0i0YrRzAordKlIp5RXymrIxNk'
-  // const templateId = 'vjEDlUYrVJ05CauSw_V9jIWF-okt3OMCBtlz9yvjrfg'
-  // const version = 'v1.0.0'
+const sendSubscribeMessage = async ({ openid, templateId, version, content }) => {
   const time = dayjs().format('YYYY年M月D日 HH:mm')
-  // const content = '支持学习模块'
 
   const sendResult = await cloud.openapi.subscribeMessage.send({
     touser: openid,
@@ -56,20 +51,21 @@ const getSubscriber = async (skip, condtion) => {
   return data
 }
 
-const setSubscriber = async ({ openid, templateId }) => {
-  const { stats } = await db.collection('subscribe')
-    .where({
-      creator: openid,
-      list: {
-        TemplateId: templateId,
-        status: _.neq(0)
-      }
-    })
-    .limit(1)
-    .update({
-      // data: todo set status = 0
-    })
-  return stats.updated == 1
+const setSubscriber = async (item, templateId) => {
+  const { list } = item;
+  const target = list.find(item => item.TemplateId == templateId)
+
+  if (target) {
+    target.status = 0
+    const { stats } = await db.collection('subscribe').doc(item._id)
+      .update({
+        data: {
+          list
+        }
+      })
+    return stats.updated == 1
+  }
+  return false
 }
 
 // 云函数入口函数
@@ -82,13 +78,28 @@ exports.main = async (event) => {
     TemplateId:  templateId
   }
   let finish = 0
+  let uniqueIds = new Set()
+  const afterFinish = () => {
+    // 保存发送记录
+    db.collection('subscribe_send_log').add({
+      data: {
+        creatTime: new Date(),
+        member: Array.from(uniqueIds),
+        templateId,
+        version,
+        content
+      }
+    })
+    return { count, finish, uniqueIds }
+  }
 
   do {
     subscribers = await getSubscriber(count, condtion)
     count += subscribers.length
-    // todo subscribers 去重
     for (let item of subscribers) {
       const { creator: openid } = item;
+      if (uniqueIds.has(openid)) continue // subscribers 去重
+      uniqueIds.add(openid)
       const hasSent = await sendSubscribeMessage({
         openid, 
         templateId,
@@ -96,16 +107,14 @@ exports.main = async (event) => {
         version
       })
       if (hasSent) {
-        const done = await setSubscriber({ openid, templateId })
+        const done = await setSubscriber(item, templateId)
         if (done) {
           finish++
         }
       }
+      if (finish >= MAX) return afterFinish() // 此处使用 break 的话，第一次 do 未进循环，无法中断；
     }
   } while (subscribers.length == SIZE)
 
-  return {
-    count,
-    finish
-  }
+  return afterFinish()
 }
