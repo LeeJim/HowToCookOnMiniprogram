@@ -11,12 +11,9 @@ const MAX = 1 // 限制发送人数
 
 const sendSubscribeMessage = async ({ openid, templateId, version, content }) => {
   const time = dayjs().format('YYYY年M月D日 HH:mm')
-
-  const sendResult = await cloud.openapi.subscribeMessage.send({
-    touser: openid,
-    templateId,
-    page: '/pages/index/index',
-    data: {
+  const date = dayjs().format('YYYY年M月D日')
+  const dataMap = {
+    'vjEDlUYrVJ05CauSw_V9jIWF-okt3OMCBtlz9yvjrfg': {
       character_string1: {
         value: version,
       },
@@ -26,7 +23,22 @@ const sendSubscribeMessage = async ({ openid, templateId, version, content }) =>
       thing3: {
         value: content,
       },
+    },
+    'Sbtj4X4gIKWRy0xDeWU8xCl8LejbTpIQ3gWiKh5JFp4': {
+      thing1: {
+        value: content,
+      },
+      date2: {
+        value: date,
+      },
     }
+  }
+
+  const sendResult = await cloud.openapi.subscribeMessage.send({
+    touser: openid,
+    templateId,
+    page: '/pages/index/index',
+    data: dataMap[templateId]
   })
 
   if (sendResult.errCode != 0) {
