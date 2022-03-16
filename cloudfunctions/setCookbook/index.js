@@ -4,14 +4,6 @@ const db = cloud.database()
 const _ = db.command
 const collection = db.collection('cookbook')
 
-const getLikes = async (id) => {
-  const { data } = await collection.where({ id }).get();
-  const { likeds = [] } = data[0]
-  
-  return likeds.filter(item => !item.isDel).length
-}
-
-
 // 云函数入口函数
 exports.main = async (event) => {
   const { id, type } = event

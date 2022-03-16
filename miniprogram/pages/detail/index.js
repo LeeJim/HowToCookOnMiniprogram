@@ -31,6 +31,7 @@ Page({
           })
         }
         this.getData()
+        this.updateViews()
       }
     }
   },
@@ -69,6 +70,14 @@ Page({
     } finally {
       this.setData({ done: true })
     }
+  },
+
+  updateViews() {
+    const { id } = this.data;
+    wx.cloud.callFunction({
+      name: 'updateViews',
+      data: { id }
+    })
   },
 
   toMyCenter() {
