@@ -11,9 +11,9 @@ Page({
       value: 'index',
       icon: 'home'
     },{
-      text: '学习',
+      text: '技巧',
       value: 'learn',
-      icon: 'laptop'
+      icon: 'tips'
     }, {
       text: '个人中心',
       value: 'my',
