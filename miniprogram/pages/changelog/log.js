@@ -1,4 +1,20 @@
 export default [{
+  version: '1.0.0',
+  detail: [{
+    type: 'feature',
+    value: '增加买菜模块'
+  },{
+    type: 'feature',
+    value: '全新 LOGO'
+  },{
+    type: 'feature',
+    value: '发送订阅消息'
+  },{
+    type: 'feature',
+    value: '“学习”更名为“技巧”'
+  }],
+  date: '2022-03-17'
+}, {
   version: '0.5.0',
   detail: [{
     type: 'feature',
