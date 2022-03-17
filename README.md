@@ -37,6 +37,13 @@
 
 <img src="./assets/v2/preview.gif" width="375" />
 
+### 直达买菜 🛒
+
+收集了许多常用的买菜小程序，一键直达
+
+<img width="375" alt="image" src="https://user-images.githubusercontent.com/7017290/158828410-1186782e-79af-4dc3-8e05-a475b66f558c.png">
+
+
 ## 如何贡献
 
 ### 小程序
@@ -70,6 +77,7 @@ module.exports = {
 - [x] 解析并展示 MarkDown 的图片、链接和各种格式 `v0.4.0`
 - [x] 增加【学习】模块 `v0.5.0`
 - [x] 发送订阅消息 `v1.0.0`
+- [x] 增加【买菜】模块 `v1.0.0`
 
 ### v2.0.0
 
