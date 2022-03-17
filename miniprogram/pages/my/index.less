@@ -1,7 +1,17 @@
 .avatar {
-  width: 150rpx;
-  height: 150rpx;
-  border-radius: 20rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 30rpx;
   overflow: hidden;
-  margin-right: 32rpx;
+
+  &-button {
+    margin-right: 32rpx;
+    height: 120rpx;
+    padding: 0;
+    background: transparent;
+
+    &::after, &::before {
+      display: none;
+    }
+  }
 }

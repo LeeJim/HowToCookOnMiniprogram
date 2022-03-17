@@ -1,15 +1,15 @@
 <view class="container">
   <t-cell
-    title="点击复制 GitHub 地址"
+    title="HowToCookOnMiniprogram"
     arrow
-    description="GitHub 搜索 HowToCookOnMiniprogram"
+    description="点击复制 GitHub 地址"
     t-class-image="title-image"
     data-msg="https://github.com/LeeJim/HowToCookOnMiniprogram"
     bind:click="handleCopy"
   >
-  <view class="avatar" slot="left-icon">
-    <open-data type="userAvatarUrl" />
-  </view>
+  <button class="avatar-button"	hover-class="none" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" slot="left-icon">
+    <image class="avatar" src="{{avatarUrl}}" catch:tap=""></image>
+  </button>
   </t-cell>
   <t-cell title="订阅更新" hover arrow bind:click="handleSubscribe">
     <t-icon name="notification" slot="left-icon" />

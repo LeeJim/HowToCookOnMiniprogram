@@ -1,8 +1,11 @@
 import Toast from 'tdesign-miniprogram/toast/index';
 
+const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+
 Page({
   data: {
     value: 'my',
+    avatarUrl: defaultAvatarUrl,
     tabbars: [{
       text: '首页',
       value: 'index',
@@ -33,6 +36,18 @@ Page({
 
     this.setData({
       adFlag: adFlagStorage === '' ? true : adFlagStorage,
+    })
+  },
+
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail;
+
+    this.setData({ avatarUrl })
+    wx.cloud.callFunction({
+      name: 'saveUserinfo',
+      data: {
+        avatarUrl,
+      },
     })
   },
 
