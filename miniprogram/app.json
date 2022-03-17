@@ -7,7 +7,8 @@
     "pages/changelog/index",
     "pages/changelog/detail",
     "pages/learn/index",
-    "pages/learn/detail"
+    "pages/learn/detail",
+    "pages/cart/index"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

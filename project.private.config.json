@@ -37,6 +37,13 @@
           "name": "Learn",
           "pathName": "pages/learn/index",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "买菜",
+          "pathName": "pages/cart/index",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

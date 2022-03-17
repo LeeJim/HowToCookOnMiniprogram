@@ -76,7 +76,8 @@ Page({
     const { id } = this.data;
     wx.cloud.callFunction({
       name: 'updateViews',
-      data: { id }
+      data: { id },
+      type: 'cookbook'
     })
   },
 

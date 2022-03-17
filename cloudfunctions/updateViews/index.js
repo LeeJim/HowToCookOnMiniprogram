@@ -2,11 +2,11 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database()
 const _ = db.command
-const collection = db.collection('cookbook_views')
+const collection = db.collection('views')
 
 // 云函数入口函数
 exports.main = async (event) => {
-  const { id } = event;
+  const { id, type = 'cookbook' } = event;
   const { stats } = await collection.where({ id }).update({
     data: {
       views: _.inc(1)
@@ -17,7 +17,8 @@ exports.main = async (event) => {
       data: {
         id,
         createTime: new Date(),
-        views: 1
+        views: 1,
+        type
       }
     })
   }
