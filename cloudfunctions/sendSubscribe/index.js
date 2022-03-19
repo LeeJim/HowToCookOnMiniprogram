@@ -7,7 +7,7 @@ const db = cloud.database()
 const _ = db.command
 
 const SIZE = 100 // 分片读数据的大小
-const MAX = 1 // 限制发送人数
+const MAX = 1000 // 限制发送人数
 
 const sendSubscribeMessage = async ({ openid, templateId, version, content }) => {
   const time = dayjs().format('YYYY年M月D日 HH:mm')

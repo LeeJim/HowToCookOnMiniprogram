@@ -7,7 +7,7 @@ App({
     const updateManager = wx.getUpdateManager()
 
     updateManager.onCheckForUpdate(function (res) {
-      console.log(res.hasUpdate)
+      // console.log(res.hasUpdate)
     })
 
     updateManager.onUpdateReady(function () {
