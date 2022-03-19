@@ -32,11 +32,6 @@ Page({
   },
 
   handleSearch({ detail }) {
-    if (detail.value == '') {
-      this.setData({ result: [] })
-      return
-    };
-
     this.setData({ isLoading: true })
     if (this.lastTrigger) {
       clearTimeout(this.lastTrigger)
@@ -47,6 +42,13 @@ Page({
   },
 
   doSearch(keyword) {
+    if (keyword == '') {
+      this.setData({
+        result: [],
+        isLoading: false
+      })
+      return
+    };
     const fuzzySearch = (key) => {
       if (typeof key == 'string') return key.indexOf(keyword) > -1
       if (Array.isArray(key)) {
