@@ -44,6 +44,13 @@
           "name": "买菜",
           "pathName": "pages/cart/index",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "search",
+          "pathName": "pages/search/index",
+          "query": "keyword=鸡蛋",
           "scene": null,
           "launchMode": "default"
         }

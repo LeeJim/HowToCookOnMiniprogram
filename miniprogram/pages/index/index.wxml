@@ -1,4 +1,15 @@
 <!--index.wxml-->
+<t-navbar home-icon="slot" title="" >
+  <view class="brand" slot="home-icon">
+    <image class="logo" src="cloud://cloud1-9g17b7v0e010c809.636c-cloud1-9g17b7v0e010c809-1309933988/primary/240_F_292003584_6Zc3rf7qmIdGY2FMGrA1pQ7hjxYAZs0V.jpeg" />
+  </view>
+  <view class="name" slot="home-icon">做饭指南</view>
+</t-navbar>
+
+<view class="header">
+  <t-search t-class-input-container="search" model:value="{{searchKeyword}}" shape="round" placeholder="搜索菜谱" center bind:submit="handleToSearch" />
+</view>
+
 <view class="container">
   <list 
     wx:for="{{list}}" 

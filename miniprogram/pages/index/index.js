@@ -6,6 +6,7 @@ Page({
   data: {
     list: [],
     value: 'index',
+    searchKeyword: '',
     tabbars: [{
       text: '首页',
       value: 'index',
@@ -57,6 +58,15 @@ Page({
     
     wx.redirectTo({
       url: `../${value}/index`
+    })
+  },
+
+  handleToSearch() {
+    const content = this.data.searchKeyword.trim();
+    wx.navigateTo({
+      url: '/pages/search/index?keyword=' + content,
+    }).then(() => {
+      this.setData({ searchKeyword: '' })
     })
   },
 

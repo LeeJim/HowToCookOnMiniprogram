@@ -8,7 +8,8 @@
     "pages/changelog/detail",
     "pages/learn/index",
     "pages/learn/detail",
-    "pages/cart/index"
+    "pages/cart/index",
+    "pages/search/index"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
@@ -34,6 +35,8 @@
     "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
     "t-loading": "tdesign-miniprogram/loading/loading",
     "t-message": "tdesign-miniprogram/message/message",
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-search": "tdesign-miniprogram/search/search",
     "t-switch": "tdesign-miniprogram/switch/switch",
     "t-steps": "tdesign-miniprogram/steps/steps",
     "t-step": "tdesign-miniprogram/steps/step-item"

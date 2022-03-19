@@ -1,4 +1,11 @@
 export default [{
+  version: '1.1.0',
+  detail: [{
+    type: 'feature',
+    value: '支持搜索'
+  }],
+  date: '2022-03-19'
+}, {
   version: '1.0.0',
   detail: [{
     type: 'feature',

@@ -1,0 +1,17 @@
+<view class="container">
+  <t-search model:value="{{keyword}}" placeholder="搜索菜谱" focus="{{focus}}" shape="round" center bind:change="handleSearch" bind:clear="handleSearchClear" />
+  <view class="result">
+    <view wx:if="{{isLoading}}" class="loading-box">
+      <t-loading loading />
+    </view>
+    <block wx:elif="{{result.length > 0}}">
+      <view class="tips">搜索到与 “{{keyword}}” 相关的 {{result.length}} 个结果</view>
+      <t-cell wx:for="{{result}}" wx:key="index" title="{{item.name}}" arrow url="/pages/detail/index?id={{item.id}}">
+        <t-tag slot="note" theme="{{themeMap[item.category] || 'primary'}}" variant="light">{{chineseMap[item.category]}}</t-tag>
+      </t-cell>
+    </block>
+    <block wx:elif="{{keyword}}">
+      <t-empty icon="info-circle-filled" style="margin-top: 200rpx" description="没有搜到与 “{{keyword}}” 相关的菜谱" />
+    </block>
+  </view>
+</view>
