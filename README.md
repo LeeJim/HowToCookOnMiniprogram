@@ -46,6 +46,12 @@
 
 ## 如何贡献
 
+### 启动
+
+1. `cd miniprogram`
+2. `npm install`
+3. 开发者工具，点击菜单“工具 - 构建 npm”
+
 ### 小程序
 
 源代码位于 miniprogram 目录
