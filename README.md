@@ -4,7 +4,8 @@
 
 灵感和数据来源于 [HowToCook](https://github.com/Anduin2017/HowToCook)
 
-![](./assets/qrcode.png)
+![htc-qrcode](https://user-images.githubusercontent.com/7017290/160264342-5a419a77-19fd-453a-97ed-a0418667d0ee.png)
+
 
 ## 微创新
 
