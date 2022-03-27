@@ -1,4 +1,11 @@
 export default [{
+  version: '1.1.1',
+  detail: [{
+    type: 'feature',
+    value: '从订阅消息进来，增加订阅消息弹窗'
+  }],
+  date: '2022-03-27'
+}, {
   version: '1.1.0',
   detail: [{
     type: 'feature',
