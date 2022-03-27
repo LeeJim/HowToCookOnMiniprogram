@@ -20,4 +20,13 @@
     list="{{item.list}}" />
 </view>
 
+<t-dialog
+  visible="{{subscribeModalVisible}}"
+  title="订阅新版本通知"
+  content="第一时间接收【最新功能】的消息"
+  confirm-btn="我知道了"
+  bind:confirm="handleSubscribe"
+/>
+
 <include src="/templates/tabbar.wxml" />
+<include src="/templates/base.wxml" />

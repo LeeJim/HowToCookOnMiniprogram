@@ -32,8 +32,7 @@
     <t-icon name="info-circle" slot="left-icon" />
     <view slot="note">{{version}}</view>
   </t-cell>
-
-  <t-toast id="t-toast" />
 </view>
 
 <include src="/templates/tabbar.wxml" />
+<include src="/templates/base.wxml" />
