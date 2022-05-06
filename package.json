@@ -27,7 +27,9 @@
     "axios": "^0.26.1",
     "cli-progress": "^3.10.0",
     "commonmark": "^0.30.0",
+    "cos-nodejs-sdk-v5": "^2.11.7",
     "form-data": "^4.0.0",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "md5-file": "^5.0.0"
   }
 }

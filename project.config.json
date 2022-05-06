@@ -16,7 +16,7 @@
     "include": []
   },
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
     "enhance": true,
     "postcss": true,
@@ -53,14 +53,18 @@
     "useCompilerPlugins": [
       "less"
     ],
-    "ignoreUploadUnusedFiles": true,
-    "useStaticServer": true
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.22.1",
   "appid": "wx01462be634a0d447",
   "projectname": "HowToCookOnMiniprogram",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+  "srcMiniprogramRoot": "miniprogram/",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
   "condition": {
     "search": {
       "list": []
@@ -80,10 +84,5 @@
     "miniprogram": {
       "list": []
     }
-  },
-  "srcMiniprogramRoot": "miniprogram/",
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
   }
 }

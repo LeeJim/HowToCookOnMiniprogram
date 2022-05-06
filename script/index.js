@@ -4,61 +4,10 @@ const glob = require('glob')
 const {marked} = require('marked')
 const MagicString = require('magic-string')
 const md5 = require('md5')
-const axios = require('axios')
-const FormData = require('form-data');
 const cliProgress = require('cli-progress');
-
-const config = require('../config')
+const { uploadImage } = require('./upload')
 
 const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-
-let accessToken = ''
-const getAccessToken = async() => {
-  if (accessToken) return accessToken
-
-  const { data } = await axios.get('https://api.weixin.qq.com/cgi-bin/token', {
-    params: {
-      grant_type: 'client_credential',
-      appid: config.appid,
-      secret: config.secret
-    }
-  })
-  if (data.access_token) {
-    accessToken = data.access_token
-    return accessToken
-  }
-  throw new TypeError(data)
-}
-
-
-const uploadImage = async (filePath) => {
-  const cloudPath = 'cookbook'
-  const token = await getAccessToken()
-  const url = 'https://api.weixin.qq.com/tcb/uploadfile?access_token=' + token
-  const { data } = await axios.post(url, {
-    env: config.cloudEnvId,
-    path: cloudPath
-  })
-  if (data.errcode == 0) {
-    const { url, token, authorization, file_id, cos_file_id} = data;
-    const form = new FormData()
-
-    form.append('key', authorization);
-    form.append('Signature', authorization);
-    form.append('x-cos-security-token', token);
-    form.append('x-cos-meta-fileid', cos_file_id);
-    form.append('file', fs.createReadStream(filePath));
-
-    return new Promise((resolve, reject) => {
-      form.submit(url, (err) => {
-        if (err) reject(err)
-        resolve(file_id.replace(cloudPath, '') + authorization)
-      })
-    })
-  } else {
-    throw new TypeError(data.errmsg)
-  }
-}
 
 glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, async (err, files) => {
   if (err) {
@@ -185,5 +134,5 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, async (err, fil
 
   s.prepend('export default ')
   fs.writeFileSync('./miniprogram/data.js', s.toString())
-  fs.writeFileSync('./miniprogram/data.json', jsonData.toString())
+  fs.writeFileSync('./data-v2.json', jsonData.toString())
 })
