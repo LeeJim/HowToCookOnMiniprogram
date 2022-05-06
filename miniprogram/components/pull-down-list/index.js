@@ -28,11 +28,6 @@ Component({
       },
     },
   },
-  observer: {
-    list(val) {
-      console.log(val);
-    }
-  },
   methods: {
     switchHandle() {
       const { list, childBoxHeight } = this.data;

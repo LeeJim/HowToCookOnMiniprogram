@@ -17,7 +17,10 @@ const titleMap = {
   'home-cooking': '烹饪 Cooking',
   'semi-finished': '速食 FastFood',
   'soup': '汤 Soup',
-  'staple': '主食 Staple'
+  'staple': '主食 Staple',
+  aquatic: '水产 Aquatic Food',
+  'vegetable_dish': '素菜 Vegetable',
+  'meat_dish': '荤菜 Meat'
 }
 
 export default {
