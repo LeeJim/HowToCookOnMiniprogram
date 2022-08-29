@@ -10,10 +10,6 @@ Page({
       value: 'index',
       icon: 'home'
     }, {
-      text: '买菜',
-      value: 'cart',
-      icon: 'cart'
-    }, {
       text: '技巧',
       value: 'learn',
       icon: 'tips'

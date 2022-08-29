@@ -8,7 +8,6 @@
     "pages/changelog/detail",
     "pages/learn/index",
     "pages/learn/detail",
-    "pages/cart/index",
     "pages/search/index"
   ],
   "window": {
