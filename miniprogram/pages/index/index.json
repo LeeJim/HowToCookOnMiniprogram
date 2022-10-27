@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "程序员做饭",
+  "navigationStyle": "custom",
   "backgroundColor": "#fff",
   "usingComponents": {
   }

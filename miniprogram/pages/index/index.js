@@ -1,6 +1,6 @@
 import infos from '../../data'
 import utils from '../../utils/index.js'
-import config from '../../config/index.js'
+import { chineseMap, titleMap } from '../../config/index.js'
 import Toast from 'tdesign-miniprogram/toast/index';
 
 let isSubscribeShow = false;
@@ -17,7 +17,7 @@ Page({
     const menu = utils.groupBy(infos, 'category');
     const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
       return {
-        name: config.titleMap[catetory],
+        name: titleMap[catetory],
         icon: `/assets/images/${catetory}.png`,
         list
       }
@@ -41,7 +41,7 @@ Page({
   },
 
   handleTap(e) {
-    const { id } = e.currentTarget.dataset;
+    const { id } = e.detail.item;
     
     wx.navigateTo({
       url: '../detail/index?id=' + id

@@ -62,5 +62,5 @@ exports.main = async (event) => {
     }
   }
   
-  return res
+  return null
 }

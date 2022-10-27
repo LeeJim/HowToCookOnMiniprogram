@@ -82,7 +82,7 @@ Page({
   },
 
   toMyCenter() {
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/my/index'
     })
   },

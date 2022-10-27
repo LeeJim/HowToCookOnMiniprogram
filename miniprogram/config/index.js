@@ -1,4 +1,4 @@
-const chineseMap = {
+export const chineseMap = {
   breakfast: '早餐',
   condiment: '佐料',
   dessert: '甜品',
@@ -9,7 +9,7 @@ const chineseMap = {
   'staple': '主食'
 }
 
-const titleMap = {
+export const titleMap = {
   breakfast: '早餐 Breakfast',
   condiment: '佐料 Condiment',
   dessert: '甜品 Dessert',
