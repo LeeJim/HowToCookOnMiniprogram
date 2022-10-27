@@ -3,5 +3,3 @@
     <t-cell title="{{item.name}}" hover arrow url="./detail?no={{item.no}}" />
   </block>
 </view>
-
-<include src="/templates/tabbar.wxml" />

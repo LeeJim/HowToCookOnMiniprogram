@@ -28,5 +28,4 @@
   bind:confirm="handleSubscribe"
 />
 
-<include src="/templates/tabbar.wxml" />
 <include src="/templates/base.wxml" />

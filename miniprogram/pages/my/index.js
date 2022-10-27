@@ -4,21 +4,7 @@ const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia0
 
 Page({
   data: {
-    value: 'my',
     avatarUrl: defaultAvatarUrl,
-    tabbars: [{
-      text: '首页',
-      value: 'index',
-      icon: 'home'
-    }, {
-      text: '技巧',
-      value: 'learn',
-      icon: 'tips'
-    }, {
-      text: '个人中心',
-      value: 'my',
-      icon: 'user'
-    }],
     version: '',
     adFlag: true,
   },
@@ -48,14 +34,6 @@ Page({
       data: {
         avatarUrl,
       },
-    })
-  },
-
-  handleTabbarChange({ detail }) {
-    const { value } = detail;
-    
-    wx.redirectTo({
-      url: `../${value}/index`
     })
   },
 

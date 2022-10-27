@@ -10,6 +10,22 @@
     "pages/learn/detail",
     "pages/search/index"
   ],
+  "tabBar": {
+    "custom": true,
+    "color": "#000",
+    "selectedColor": "#000",
+    "backgroundColor": "#fff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页"
+    }, {
+      "pagePath": "pages/learn/index",
+      "text": "技巧"
+    }, {
+      "pagePath": "pages/my/index",
+      "text": "我的"
+    }]
+  },
   "window": {
     "backgroundColor": "#f6f6f6",
     "backgroundTextStyle": "light",
@@ -38,6 +54,8 @@
     "t-navbar": "tdesign-miniprogram/navbar/navbar",
     "t-search": "tdesign-miniprogram/search/search",
     "t-switch": "tdesign-miniprogram/switch/switch",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-image": "tdesign-miniprogram/image/image",
     "t-steps": "tdesign-miniprogram/steps/steps",
     "t-step": "tdesign-miniprogram/steps/step-item"
   }
