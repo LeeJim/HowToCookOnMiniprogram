@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/kitchen/kitchen",
     "pages/detail/index",
     "pages/my/index",
     "pages/myStarred/index",
