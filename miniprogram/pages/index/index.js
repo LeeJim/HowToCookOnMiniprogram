@@ -17,7 +17,8 @@ Page({
     const menu = utils.groupBy(infos, 'category');
     const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
       return {
-        name: config.titleMap[catetory],
+        catetory,
+        title: titleMap[catetory],
         icon: `/assets/images/${catetory}.png`,
         list
       }
