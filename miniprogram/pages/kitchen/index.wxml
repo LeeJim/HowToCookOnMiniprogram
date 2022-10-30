@@ -1,0 +1,72 @@
+
+<view class="container">
+  <view class="box box-a" bind:tap="handleSelected" data-pos="left">
+    <image
+      wx:if="{{leftEmoji}}"
+      class="emoji"
+      src="https://how-to-cook-1255404841.cos.ap-shanghai.myqcloud.com/emoji/svg/emoji_u{{_.fix(leftEmoji)}}.svg" />
+    <t-icon wx:else name="add" />
+  </view>
+  <view class="box box-b" bind:tap="handleSelected" data-pos="right">
+    <image
+      wx:if="{{rightEmoji}}"
+      class="emoji"
+      src="https://how-to-cook-1255404841.cos.ap-shanghai.myqcloud.com/emoji/svg/emoji_u{{_.fix(rightEmoji)}}.svg" />
+    <t-icon wx:else name="add" />
+  </view>
+</view>
+
+<view class="box box-result" bind:tap="handleShowTips">
+  <image
+      wx:if="{{!loadFail && combineUrl}}"
+      class="emoji"
+      bind:load="onCombineLoaded"
+      bind:error="onCombileLoadError"
+      src="{{combineUrl}}" />
+</view>
+
+{{error}}
+
+<view class="actions">
+  <t-button theme="primary" size="small" disabled="{{!combineEnable}}" variant="outline" bind:tap="handleDownload">下载表情</t-button>
+</view>
+
+<!-- <view class="actions" style="margin-top: 20px">
+  <t-button theme="primary" disabled variant="outline" bind:tap="handleEdit">编辑表情</t-button>
+</view> -->
+
+<t-popup visible="{{visible}}" bind:visible-change="onVisibleChange" placement="bottom">
+  <scroll-view class="popup-wrapper" scroll-y bindscrolltolower="onScrollToLower">
+    <view class="block" bind:tap="handleSelectedEmoji">
+      <view wx:if="{{enableEmoji.length > 0}}">
+        <block wx:for="{{enableEmoji}}" wx:key="index" >
+          <image
+            wx:if="{{index < size}}"
+            class="emoji"
+            data-id="{{item.id}}"
+            data-valid="{{item.isValid}}"
+            style="{{item.isValid ? '' : 'opacity: .2;'}}"
+            src="https://how-to-cook-1255404841.cos.ap-shanghai.myqcloud.com/emoji/svg/emoji_u{{_.fix(item.id)}}.svg" />
+        </block>
+      </view>
+      <view wx:else>
+        <block wx:for="{{knownSupportedEmoji}}" wx:key="index" >
+          <image
+            wx:if="{{index < size}}"
+            lazy-load
+            class="emoji"
+            data-id="{{item}}"
+            src="https://how-to-cook-1255404841.cos.ap-shanghai.myqcloud.com/emoji/svg/emoji_u{{_.fix(item)}}.svg" />
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</t-popup>
+
+<wxs module="_">
+  module.exports.fix = function(str) {
+    return str.split("-")
+      .filter(function(x) { return x !== "fe0f" })
+      .join("_")
+  }
+</wxs>

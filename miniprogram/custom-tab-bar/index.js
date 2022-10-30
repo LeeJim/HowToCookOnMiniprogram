@@ -10,6 +10,10 @@ Component({
       icon: 'tips',
       value: 'learn',
       label: '发现',
+    },{
+      icon: 'logo-android',
+      value: 'kitchen',
+      label: '表情',
     }, {
       icon: 'user',
       value: 'my',
