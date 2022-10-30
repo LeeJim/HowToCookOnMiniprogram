@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/kitchen/kitchen",
+    "pages/kitchen/index",
     "pages/detail/index",
     "pages/my/index",
     "pages/myStarred/index",
@@ -22,6 +22,9 @@
     }, {
       "pagePath": "pages/learn/index",
       "text": "技巧"
+    }, {
+      "pagePath": "pages/kitchen/index",
+      "text": "表情"
     }, {
       "pagePath": "pages/my/index",
       "text": "我的"
