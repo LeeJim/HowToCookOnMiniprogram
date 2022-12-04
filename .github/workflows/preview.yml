@@ -30,8 +30,8 @@ jobs:
         env: 
           MINI_APP_ID: ${{ secrets.APP_ID }}
           MINI_APP_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      - name: comment-with-qrcode
-        uses: actions-cool/maintain-one-comment@v2.0.0
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
         with:
-          token: ${{ secrets.PAT }}
-          body: <img alt="qrcode" src="${{ steps.preview.outputs.preview-qrcode }}" />
+          message: |
+            <img alt="qrcode" src="${{ steps.preview.outputs.preview-qrcode }}" />
