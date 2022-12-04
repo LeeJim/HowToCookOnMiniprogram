@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.6.0'
-      - run: npm install & npm run build
+      - run: cd miniprogram & npm install
         shell: bash
       - name: get preview qrcode
         id: preview
@@ -21,7 +21,8 @@ jobs:
         with:
           project_type: miniProgram
           action_type: preview
-          project_path: ./_example
+          need-pack-npm: true
+          project_path: ./miniprogram
           version: ${{ github.ref_name }}
           es6: true
           es7: true
