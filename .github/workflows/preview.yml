@@ -3,8 +3,6 @@ name: PREVIEW
 on:
   issue_comment:
     types: [created]
-  workflow_run:
-    types: [completed]
 
 jobs:
   request-preview:
