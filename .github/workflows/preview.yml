@@ -22,7 +22,7 @@ jobs:
           project_type: miniProgram
           action_type: preview
           need-pack-npm: true
-          project_path: ./miniprogram
+          project_path: ./
           version: ${{ github.ref_name }}
           es6: true
           es7: true
