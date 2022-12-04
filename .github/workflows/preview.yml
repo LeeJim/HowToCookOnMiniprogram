@@ -30,9 +30,17 @@ jobs:
         env: 
           MINI_APP_ID: ${{ secrets.APP_ID }}
           MINI_APP_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      - name: Upload qrcode to Tencent COS
+        uses: LeeJim/tencent-cos-action@main
+        id: cos
+        with:
+          secretId: ${{ secrets.TENCENT_COS_SECRET_ID }}
+          secretKey: ${{ secrets.TENCENT_COS_SECRET_KEY }}
+          bucket: mp-qrcode-1255404841
+          region: ap-guangzhou
+          content: ${{ steps.preview.outputs.preview-qrcode }}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: |
-            <img alt="qrcode" src="${{ steps.preview.outputs.preview-qrcode }}" width="256" />
-            --- 使用微信扫一扫 ---
+            <img alt="qrcode" src="${{ steps.cos.outputs.url }}" width="256" />
