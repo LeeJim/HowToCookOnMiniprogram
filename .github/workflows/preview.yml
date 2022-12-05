@@ -9,6 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '预览'
     steps:
+      - run: |
+          timestamp=$(date +%s)
+          echo "timestamp=${timestamp}" >> $GITHUB_OUTPUT
+        id: time
+      - name: Previous Comment
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            正在构建预览的二维码，请稍等...
+            <!-- ${{steps.time.outputs.timestamp}} -->
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -44,3 +54,4 @@ jobs:
         with:
           message: |
             <img alt="qrcode" src="${{ steps.cos.outputs.url }}" width="256" />
+            comment_tag: <!-- ${{steps.time.outputs.timestamp}} -->
