@@ -54,4 +54,4 @@ jobs:
         with:
           message: |
             <img alt="qrcode" src="${{ steps.cos.outputs.url }}" width="256" />
-            comment_tag: <!-- ${{steps.time.outputs.timestamp}} -->
+          comment_tag: <!-- ${{steps.time.outputs.timestamp}} -->
