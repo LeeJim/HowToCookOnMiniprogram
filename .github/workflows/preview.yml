@@ -15,12 +15,12 @@ jobs:
         id: time
       - name: echo event
         run: |
-          headref=${{ github.event.pull_request.head_ref }}
-          headsha=${{ github.event.pull_request.head.sha }}
-          baseref=${{ github.event.pull_request.base_ref }}
-          echo headref
-          echo headsha
-          echo baseref
+          export headref=${{github.event.pull_request.head_ref}}
+          export headsha=${{github.event.pull_request.head.sha}}
+          export baseref=${{github.event.pull_request.base_ref}}
+          echo $headref
+          echo $headsha
+          echo $baseref
       - name: Previous Comment
         uses: thollander/actions-comment-pull-request@v2
         with:
