@@ -13,6 +13,12 @@ jobs:
           timestamp=$(date +%s)
           echo "timestamp=${timestamp}" >> $GITHUB_OUTPUT
         id: time
+      - name: echo event
+        run: |
+          echo ${{ github.event.pull_request.head_ref }}
+          echo ${{ github.event.pull_request.head.sha }}
+          echo ${{ github.event.pull_request.base_ref }}
+          echo ${{ github.event.pull_request }}
       - name: Previous Comment
         uses: thollander/actions-comment-pull-request@v1
         with:
