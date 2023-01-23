@@ -1,10 +1,18 @@
+import { post } from './utils/request';
 
 App({
   onLaunch() {
-    wx.cloud.init({
-      env: ""
-    });
     const updateManager = wx.getUpdateManager()
+
+    wx.login({
+      success: ({ code }) => {
+        post('miniprogram/login', { code }).then(data => {
+          wx.setStorageSync('token', data.key)
+        }).catch(err => {
+          console.error(err);
+        }) 
+      },
+    })
 
     updateManager.onCheckForUpdate(function (res) {
       // console.log(res.hasUpdate)

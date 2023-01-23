@@ -79,11 +79,6 @@
     background-color: @primary-color;
     border: 1px solid @primary-color;
   }
-
-  &-group {
-    display: flex;
-    justify-content: flex-start;
-  }
 }
 
 .popup {
@@ -125,6 +120,8 @@
   box-shadow: #ccc 0 0 10px;
   transform: translateY(100%);
   transition: all .3s ease;
+  display: flex;
+  align-items: center;
 
   &__button {
     display: flex !important;
@@ -158,4 +155,9 @@
   &__route {
     color: #0052d9;
   }
+}
+
+.button-group {
+  display: flex;
+  justify-self: start;
 }

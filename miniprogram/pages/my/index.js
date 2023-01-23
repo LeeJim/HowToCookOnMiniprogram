@@ -56,11 +56,25 @@ Page({
     wx.requestSubscribeMessage({
       tmplIds,
       success: async (res) => {
-        const accept = tmplIds.some(key => res[key] === 'accept')
+        const accept = tmplIds.filter(key => res[key] === 'accept');
+        wx.request({
+          url: 'http://dev.africans.cn/miniprogram/add-subscribe',
+          method: 'POST',
+          data: {
+            templateIds: accept,
+            token: wx.getStorageSync('token')
+          },
+          success(res) {
+            console.log(res);
+          },
+          fail(err) {
+            console.log(err);
+          }
+        })
         Toast({
           context: this,
           selector: '#t-toast',
-          message: accept ? '订阅成功' : '你拒绝了订阅',
+          message: accept.length > 0 ? '订阅成功' : '你拒绝了订阅',
         });
       }
     })

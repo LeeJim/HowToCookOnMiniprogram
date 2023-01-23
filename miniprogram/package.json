@@ -14,6 +14,6 @@
   "author": "leejim",
   "license": "MIT",
   "dependencies": {
-    "tdesign-miniprogram": "^0.9.0"
+    "tdesign-miniprogram": "^1.0.0-rc.1"
   }
 }

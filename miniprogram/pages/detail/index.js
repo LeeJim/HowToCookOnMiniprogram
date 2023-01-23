@@ -2,6 +2,7 @@ import infos from '../../data'
 import tips from '../learn/data'
 import Toast from 'tdesign-miniprogram/toast/index';
 import Message from 'tdesign-miniprogram/message/index';
+import { post } from '../../utils/request';
 
 Page({
   data: {
@@ -49,36 +50,31 @@ Page({
     
     this.setData({ done: false })
     try {
-      const { result } = await wx.cloud.callFunction({
-        name: 'getCookbook',
-        data: {
-          id
-        }
-      })
-      if (result.errno == 0) {
-        const { likeds, liked, starreds, starred } = result.data
-        this.setData({ done: true })
-        this.setData({
-          liked,
-          likeds,
-          starreds,
-          starred
-        })
-      }
-    } catch(e) {
-      console.log(e);
-    } finally {
-      this.setData({ done: true })
+      const [starCount, likeCount, star, like] = await Promise.all([
+        post('action/get/all', { id, type: 'star'}),
+        post('action/get/all', { id, type: 'like'}),
+        post('action/get', { id, type: 'star'}),
+        post('action/get', { id, type: 'like' })
+      ])
+      this.setData({
+        done: true,
+        likeCount,
+        starCount,
+        star,
+        like
+      });
+    } catch(err) {
+      console.log(err);
     }
   },
 
   updateViews() {
     const { id } = this.data;
-    wx.cloud.callFunction({
-      name: 'updateViews',
-      data: { id },
-      type: 'cookbook'
-    })
+    // wx.cloud.callFunction({
+    //   name: 'updateViews',
+    //   data: { id },
+    //   type: 'cookbook'
+    // })
   },
 
   toMyCenter() {
@@ -130,31 +126,12 @@ Page({
     const { type } = dataset;
 
     try {
-      wx.showLoading({
-        title: '加载中',
-        mask: true
-      })
-      const { result } = await wx.cloud.callFunction({
-        name: 'setCookbook',
-        data: {
-          id,
-          type,
-        }
-      })
-      wx.hideLoading()
-      if (result.errno == 0) {
-        const { liked, starred, likeds } = result.data
+      const data = await post('action/create', { type, id });
 
-        this.setData({
-          likeds,
-          liked,
-          starred
-        })
-      }
-    } catch(e) {
-      console.log(e);
-    } finally {
+      this.setData({ [type]: data })
       wx.hideLoading()
+    } catch(err) {
+      console.log(err);
     }
   },
 

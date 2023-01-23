@@ -41,7 +41,6 @@
   "usingComponents": {
     "list": "./components/pull-down-list/index",
     "t-button": "tdesign-miniprogram/button/button",
-    "t-button-group": "tdesign-miniprogram/button-group/button-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-count-down": "tdesign-miniprogram/count-down/count-down",
     "t-dialog": "tdesign-miniprogram/dialog/dialog",
@@ -50,9 +49,9 @@
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tag": "tdesign-miniprogram/tag/tag",
     "t-tab-bar": "tdesign-miniprogram/tab-bar/tab-bar",
-    "t-tab-bar-item": "tdesign-miniprogram/tab-bar/tab-bar-item",
+    "t-tab-bar-item": "tdesign-miniprogram/tab-bar-item/tab-bar-item",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
-    "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "t-loading": "tdesign-miniprogram/loading/loading",
     "t-message": "tdesign-miniprogram/message/message",
     "t-navbar": "tdesign-miniprogram/navbar/navbar",
@@ -61,6 +60,6 @@
     "t-popup": "tdesign-miniprogram/popup/popup",
     "t-image": "tdesign-miniprogram/image/image",
     "t-steps": "tdesign-miniprogram/steps/steps",
-    "t-step": "tdesign-miniprogram/steps/step-item"
+    "t-step": "tdesign-miniprogram/step-item/step-item"
   }
 }

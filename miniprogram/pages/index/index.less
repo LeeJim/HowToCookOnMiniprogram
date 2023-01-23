@@ -18,27 +18,12 @@ page {
   font-size: 28rpx;
 }
 
-.header {
-  // background-color: #fff;
-  padding: 24rpx 32rpx 0;
+.side-bar {
+  --td-side-bar-width: 256rpx;
 }
 
-.search {
-  background: rgba(221, 221, 221, .7) !important;
-}
-
-.container {
-  margin-top: 32rpx;
-  padding: 0 32rpx;
-}
-
-.tabs {
-  height: 100%;
-}
-
-.t-tabs__scroll {
-  min-height: 100vh;
-  background-color: #f3f3f3;
+.side-bar-item {
+  justify-content: flex-start !important;
 }
 
 .card {
@@ -57,4 +42,10 @@ page {
 
 scroll-view {
   height: 100%;
+}
+
+.search-box {
+  --td-search-height: 64rpx;
+  margin-left: 32rpx;
+  width: 252px;
 }

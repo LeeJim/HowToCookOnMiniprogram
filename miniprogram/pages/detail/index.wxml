@@ -14,7 +14,7 @@
       <view class="tab-panel">
         <block wx:for="{{section.content}}" wx:for-item="detail" wx:key="index" wx:for-index="sectionIndex">
           <view wx:if="{{section.text == '操作'}}" class="steps">
-            <t-steps wx:if="{{detail.type == 'list'}}" current="{{stepIndexes[sectionIndex]}}" layout="vertical">
+            <t-steps wx:if="{{detail.type == 'list'}}" readonly current="{{stepIndexes[sectionIndex]}}" layout="vertical">
               <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step">
                 <view class="step-title" slot="title">
                   <text wx:if="{{_.getType(step) == 'string'}}">{{step}}</text>
@@ -32,17 +32,15 @@
                     </block>
                   </block>
                 </view>
-                <view wx:if="{{stepIndexes[sectionIndex] == index}}" slot="extra">
-                  <view class="button-group">
-                    <block wx:if="{{index < detail.items.length - 1}}">
-                      <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">下一步</view>
-                    </block>
-                    <block wx:elif="{{index == detail.items.length - 1}}">
-                      <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">重新做一次</view>
-                    </block>
-                    <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
-                      开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
-                    </view>
+                <view wx:if="{{stepIndexes[sectionIndex] == index}}" class="button-group" slot="extra">
+                  <block wx:if="{{index < detail.items.length - 1}}">
+                    <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">下一步</view>
+                  </block>
+                  <block wx:elif="{{index == detail.items.length - 1}}">
+                    <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">重新做一次</view>
+                  </block>
+                  <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
+                    开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
                   </view>
                 </view>
               </t-step>
@@ -84,14 +82,12 @@
 </view>
 
 <view class="actions actions--{{done ? 'active' : ''}}">
-  <t-button-group>
-    <t-button t-class="actions__button" size="large" block data-type="liked" bind:tap="toggleStarOrLike" icon-props="{{ { name: liked ? 'heart-filled' : 'heart', color: liked ? '#e34d59': '', size: '36rpx' } }}">
-      <text class="actions__text">{{likeds ? likeds + ' 人' : ''}}喜欢</text>
-    </t-button>
-    <t-button t-class="actions__button" size="large" block data-type="starred" bind:tap="toggleStarOrLike" icon-props="{{ { name: starred ? 'star-filled' : 'star', color: starred ? '#ed7b2f': '', size: '36rpx' } }}">
-      <text class="actions__text">收藏</text>
-    </t-button>
-  </t-button-group>
+  <t-button t-class="actions__button" size="large" variant="text" block data-type="like" bind:tap="toggleStarOrLike" icon="{{ { name: like ? 'heart-filled' : 'heart', color: like ? '#e34d59': '', size: '36rpx' } }}">
+    <text class="actions__text">{{likeCount ? likeCount + ' 人' : ''}}喜欢</text>
+  </t-button>
+  <t-button t-class="actions__button" size="large" variant="text" block data-type="star" bind:tap="toggleStarOrLike" icon="{{ { name: star ? 'star-filled' : 'star', color: star ? '#ed7b2f': '', size: '36rpx' } }}">
+    <text class="actions__text">收藏</text>
+  </t-button>
 </view>
 
 <wxs module="_">
