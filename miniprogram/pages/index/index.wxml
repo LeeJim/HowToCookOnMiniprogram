@@ -5,7 +5,7 @@
   </view>
 </t-navbar>
 
-<view class="container">
+<scroll-view scroll-y enable-flex class="container">
   <!-- <list 
     wx:for="{{list}}" 
     name="{{item.name}}"
@@ -13,10 +13,15 @@
     wx:key="name"
     bind:click="handleTap"
     list="{{item.list}}" /> -->
-  <t-side-bar default-value="{{0}}" t-class="side-bar">
+  <t-side-bar value="{{categoryIndex}}" bind:change="handleChange" t-class="side-bar">
     <t-side-bar-item wx:for="{{list}}" wx:key="index" t-class="side-bar-item" label="{{item.name}}" value="{{index}}" icon="{{item.icon}}" />
   </t-side-bar>
-</view>
+  <block wx:for="{{list}}" wx:for-item="category">
+    <view wx:if="{{categoryIndex == index}}" class="content">
+      <t-cell wx:for="{{category.list}}" wx:key="index" title="{{item.name}}" arrow />
+    </view>
+  </block>
+</scroll-view>
 
 <t-dialog
   visible="{{subscribeModalVisible}}"

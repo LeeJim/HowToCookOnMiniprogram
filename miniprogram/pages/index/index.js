@@ -10,15 +10,16 @@ Page({
     list: [],
     searchKeyword: '',
     chineseMap,
+    categoryIndex: 0,
     subscribeModalVisible: false,
   },
   
   onLoad() {
     const menu = utils.groupBy(infos, 'category');
-    const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([catetory, list]) => {
+    const list = Object.entries(menu).filter(([item]) => item !== 'template').map(([category, list]) => {
       return {
-        name: titleMap[catetory],
-        icon: `/assets/images/${catetory}.png`,
+        name: titleMap[category],
+        icon: `/assets/images/${category}.png`,
         list
       }
     })
@@ -38,6 +39,10 @@ Page({
       })
       isSubscribeShow = true
     }
+  },
+
+  handleChange(e) {
+    this.setData({ categoryIndex: e.detail.value });
   },
 
   handleTap(e) {
