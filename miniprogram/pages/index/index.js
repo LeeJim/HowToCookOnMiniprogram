@@ -46,7 +46,7 @@ Page({
   },
 
   handleTap(e) {
-    const { id } = e.detail.item;
+    const { id } = e.target.dataset.item;
     
     wx.navigateTo({
       url: '../detail/index?id=' + id
