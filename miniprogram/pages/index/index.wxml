@@ -14,7 +14,7 @@
     bind:click="handleTap"
     list="{{item.list}}" /> -->
   <t-side-bar value="{{categoryIndex}}" bind:change="handleChange" t-class="side-bar">
-    <t-side-bar-item wx:for="{{list}}" wx:key="index" t-class="side-bar-item" label="{{item.name}}" value="{{index}}" />
+    <t-side-bar-item wx:for="{{list}}" wx:key="index" t-class="side-bar-item" label="{{item.name}}" value="{{index}}" icon="{{item.icon}}" />
   </t-side-bar>
   <block wx:for="{{list}}" wx:for-item="category">
     <scroll-view wx:if="{{categoryIndex == index}}" class="content" scroll-y>
