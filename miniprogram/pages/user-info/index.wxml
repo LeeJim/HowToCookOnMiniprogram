@@ -1,0 +1,8 @@
+<button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+  <image class="avatar" src="{{avatarUrl}}"></image>
+</button> 
+<t-input type="nickname" value="{{nickName}}" placeholder="请输入昵称" align="center" bind:change="handleNameInput" />
+
+<view class="button-wrapper">
+  <t-button theme="primary" size="large" loading="{{loading}}" block bind:tap="handleSubmit">保存</t-button>
+</view>

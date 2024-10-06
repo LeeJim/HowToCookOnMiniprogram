@@ -1,0 +1,32 @@
+<div class="loading-wrap" wx:if="{{init}}">
+  <t-loading theme="dots" size="80rpx" class="wrapper" />
+</div>
+<block wx:elif="{{hasResult}}">
+  <view class="cell-title">商品条码信息</view>
+  <t-cell-group style="margin-top: 12px;" theme="card">
+    <t-input label="条形码" value="{{info.barcode}}" align="right" disabled />
+    <t-cell title="名称" note="{{info.name}}"  />
+    <t-cell title="品牌" note="{{info.brand}}"  />
+    <t-cell title="生产商" note="{{info.company}}"  />
+    <t-cell wx:if="{{info.origincountry}}" title="原产国" note="{{info.origincountry}}"  />
+    <t-cell wx:if="{{info.type}}" title="规格型号" note="{{info.type}}"  />
+    <t-cell wx:if="{{info.packagetype}}" title="包装类型" note="{{info.packagetype}}"  />
+    <t-cell wx:if="{{info.netcontent}}" title="净含量" note="{{info.netcontent}}"  />
+    <t-cell wx:if="{{info.description}}" title="描述" note="{{info.description}}"  />
+    <t-cell wx:if="{{info.pic}}" title="图片">
+      <t-image width="100" mode="widthFix" slot="note" src="{{info.pic}}" />
+    </t-cell>
+    <t-cell title="贡献者" note="{{info.userinfo.nickName}}"  />
+  </t-cell-group>
+</block>
+<view wx:else class="section" style="display: {{noResult ? 'none' : 'block'}}">
+  <t-empty icon="info-circle-filled" description="暂无标准信息">
+    <div class="empty-action" slot="action">
+      <t-button wx:if="{{quota > 0}}" bind:tap="handleClick" loading="{{loading}}" theme="light" size="large">{{ done ? '一键获取（' + quota + '次机会)' : '加载中'}}</t-button>
+      <view wx:if="{{done && quota <= 0}}" class="empty-action-btn">
+        <t-button bind:tap="handleClick" loading="{{loading}}" theme="light" size="large">{{ done ?  (quota > 0 ? '一键获取（' + quota + '次机会)' : '额度用完，去获取') : '加载中'}} </t-button>
+        <view class="desc">去看广告（6-15秒），即可获取 5 次机会</view>
+      </view>
+    </div>
+  </t-empty>
+</view>

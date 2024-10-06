@@ -1,0 +1,38 @@
+<view class="wrapper">
+  <t-notice-bar visible="{{true}}" content="目前固定提前 2 天提醒，自定义时间敬请期待更新"></t-notice-bar>
+
+  <scroll-view class="scroll-view"  class="scroll-view" scroll-y scroll-with-animation enable-passive	enable-back-to-top bindscrolltolower="handleScrollToBottom">
+    <view wx:for="{{data}}" wx:key="item" class="card" style="margin-top: 12px;">
+      <view class="pic-wrapper">
+        <t-image wx:if="{{item.pic || item.standardInfo.pic}}" class="pic" mode="aspectFit" src="{{item.pic || item.standardInfo.pic}}" />
+        <t-avatar wx:else size="64px" t-class-content="external-class-content" shape="circle">{{item.standardInfo.brand[0] || item.name[0]}}</t-avatar>
+      </view>
+      <view class="info">
+        <view class="brand">
+          <view class="brand-name">{{item.standardInfo.brand}}</view>
+          <view class="brand-desc">{{item.name}}</view>
+        </view>
+        <view class="desc">
+          <view class="desc-item">
+            <view class="desc-item-label">保质期：</view>
+            <view class="desc-item-value">{{item.preserveDate}}{{item.unit === 'day' ? ' 天' : ' 个月' }}</view>
+          </view>
+          <view class="desc-item">
+            <view class="desc-item-label">到期日：</view>
+            <view class="desc-item-value">{{item.expiredDate}}</view>
+          </view>
+          <view class="desc-item">
+            <view class="desc-item-label">到期时间：</view>
+            <view class="desc-item-value">{{item.expiredTxt}}</view>
+          </view>
+        </view>
+        
+      </view>
+    </view>
+    <view wx:if="{{loading}}" class="loading-wrapper">
+      <t-loading />
+    </view>
+    <view wx:if="{{noMore}}" class="no-more">没有更多数据了</view>
+  </scroll-view>
+
+</view>

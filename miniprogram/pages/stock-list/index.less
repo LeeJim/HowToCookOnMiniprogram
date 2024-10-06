@@ -1,0 +1,78 @@
+page {
+  padding-bottom: 32rpx;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-view {
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.no-more {
+  padding: 24px 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin: 12px;
+  background: #fff;
+  border-radius: 12px;
+
+  .external-class-content {
+    color: #fff;
+    background-color: var(--td-brand-color, #0052d9);
+    font-weight: 400;
+  }
+
+  .pic {
+    width: 120px;
+    height: 120px;
+    margin-right: 12px;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+    }
+  }
+
+  .desc {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #777;
+
+    &-item {
+      display: flex;
+
+      &-label {
+        width: 70px;
+      }
+    }
+  }
+}
+

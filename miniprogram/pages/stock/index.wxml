@@ -1,0 +1,6 @@
+  <view class="button-wrapper">
+    <t-button class="barcode-btn" theme="primary" size="large" icon="list" shape="circle" aria-label="搜索" bind:tap="handleToList"></t-button>
+  </view>
+  <view class="button-wrapper">
+    <t-button class="barcode-btn" theme="primary" size="large" icon="barcode" shape="circle" aria-label="搜索" bind:tap="handleScan"></t-button>
+  </view>

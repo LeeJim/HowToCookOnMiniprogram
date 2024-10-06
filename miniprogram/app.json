@@ -9,26 +9,35 @@
     "pages/changelog/detail",
     "pages/learn/index",
     "pages/learn/detail",
-    "pages/search/index"
+    "pages/search/index",
+    "pages/stock/index",
+    "pages/stock-edit/index",
+    "pages/stock-list/index",
+    "pages/user-info/index"
   ],
   "tabBar": {
     "custom": true,
     "color": "#000",
     "selectedColor": "#000",
     "backgroundColor": "#fff",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "text": "首页"
-    }, {
-      "pagePath": "pages/learn/index",
-      "text": "技巧"
-    }, {
-      "pagePath": "pages/kitchen/index",
-      "text": "表情"
-    }, {
-      "pagePath": "pages/my/index",
-      "text": "我的"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/learn/index",
+        "text": "技巧"
+      },
+      {
+        "pagePath": "pages/stock/index",
+        "text": "仓储"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的"
+      }
+    ]
   },
   "window": {
     "backgroundColor": "#f6f6f6",
@@ -42,13 +51,16 @@
     "list": "./components/pull-down-list/index",
     "t-button": "tdesign-miniprogram/button/button",
     "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-count-down": "tdesign-miniprogram/count-down/count-down",
     "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-input": "tdesign-miniprogram/input/input",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tag": "tdesign-miniprogram/tag/tag",
     "t-tab-bar": "tdesign-miniprogram/tab-bar/tab-bar",
+    "t-date-time-picker": "tdesign-miniprogram/date-time-picker/date-time-picker",
     "t-tab-bar-item": "tdesign-miniprogram/tab-bar-item/tab-bar-item",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
@@ -59,6 +71,9 @@
     "t-switch": "tdesign-miniprogram/switch/switch",
     "t-popup": "tdesign-miniprogram/popup/popup",
     "t-image": "tdesign-miniprogram/image/image",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-avatar": "tdesign-miniprogram/avatar/avatar",
     "t-steps": "tdesign-miniprogram/steps/steps",
     "t-step": "tdesign-miniprogram/step-item/step-item"
   }

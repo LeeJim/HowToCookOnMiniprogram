@@ -6,6 +6,27 @@
     "miniprogram": {
       "list": [
         {
+          "name": "stock-edit",
+          "pathName": "pages/stock-edit/index",
+          "query": "barcode=6920658281801",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/stock-list/index",
+          "pathName": "pages/stock-list/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/user-info/index",
+          "pathName": "pages/user-info/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "收藏页",
           "pathName": "pages/myStarred/index",
           "query": "",

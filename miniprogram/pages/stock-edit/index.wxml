@@ -1,0 +1,25 @@
+<!-- pages/stock-edit/index.wxml -->
+
+<standard-info barcode="{{barcode}}" bind:dataready="handleDataready" />
+<t-cell-group theme="card" style="margin-top: 24px;">
+  <t-cell title="条形码" hover note="{{barcode}}" bind:tap="handleBarcodeTap" />
+  <t-input label="名称" value="{{name}}" align="right" bind:change="handleNameInput" />
+  <t-cell title="生产日期" hover note="{{manufactureDate || ''}}" arrow bindtap="showPicker" />
+  <t-cell title="保质期">
+    <input style="text-align: right;" placeholder="填写质保时间" type="digit" align="right" slot="note" bind:input="handlePreserveDateInput" />
+    <t-switch bindchange="handleUnitChange" label="{{['天', '月']}}" custom-value="{{['day', 'month']}}" slot="right-icon" />
+  </t-cell>
+  <t-cell wx:if="{{expiredDate}}" title="过期日期" hover note="{{expiredDate || ''}}" />
+  <t-date-time-picker title="选择日期" visible="{{dateVisible}}" mode="date" defaultValue="{{today}}" format="YYYY-MM-DD" bindchange="onConfirm" start="{{start}}" end="{{end}}" />
+</t-cell-group>
+
+<view wx:if="{{!standardInfo.pic}}" class="section">
+  <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleImageAdd" bind:remove="handleRemove"></t-upload>
+  <view class="tips">可选上传，默认展示条形码标准信息的图片</view>
+</view>
+
+<view class="button-wrap">
+  <t-button theme="primary" size="large" block bind:tap="handleSubmit" loading="{{loading}}">保存</t-button>
+</view>
+
+<t-message id="t-message" />

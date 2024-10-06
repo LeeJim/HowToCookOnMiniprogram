@@ -4,15 +4,16 @@ App({
   onLaunch() {
     const updateManager = wx.getUpdateManager()
 
-    wx.login({
-      success: ({ code }) => {
-        post('miniprogram/login', { code }).then(data => {
-          wx.setStorageSync('token', data.key)
-        }).catch(err => {
-          console.error(err);
-        }) 
-      },
-    })
+    wx.cloud.init({ env: 'restart-9gd2a4k63f58d0c2' })
+    // wx.login({
+    //   success: ({ code }) => {
+    //     post('miniprogram/login', { code }).then(data => {
+    //       wx.setStorageSync('token', data.key)
+    //     }).catch(err => {
+    //       console.error(err);
+    //     }) 
+    //   },
+    // })
 
     updateManager.onCheckForUpdate(function (res) {
       // console.log(res.hasUpdate)

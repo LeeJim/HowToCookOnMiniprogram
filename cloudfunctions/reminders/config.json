@@ -1,0 +1,14 @@
+{
+  "triggers": [
+    {
+      "name": "expiredReminder",
+      "type": "timer",
+      "config": "0 0 10 * * * *"
+    }
+  ],
+  "permissions": {
+    "openapi": [
+      "subscribeMessage.send"
+    ]
+  }
+}

@@ -11,9 +11,9 @@ Component({
       value: 'learn',
       label: '发现',
     },{
-      icon: 'logo-android',
-      value: 'kitchen',
-      label: '表情',
+      icon: 'face-retouching',
+      value: 'stock',
+      label: '仓储',
     }, {
       icon: 'user',
       value: 'my',
@@ -26,9 +26,9 @@ Component({
       const curPage = pages[pages.length - 1];
 
       if (curPage) {
-        const nameRe = /pages\/(\w+)\/index/.exec(curPage.route);
+        const nameRe = /pages\/([a-zA-Z0-9_-]+)\/index/.exec(curPage.route);
 
-        if (nameRe[1]) {
+        if (nameRe?.[1]) {
           this.setData({
             value: nameRe[1]
           })

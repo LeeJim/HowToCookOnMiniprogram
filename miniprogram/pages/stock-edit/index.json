@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "standard-info": "../../components/standard-info"
+  }
+}
