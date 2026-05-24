@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
+    "crypto-js": "^4.2.0",
     "wx-server-sdk": "~3.0.1"
   }
 }

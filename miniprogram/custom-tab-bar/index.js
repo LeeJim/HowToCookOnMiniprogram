@@ -6,11 +6,7 @@ Component({
       icon: 'home',
       value: 'index',
       label: '首页',
-    },{
-      icon: 'tips',
-      value: 'learn',
-      label: '发现',
-    },{
+    }, {
       icon: 'face-retouching',
       value: 'stock',
       label: '仓储',

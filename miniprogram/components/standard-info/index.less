@@ -1,23 +1,63 @@
-.empty-action {
+.loading-wrap {
   display: flex;
   justify-content: center;
-}
-
-.section {
-  margin: 16px;
-  padding: 16px;
+  padding: 60rpx 0;
+  margin-bottom: 16rpx;
   background: #fff;
-  border-radius: var(--td-radius-large, 18rpx);
+  border-radius: 18rpx;
 }
 
-.cell-title {
-  color: var(--td-font-gray-4, rgba(0, 0, 0, 0.26));
+.info-card {
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 28rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+}
+
+.info-title {
   font-size: 28rpx;
-  margin-left: 32rpx;
-  padding-left: var(--td-cell-vertical-padding, 32rpx);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20rpx;
 }
 
-.loading-wrap {
+.info-field {
+  display: flex;
+  align-items: flex-start;
+  padding: 14rpx 0;
+
+  & + & {
+    border-top: 1rpx solid #f5f5f5;
+  }
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: #999;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: #333;
+  flex: 1;
+
+  &--bold {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+}
+
+.empty-card {
+  margin-bottom: 16rpx;
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 40rpx 0 20rpx;
+}
+
+.empty-action {
   display: flex;
   justify-content: center;
 }
@@ -26,10 +66,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
-  .desc {
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--td-font-gray-4, rgba(0, 0, 0, 0.26));
+.empty-loading {
+  display: flex;
+  justify-content: center;
+  padding: 20rpx 0;
+}
+
+.desc {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #bbb;
+}
+
+.pic-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 20rpx;
+  background: #fafafa;
+  border-radius: 12rpx;
+  border: 1rpx dashed #e0e0e0;
+}
+
+.pic-error-text {
+  font-size: 22rpx;
+  color: #bbb;
+}
+
+.pic-retry {
+  font-size: 24rpx;
+  color: #0052d9;
+  padding: 6rpx 20rpx;
+  background: #f0f5ff;
+  border-radius: 24rpx;
+
+  &:active {
+    opacity: 0.7;
   }
 }

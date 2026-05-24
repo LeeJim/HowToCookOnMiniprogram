@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk');
 
-cloud.init({ env: 'restart-9gd2a4k63f58d0c2' })
+cloud.init()
 const db = cloud.database()
 
 exports.main = async (event) => {
@@ -9,9 +9,30 @@ exports.main = async (event) => {
   const table = db.collection('sku');
   const _ = db.command;
 
+  if (action === 'lookup') {
+    const { barcode } = event;
+    const { data } = await table
+      .where({ creator: OPENID, barcode })
+      .orderBy('create_time', 'desc')
+      .limit(1)
+      .get();
+    if (data.length > 0) {
+      const item = data[0];
+      return {
+        code: 0,
+        data: {
+          preserveDate: item.preserveDate || '',
+          unit: item.unit || 'month',
+          manufactureDate: item.manufactureDate || '',
+        }
+      };
+    }
+    return { code: 0, data: null };
+  }
+
   if (action === 'get') {
     const { list } = await table.aggregate()
-    .match({ creator: OPENID, expiredDate: _.gte(new Date()) })
+    .match({ creator: OPENID })
     .sort({ expiredDate: 1 })
     .skip(page * size)
     .limit(size)
@@ -29,20 +50,21 @@ exports.main = async (event) => {
 
   if (action === 'save') {
     const { barcode, name, manufactureDate, preserveDate, unit, expiredDate, pic } = body;
-    const docid = await table.add({
-      data: {
-        barcode,
-        name,
-        manufactureDate: new Date(manufactureDate),
-        preserveDate,
-        unit,
-        expiredDate: new Date(expiredDate),
-        pic,
-        creator: OPENID,
-        create_time: new Date(),
-        update_time: new Date()
-      }
-    })
+    const data = {
+      barcode,
+      name,
+      preserveDate: preserveDate || '',
+      unit: unit || '',
+      expiredDate: expiredDate ? new Date(expiredDate) : null,
+      pic,
+      creator: OPENID,
+      create_time: new Date(),
+      update_time: new Date()
+    };
+    if (manufactureDate) {
+      data.manufactureDate = new Date(manufactureDate);
+    }
+    const docid = await table.add({ data })
     return { code: 0, errmsg: 0, data: docid }
   }
 };

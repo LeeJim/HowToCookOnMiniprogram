@@ -1,16 +1,11 @@
 import config from '../../config/index.js'
+import recipes from '../../data'
 
 Page({
-
   data: {
-    list : [],
-    chineseMap: {},
+    list: [],
+    chineseMap: config.chineseMap,
     loading: false,
-    themeMap: {
-      dessert: 'danger',
-      breakfast: 'success',
-      staple: 'warning'
-    }
   },
 
   onShow() {
@@ -18,22 +13,29 @@ Page({
   },
 
   async getList() {
-    this.setData({
-      loading: true
-    })
+    this.setData({ loading: true })
     const { result } = await wx.cloud.callFunction({
       name: 'getCookbook',
-      data: {
-        kind: 'starred',
-      }
+      data: { kind: 'starred' },
     })
 
-    if (result.errno == 0) {
-      this.setData({
-        loading: false,
-        list: result.data,
-        chineseMap: config.chineseMap
+    if (result.errno === 0) {
+      const list = result.data.map(item => {
+        const recipe = recipes.find(r => r.id === item.id)
+        return recipe ? { ...item, name: recipe.name, category: recipe.category } : item
       })
+      this.setData({ loading: false, list })
+    } else {
+      this.setData({ loading: false })
     }
-  }
+  },
+
+  handleBack() {
+    wx.navigateBack({ delta: 1 });
+  },
+
+  handleTap(e) {
+    const { id } = e.currentTarget.dataset;
+    wx.navigateTo({ url: '/pages/detail/index?id=' + id });
+  },
 })

@@ -53,10 +53,12 @@
     "useCompilerPlugins": [
       "less"
     ],
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.22.1",
+  "libVersion": "3.16.1",
   "appid": "wx01462be634a0d447",
   "projectname": "HowToCookOnMiniprogram",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",

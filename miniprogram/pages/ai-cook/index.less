@@ -1,0 +1,248 @@
+@bg: #f5f5f5;
+@primary: #0052d9;
+
+page {
+  background: @bg;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.container {
+  padding: 24rpx;
+}
+
+/* ── Category ingredients ── */
+.category-section {
+  margin-bottom: 16rpx;
+}
+
+.category-card {
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+}
+
+.category-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.ingredient-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.ingredient-chip {
+  display: inline-block;
+  padding: 6rpx 18rpx;
+  font-size: 24rpx;
+  color: #333;
+  background: #f5f5f5;
+  border-radius: 20rpx;
+  transition: all 0.15s;
+
+  &:active {
+    background: #e0edff;
+    color: @primary;
+  }
+}
+
+/* ── Intro ── */
+.intro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 40rpx 24rpx 32rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+}
+
+.intro-emoji {
+  font-size: 72rpx;
+  margin-bottom: 16rpx;
+}
+
+.intro-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.intro-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+/* ── Input ── */
+.input-card {
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+}
+
+.input-area {
+  width: 100%;
+  min-height: 140rpx;
+  font-size: 28rpx;
+  line-height: 44rpx;
+  color: #333;
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.input-hint {
+  font-size: 22rpx;
+  color: #bbb;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* ── Tags ── */
+.tags-card {
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8rpx 22rpx;
+  font-size: 24rpx;
+  color: @primary;
+  background: #f0f5ff;
+  border-radius: 20rpx;
+}
+
+/* ── Recipe list ── */
+.recipe-list {
+  margin-bottom: 16rpx;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 24rpx 20rpx;
+  margin-bottom: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  transition: all 0.15s;
+
+  &:active {
+    transform: scale(0.985);
+  }
+}
+
+.recipe-rank {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  background: #f0f5ff;
+  color: @primary;
+  font-size: 22rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18rpx;
+  flex-shrink: 0;
+}
+
+.recipe-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipe-meta {
+  margin-top: 6rpx;
+}
+
+.meta-match {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.match-bar {
+  height: 4rpx;
+  background: #f0f0f0;
+  border-radius: 2rpx;
+  margin-top: 8rpx;
+  overflow: hidden;
+}
+
+.match-fill {
+  height: 100%;
+  background: @primary;
+  border-radius: 2rpx;
+  transition: width 0.3s ease;
+}
+
+.match-rate {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: @primary;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+/* ── Empty ── */
+.empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #ccc;
+  margin-top: 12rpx;
+}

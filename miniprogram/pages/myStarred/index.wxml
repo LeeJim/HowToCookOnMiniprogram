@@ -1,16 +1,30 @@
+<t-navbar title="我的收藏" left-arrow bind:go-back="handleBack" />
+
 <view class="container">
-  <!-- <view class="title">我的收藏</view> -->
-  <view wx:if="{{loading}}" class="box">
-    <t-loading theme="circular" size="40rpx" loading text="加载中..."></t-loading>
+  <view wx:if="{{loading}}" class="loading-box">
+    <t-loading theme="circular" size="40rpx" loading text="加载中..." />
   </view>
+
   <block wx:elif="{{list.length > 0}}">
-    <block wx:for="{{list}}" wx:key="{{index}}">
-      <t-cell title="{{item.name}}" hover arrow url="/pages/detail/index?id={{item.id}}">
-        <t-tag slot="note" size="small" theme="{{themeMap[item.category] || 'primary'}}" variant="light">{{chineseMap[item.category]}}</t-tag>
-      </t-cell>
-    </block>
+    <view
+      class="recipe-card"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bind:tap="handleTap"
+    >
+      <view class="recipe-num">{{index + 1}}</view>
+      <view class="recipe-info">
+        <text class="recipe-name">{{item.name}}</text>
+        <view class="recipe-meta">
+          <text class="meta-tag" wx:if="{{chineseMap[item.category]}}">{{chineseMap[item.category]}}</text>
+        </view>
+      </view>
+      <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
+    </view>
   </block>
+
   <view wx:else class="empty-box">
-    <t-empty icon="info-circle-filled" style="margin-top: 200rpx" description="什么都没有" />
+    <t-empty icon="info-circle-filled" description="还没有收藏" />
   </view>
 </view>

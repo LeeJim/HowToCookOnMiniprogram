@@ -1,38 +1,50 @@
-<view class="wrapper">
-  <t-notice-bar visible="{{true}}" content="目前固定提前 2 天提醒，自定义时间敬请期待更新"></t-notice-bar>
+<t-navbar title="库存列表" left-arrow bind:go-back="handleBack" />
 
-  <scroll-view class="scroll-view"  class="scroll-view" scroll-y scroll-with-animation enable-passive	enable-back-to-top bindscrolltolower="handleScrollToBottom">
-    <view wx:for="{{data}}" wx:key="item" class="card" style="margin-top: 12px;">
-      <view class="pic-wrapper">
-        <t-image wx:if="{{item.pic || item.standardInfo.pic}}" class="pic" mode="aspectFit" src="{{item.pic || item.standardInfo.pic}}" />
-        <t-avatar wx:else size="64px" t-class-content="external-class-content" shape="circle">{{item.standardInfo.brand[0] || item.name[0]}}</t-avatar>
-      </view>
-      <view class="info">
-        <view class="brand">
-          <view class="brand-name">{{item.standardInfo.brand}}</view>
-          <view class="brand-desc">{{item.name}}</view>
-        </view>
-        <view class="desc">
-          <view class="desc-item">
-            <view class="desc-item-label">保质期：</view>
-            <view class="desc-item-value">{{item.preserveDate}}{{item.unit === 'day' ? ' 天' : ' 个月' }}</view>
-          </view>
-          <view class="desc-item">
-            <view class="desc-item-label">到期日：</view>
-            <view class="desc-item-value">{{item.expiredDate}}</view>
-          </view>
-          <view class="desc-item">
-            <view class="desc-item-label">到期时间：</view>
-            <view class="desc-item-value">{{item.expiredTxt}}</view>
-          </view>
-        </view>
-        
-      </view>
-    </view>
-    <view wx:if="{{loading}}" class="loading-wrapper">
-      <t-loading />
-    </view>
-    <view wx:if="{{noMore}}" class="no-more">没有更多数据了</view>
+<view class="container">
+  <t-notice-bar visible="{{true}}" content="目前固定提前 7 天提醒，自定义时间敬请期待" />
+
+  <scroll-view class="filter-bar" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="filter-item {{activeFilter === 'all' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="all">全部</view>
+    <view class="filter-item {{activeFilter === 'week' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="week">一周内</view>
+    <view class="filter-item {{activeFilter === 'month' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="month">一月内</view>
+    <view class="filter-item {{activeFilter === '3month' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="3month">三月内</view>
+    <view class="filter-item {{activeFilter === '6month' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="6month">半年内</view>
+    <view class="filter-item {{activeFilter === 'expired' ? 'filter-item--active' : ''}}" bind:tap="switchFilter" data-filter="expired">已过期</view>
   </scroll-view>
 
+  <scroll-view class="scroll-body" scroll-y enhanced show-scrollbar="{{false}}" bindscrolltolower="handleScrollToBottom">
+    <view wx:if="{{data.length > 0}}" class="list-wrap">
+      <view wx:for="{{data}}" wx:key="index" class="card" bind:tap="handleClick" data-pic="{{item.pic || item.standardInfo.pic}}">
+        <view class="card-pic">
+          <t-image wx:if="{{item.pic || item.standardInfo.pic}}" class="pic-img" mode="aspectFit" src="{{item.pic || item.standardInfo.pic}}" />
+          <view wx:else class="pic-avatar">{{item.standardInfo.brand[0] || item.name[0]}}</view>
+        </view>
+        <view class="card-info">
+          <view class="card-header">
+            <text class="card-name">{{item.name}}</text>
+            <view class="status-tag" style="background: {{item.statusColor}}18; color: {{item.statusColor}};">
+              {{item.statusLabel}}
+            </view>
+          </view>
+          <view wx:if="{{item.standardInfo.brand}}" class="card-brand">{{item.standardInfo.brand}}</view>
+          <view class="card-meta">
+            <text wx:if="{{item.preserveDate}}" class="meta-item">保质 {{item.preserveDate}}{{item.unit === 'day' ? '天' : '个月'}}</text>
+            <text wx:if="{{item.preserveDate}}" class="meta-sep">·</text>
+            <text class="meta-item">{{item.expiredDate}} 到期</text>
+            <text class="meta-sep">·</text>
+            <text class="meta-highlight" style="color: {{item.statusColor}};">{{item.expiredTxt}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{!loading}}" class="empty-box">
+      <t-empty icon="info-circle-filled" description="暂无库存" />
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-box">
+      <t-loading theme="circular" size="40rpx" loading text="加载中..." />
+    </view>
+    <view wx:if="{{noMore && data.length > 0}}" class="no-more">— 没有更多了 —</view>
+  </scroll-view>
 </view>

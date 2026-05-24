@@ -1,32 +1,60 @@
-<div class="loading-wrap" wx:if="{{init}}">
-  <t-loading theme="dots" size="80rpx" class="wrapper" />
-</div>
-<block wx:elif="{{hasResult}}">
-  <view class="cell-title">商品条码信息</view>
-  <t-cell-group style="margin-top: 12px;" theme="card">
-    <t-input label="条形码" value="{{info.barcode}}" align="right" disabled />
-    <t-cell title="名称" note="{{info.name}}"  />
-    <t-cell title="品牌" note="{{info.brand}}"  />
-    <t-cell title="生产商" note="{{info.company}}"  />
-    <t-cell wx:if="{{info.origincountry}}" title="原产国" note="{{info.origincountry}}"  />
-    <t-cell wx:if="{{info.type}}" title="规格型号" note="{{info.type}}"  />
-    <t-cell wx:if="{{info.packagetype}}" title="包装类型" note="{{info.packagetype}}"  />
-    <t-cell wx:if="{{info.netcontent}}" title="净含量" note="{{info.netcontent}}"  />
-    <t-cell wx:if="{{info.description}}" title="描述" note="{{info.description}}"  />
-    <t-cell wx:if="{{info.pic}}" title="图片">
-      <t-image width="100" mode="widthFix" slot="note" src="{{info.pic}}" />
-    </t-cell>
-    <t-cell title="贡献者" note="{{info.userinfo.nickName}}"  />
-  </t-cell-group>
-</block>
-<view wx:else class="section" style="display: {{noResult ? 'none' : 'block'}}">
+<view wx:if="{{init}}" class="loading-wrap">
+  <t-loading theme="circular" size="40rpx" text="查询条码信息..." />
+</view>
+
+<view wx:elif="{{hasResult}}" class="info-card">
+  <view class="info-title">商品条码信息</view>
+  <view class="info-field">
+    <text class="info-label">条形码</text>
+    <text class="info-value">{{info.barcode}}</text>
+  </view>
+  <view class="info-field">
+    <text class="info-label">名称</text>
+    <text class="info-value info-value--bold">{{info.name}}</text>
+  </view>
+  <view wx:if="{{info.brand}}" class="info-field">
+    <text class="info-label">品牌</text>
+    <text class="info-value">{{info.brand}}</text>
+  </view>
+  <view wx:if="{{info.company}}" class="info-field">
+    <text class="info-label">生产商</text>
+    <text class="info-value">{{info.company}}</text>
+  </view>
+  <view wx:if="{{info.type}}" class="info-field">
+    <text class="info-label">规格</text>
+    <text class="info-value">{{info.type}}</text>
+  </view>
+  <view wx:if="{{info.origincountry}}" class="info-field">
+    <text class="info-label">原产国</text>
+    <text class="info-value">{{info.origincountry}}</text>
+  </view>
+  <view wx:if="{{info.description}}" class="info-field">
+    <text class="info-label">分类</text>
+    <text class="info-value">{{info.description}}</text>
+  </view>
+  <view wx:if="{{info.pic}}" class="info-field">
+    <text class="info-label">图片</text>
+    <view wx:if="{{picFailed}}" class="pic-error">
+      <text class="pic-error-text">加载失败</text>
+      <text class="pic-retry" bind:tap="retryImage">重新获取</text>
+    </view>
+    <t-image wx:else width="120" mode="widthFix" src="{{info.pic}}" bind:error="onImageError" />
+  </view>
+</view>
+
+<view wx:else class="empty-card">
   <t-empty icon="info-circle-filled" description="暂无标准信息">
-    <div class="empty-action" slot="action">
-      <t-button wx:if="{{quota > 0}}" bind:tap="handleClick" loading="{{loading}}" theme="light" size="large">{{ done ? '一键获取（' + quota + '次机会)' : '加载中'}}</t-button>
-      <view wx:if="{{done && quota <= 0}}" class="empty-action-btn">
-        <t-button bind:tap="handleClick" loading="{{loading}}" theme="light" size="large">{{ done ?  (quota > 0 ? '一键获取（' + quota + '次机会)' : '额度用完，去获取') : '加载中'}} </t-button>
-        <view class="desc">去看广告（6-15秒），即可获取 5 次机会</view>
+    <view class="empty-action" slot="action">
+      <t-button wx:if="{{done && quota > 0}}" bind:tap="handleClick" loading="{{loading}}" theme="primary" size="medium">
+        一键获取（{{quota}} 次机会）
+      </t-button>
+      <view wx:elif="{{done && quota <= 0}}" class="empty-action-btn">
+        <t-button bind:tap="handleClick" theme="primary" size="medium">看广告获取次数</t-button>
+        <view class="desc">看 6-15 秒广告，获取 5 次机会</view>
       </view>
-    </div>
+      <view wx:else class="empty-loading">
+        <t-loading theme="circular" size="32rpx" text="加载中..." />
+      </view>
+    </view>
   </t-empty>
 </view>

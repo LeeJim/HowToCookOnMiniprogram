@@ -1,16 +1,14 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/kitchen/index",
+    "pages/stock/index",
     "pages/detail/index",
     "pages/my/index",
     "pages/myStarred/index",
     "pages/changelog/index",
     "pages/changelog/detail",
-    "pages/learn/index",
-    "pages/learn/detail",
     "pages/search/index",
-    "pages/stock/index",
+    "pages/ai-cook/index",
     "pages/stock-edit/index",
     "pages/stock-list/index",
     "pages/user-info/index"
@@ -24,10 +22,6 @@
       {
         "pagePath": "pages/index/index",
         "text": "首页"
-      },
-      {
-        "pagePath": "pages/learn/index",
-        "text": "技巧"
       },
       {
         "pagePath": "pages/stock/index",

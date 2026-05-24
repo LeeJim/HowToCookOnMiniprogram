@@ -1,6 +1,21 @@
-  <view class="button-wrapper">
-    <t-button class="barcode-btn" theme="primary" size="large" icon="list" shape="circle" aria-label="搜索" bind:tap="handleToList"></t-button>
+<t-navbar title="仓储管理" />
+
+<view class="container">
+  <view class="action-card" bind:tap="handleScan">
+    <view class="action-icon">📷</view>
+    <view class="action-info">
+      <text class="action-title">扫码添加</text>
+      <text class="action-desc">扫描商品条形码，自动识别信息</text>
+    </view>
+    <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
   </view>
-  <view class="button-wrapper">
-    <t-button class="barcode-btn" theme="primary" size="large" icon="barcode" shape="circle" aria-label="搜索" bind:tap="handleScan"></t-button>
+
+  <view class="action-card" bind:tap="handleToList">
+    <view class="action-icon">📋</view>
+    <view class="action-info">
+      <text class="action-title">查看库存</text>
+      <text class="action-desc">管理已添加的商品，查看到期时间</text>
+    </view>
+    <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
   </view>
+</view>

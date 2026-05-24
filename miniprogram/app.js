@@ -4,7 +4,7 @@ App({
   onLaunch() {
     const updateManager = wx.getUpdateManager()
 
-    wx.cloud.init({ env: 'restart-9gd2a4k63f58d0c2' })
+    wx.cloud.init()
     // wx.login({
     //   success: ({ code }) => {
     //     post('miniprogram/login', { code }).then(data => {

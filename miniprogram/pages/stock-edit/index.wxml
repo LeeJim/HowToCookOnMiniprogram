@@ -1,25 +1,97 @@
 <!-- pages/stock-edit/index.wxml -->
 
-<standard-info barcode="{{barcode}}" bind:dataready="handleDataready" />
-<t-cell-group theme="card" style="margin-top: 24px;">
-  <t-cell title="条形码" hover note="{{barcode}}" bind:tap="handleBarcodeTap" />
-  <t-input label="名称" value="{{name}}" align="right" bind:change="handleNameInput" />
-  <t-cell title="生产日期" hover note="{{manufactureDate || ''}}" arrow bindtap="showPicker" />
-  <t-cell title="保质期">
-    <input style="text-align: right;" placeholder="填写质保时间" type="digit" align="right" slot="note" bind:input="handlePreserveDateInput" />
-    <t-switch bindchange="handleUnitChange" label="{{['天', '月']}}" custom-value="{{['day', 'month']}}" slot="right-icon" />
-  </t-cell>
-  <t-cell wx:if="{{expiredDate}}" title="过期日期" hover note="{{expiredDate || ''}}" />
-  <t-date-time-picker title="选择日期" visible="{{dateVisible}}" mode="date" defaultValue="{{today}}" format="YYYY-MM-DD" bindchange="onConfirm" start="{{start}}" end="{{end}}" />
-</t-cell-group>
+<t-navbar title="添加库存" left-arrow bind:go-back="handleBack" />
 
-<view wx:if="{{!standardInfo.pic}}" class="section">
-  <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleImageAdd" bind:remove="handleRemove"></t-upload>
-  <view class="tips">可选上传，默认展示条形码标准信息的图片</view>
-</view>
+<view class="container">
+  <standard-info barcode="{{barcode}}" bind:dataready="handleDataready" />
+  <view class="form-card">
+    <view class="mode-tabs">
+      <view class="mode-item {{mode === 2 ? 'mode-item--active' : ''}}" bind:tap="switchMode" data-mode="2">
+        生产日期+保质期
+      </view>
+      <view class="mode-item {{mode === 1 ? 'mode-item--active' : ''}}" bind:tap="switchMode" data-mode="1">
+        直接填过期日
+      </view>
+    </view>
 
-<view class="button-wrap">
-  <t-button theme="primary" size="large" block bind:tap="handleSubmit" loading="{{loading}}">保存</t-button>
+    <view class="field" bind:tap="handleBarcodeTap">
+      <text class="field-label">条形码</text>
+      <view class="field-value">
+        <text class="field-text">{{barcode}}</text>
+        <t-icon name="file-copy" size="28rpx" color="#ccc" />
+      </view>
+    </view>
+
+    <view class="field-divider"></view>
+
+    <view class="field">
+      <text class="field-label">名称</text>
+      <input class="field-input" value="{{name}}" placeholder="请输入名称" bind:input="handleNameInput" />
+    </view>
+
+    <!-- Mode 2: 生产日期 + 保质期 -->
+    <block wx:if="{{mode === 2}}">
+      <view class="field-divider"></view>
+      <view class="field" bind:tap="showMfrCalendar">
+        <text class="field-label">生产日期</text>
+        <view class="field-value">
+          <text class="{{manufactureDate ? 'field-text' : 'field-placeholder'}}">{{manufactureDate || '请选择日期'}}</text>
+          <t-icon name="calendar" size="28rpx" color="#bbb" />
+        </view>
+      </view>
+
+      <view class="field-divider"></view>
+      <view class="field">
+        <text class="field-label">保质期</text>
+        <view class="field-right">
+          <input class="field-input field-input--short" type="digit" value="{{preserveDate}}" placeholder="输入" bind:input="handlePreserveDateInput" />
+          <view class="unit-toggle">
+            <text class="unit-item {{unit === 'day' ? 'unit-item--active' : ''}}" data-unit="day" bind:tap="handleUnitTap">天</text>
+            <text class="unit-item {{unit === 'month' ? 'unit-item--active' : ''}}" data-unit="month" bind:tap="handleUnitTap">月</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{expiredDate}}" class="field-divider"></view>
+      <view wx:if="{{expiredDate}}" class="field">
+        <text class="field-label">过期日期</text>
+        <text class="field-value-text">{{expiredDate}}</text>
+      </view>
+    </block>
+
+    <!-- Mode 1: 直接填过期日 -->
+    <block wx:if="{{mode === 1}}">
+      <view class="field-divider"></view>
+      <view class="field" bind:tap="showExpCalendar">
+        <text class="field-label">过期日期</text>
+        <view class="field-value">
+          <text class="{{expiredDate ? 'field-text' : 'field-placeholder'}}">{{expiredDate || '请选择日期'}}</text>
+          <t-icon name="calendar" size="28rpx" color="#bbb" />
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <t-calendar
+    visible="{{calendarVisible}}"
+    value="{{calendarTimestamp}}"
+    min-date="{{minTimestamp}}"
+    max-date="{{maxTimestamp}}"
+    title="{{calendarTitle}}"
+    confirm-btn="{{null}}"
+    bind:change="onCalendarChange"
+    bind:close="onCalendarClose"
+  />
+
+  <view wx:if="{{!standardInfo.pic}}" class="upload-card">
+    <view class="upload-title">商品图片</view>
+    <t-upload mediaType="{{['image']}}" max="{{1}}" files="{{fileList}}" bind:add="handleImageAdd" bind:remove="handleRemove" />
+    <view class="upload-tips">可选上传，默认展示条形码标准信息图片</view>
+  </view>
+
+  <view class="save-wrap">
+    <t-button theme="primary" size="large" block bind:tap="handleSubmit" loading="{{loading}}">保存</t-button>
+  </view>
 </view>
 
 <t-message id="t-message" />

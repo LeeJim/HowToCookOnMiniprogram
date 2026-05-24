@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import Message from 'tdesign-miniprogram/message/index';
-
 import { toScan } from '../../utils/scan';
 
 Component({
@@ -9,6 +8,9 @@ Component({
     start: dayjs().subtract(3, 'year').format('YYYY-MM-DD'),
     end: dayjs().format('YYYY-MM-DD'),
     today: dayjs().format('YYYY-MM-DD'),
+    minTimestamp: dayjs().subtract(3, 'year').valueOf(),
+    maxTimestamp: dayjs().add(10, 'year').valueOf(),
+    mode: 2,
     manufactureDate: '',
     preserveDate: '',
     unit: 'month',
@@ -17,10 +19,14 @@ Component({
     loading: false,
     name: '',
     standardInfo: {},
+    calendarVisible: false,
+    calendarTimestamp: dayjs().valueOf(),
+    calendarTitle: '选择日期',
   },
 
   observers: {
     'manufactureDate, unit, preserveDate': function (mDate, unit, pDate) {
+      if (this.data.mode !== 2) return;
       if (mDate && unit && pDate) {
         const res = new dayjs(mDate).add(pDate, unit)
         this.setData({ expiredDate: res.format('YYYY-MM-DD') })
@@ -31,32 +37,83 @@ Component({
   },
 
   methods: {
+    handleBack() {
+      wx.navigateBack({ delta: 1 });
+    },
+
+    switchMode(e) {
+      const mode = Number(e.currentTarget.dataset.mode);
+      this.setData({ mode });
+    },
+
     onLoad(options) {
       this.setData({ barcode: options.barcode })
     },
 
     handleDataready(e) {
       const { data } = e.detail;
-  
-      this.setData({ name: data. name, standardInfo: data })
+      this.setData({ name: data.name, standardInfo: data });
+      this.lookupHistory();
+    },
+
+    async lookupHistory() {
+      const { barcode } = this.data;
+      if (!barcode) return;
+      try {
+        const { result } = await wx.cloud.callFunction({
+          name: 'sku',
+          data: { action: 'lookup', barcode },
+        });
+        if (result && result.code === 0 && result.data) {
+          const { preserveDate, unit } = result.data;
+          this.setData({
+            preserveDate: preserveDate || '',
+            unit: unit || 'month',
+          });
+        }
+      } catch (err) {
+        console.error('查询历史保质期失败:', err);
+      }
     },
   
-    showPicker(e) {
+    showMfrCalendar() {
       this.setData({
-        dateVisible: true,
+        calendarVisible: true,
+        calendarTitle: '选择生产日期',
+        calendarTimestamp: this.data.manufactureDate
+          ? dayjs(this.data.manufactureDate).valueOf()
+          : dayjs().valueOf(),
+        minTimestamp: dayjs().subtract(3, 'year').valueOf(),
+        maxTimestamp: dayjs().valueOf(),
+        _calendarType: 'mfr',
       });
     },
-  
-    onConfirm(e) {
-      const { value } = e.detail;
-      console.log('confirm', value);
-  
+
+    showExpCalendar() {
       this.setData({
-        date: value,
-        manufactureDate: value,
+        calendarVisible: true,
+        calendarTitle: '选择过期日期',
+        calendarTimestamp: this.data.expiredDate
+          ? dayjs(this.data.expiredDate).valueOf()
+          : dayjs().valueOf(),
+        minTimestamp: dayjs().valueOf(),
+        maxTimestamp: dayjs().add(10, 'year').valueOf(),
+        _calendarType: 'exp',
       });
-  
-      // this.hidePicker();
+    },
+
+    onCalendarChange(e) {
+      const ts = e.detail.value;
+      const date = dayjs(ts).format('YYYY-MM-DD');
+      if (this.data._calendarType === 'exp') {
+        this.setData({ expiredDate: date });
+      } else {
+        this.setData({ manufactureDate: date });
+      }
+    },
+
+    onCalendarClose() {
+      this.setData({ calendarVisible: false });
     },
   
     handlePreserveDateInput(e) {
@@ -64,8 +121,12 @@ Component({
     },
   
     handleUnitChange(e) {
-      console.log(e.detail.value);
       this.setData({ unit: e.detail.value })
+    },
+
+    handleUnitTap(e) {
+      const { unit } = e.currentTarget.dataset;
+      this.setData({ unit });
     },
 
     handleImageAdd(e) {
@@ -118,46 +179,35 @@ Component({
     },
 
     async handleSubmit() {
-      const { barcode, name, expiredDate, fileList, manufactureDate, unit, preserveDate } = this.data;
+      const { barcode, name, expiredDate, fileList, manufactureDate, unit, preserveDate, mode } = this.data;
       const isEmpty = (val) => val == null || val === '';
       if (isEmpty(name)) {
-        wx.showToast({
-          title: '名称不能为空',
-          icon: 'none'
-        })
+        wx.showToast({ title: '名称不能为空', icon: 'none' });
         return;
       }
 
-      if (isEmpty(manufactureDate)) {
-        wx.showToast({
-          title: '请填写生产时间',
-          icon: 'none'
-        })
-        return;
+      if (mode === 2) {
+        if (isEmpty(manufactureDate)) {
+          wx.showToast({ title: '请选择生产日期', icon: 'none' });
+          return;
+        }
+        if (isEmpty(preserveDate)) {
+          wx.showToast({ title: '请填写保质期', icon: 'none' });
+          return;
+        }
       }
 
       if (isEmpty(expiredDate)) {
-        wx.showToast({
-          title: '请填写质保时间',
-          icon: 'none'
-        })
+        wx.showToast({ title: '请填写过期日期', icon: 'none' });
         return;
       }
 
-      try {
-        await this.toSubscribe()
-      } catch (err) {
-        console.error('subscribe fail: ', err)
-
-        Message.error({
-          context: this,
-          duration: 3000,
-          offset: [0, 50],
-          content: '订阅失败，后续将无法收到过期提醒',
-        });
-        await new Promise(resolve => setTimeout(resolve, 2000))
-      }
       this.setData({ loading: true })
+
+      // 非阻塞订阅
+      this.toSubscribe().catch(err => {
+        console.error('subscribe fail:', err);
+      });
 
       const handleSave = (obj) => {
         const data = { ...obj, barcode, name, expiredDate, manufactureDate, unit, preserveDate }

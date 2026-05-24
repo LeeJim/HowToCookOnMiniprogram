@@ -1,0 +1,79 @@
+<t-navbar title="智能做菜" left-arrow bind:go-back="handleBack" />
+
+<view class="container">
+  <view class="intro-card">
+    <text class="intro-emoji">🧑‍🍳</text>
+    <text class="intro-title">告诉我你有什么食材</text>
+    <text class="intro-desc">我会帮你找到能做的菜谱</text>
+  </view>
+
+  <view class="category-section" wx:if="{{!hasSearched}}">
+    <view class="category-card" wx:for="{{categories}}" wx:key="name">
+      <text class="category-label">{{item.name}}</text>
+      <view class="ingredient-chips">
+        <text
+          class="ingredient-chip"
+          wx:for="{{item.ingredients}}"
+          wx:for-item="ing"
+          wx:key="ing"
+          data-name="{{ing}}"
+          bind:tap="handleTapIngredient"
+        >{{ing}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="input-card">
+    <textarea
+      class="input-area"
+      value="{{inputText}}"
+      placeholder="例如：我有鸡蛋、番茄和面粉，想吃点简单的..."
+      bind:input="handleInput"
+      auto-height
+      maxlength="-1"
+      confirm-type="done"
+      show-confirm-bar="{{false}}"
+    />
+    <view class="input-actions">
+      <text class="input-hint">说出或输入你手头的食材</text>
+      <t-button theme="primary" size="medium" bind:tap="handleSearch">开始匹配</t-button>
+    </view>
+  </view>
+
+  <view wx:if="{{hasSearched}}" class="results-section">
+    <view wx:if="{{ingredients.length > 0}}" class="tags-card">
+      <text class="section-label">识别到的食材</text>
+      <view class="tag-list">
+        <text class="tag" wx:for="{{ingredients}}" wx:key="index">{{item}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{results.length > 0}}" class="recipe-list">
+      <text class="section-label">推荐菜谱 ({{results.length}})</text>
+      <view
+        class="recipe-card"
+        wx:for="{{results}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bind:tap="handleTapRecipe"
+      >
+        <view class="recipe-rank">{{index + 1}}</view>
+        <view class="recipe-info">
+          <text class="recipe-name">{{item.name}}</text>
+          <view class="recipe-meta">
+            <text class="meta-match">匹配 {{item.matched}}/{{item.total}} 种食材</text>
+            <view class="match-bar">
+              <view class="match-fill" style="width: {{item.matchRate}}%;"></view>
+            </view>
+          </view>
+        </view>
+        <view class="match-rate">{{item.matchRate}}%</view>
+      </view>
+    </view>
+
+    <view wx:elif="{{ingredients.length > 0}}" class="empty-card">
+      <text class="empty-text">没有找到匹配的菜谱</text>
+      <text class="empty-hint">试试增加更多食材描述</text>
+    </view>
+  </view>
+</view>

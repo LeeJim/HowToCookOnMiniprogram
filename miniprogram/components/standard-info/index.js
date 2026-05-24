@@ -12,7 +12,9 @@ Component({
     info: {},
     hasResult: false,
     init: true,
-    noResult: false
+    noResult: false,
+    picFailed: false,
+    fixingPic: false,
   },
 
   lifetimes: {
@@ -28,37 +30,58 @@ Component({
         videoAd.onClose((res) => {})
       }
     },
-    ready() {
-      wx.cloud.callFunction({
-        name: 'barcode', 
-        data: {
-          action: 'get',
-          barcode: this.data.barcode
+    async ready() {
+      // 先尝试自动获取（保存过该条码的用户免费）
+      try {
+        const { result } = await wx.cloud.callFunction({
+          name: 'barcode',
+          data: { action: 'fetch', barcode: this.data.barcode }
+        });
+        if (result && result.code === 0) {
+          this.setData({ hasResult: true, info: result.data, init: false });
+          this.triggerEvent('dataready', { data: result.data });
+          return;
         }
-      }).then(({ result }) => {
-        if (result.code == 0) {
-          const { data } = result;
-
-            this.setData({
-              hasResult: true,
-              info: data
-            })
-            this.triggerEvent('dataready', { data })
-        } else {
-          this.setData({
-            hasResult: false
-          })
-          this.getQuota();
-        }
-      }).finally(() => {
-        this.setData({
-          init: false
-        })
-      })
+      } catch (err) {
+        console.error('自动获取条码失败:', err);
+      }
+      // 兜底：展示配额UI让用户手动获取
+      this.setData({ hasResult: false, init: false });
+      this.getQuota();
     }
   },
 
   methods: {
+    onImageError() {
+      this.setData({ picFailed: true });
+    },
+
+    async retryImage() {
+      this.setData({ fixingPic: true });
+      try {
+        const { result } = await wx.cloud.callFunction({
+          name: 'barcode',
+          data: { action: 'fixImage', barcode: this.data.info.barcode },
+        });
+        if (result && result.code === 0 && result.data && result.data.pic) {
+          this.setData({
+            'info.pic': result.data.pic,
+            picFailed: false,
+            fixingPic: false,
+          });
+          this.triggerEvent('dataready', { data: this.data.info });
+          wx.showToast({ title: '图片已修复', icon: 'success' });
+        } else {
+          wx.showToast({ title: '修复失败', icon: 'none' });
+          this.setData({ fixingPic: false });
+        }
+      } catch (err) {
+        console.error('修复图片失败:', err);
+        wx.showToast({ title: '修复失败', icon: 'none' });
+        this.setData({ fixingPic: false });
+      }
+    },
+
     getQuota() {
       this.setData({
         loading: true

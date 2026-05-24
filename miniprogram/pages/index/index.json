@@ -1,9 +1,6 @@
 {
   "navigationBarTitleText": "程序员做饭",
   "navigationStyle": "custom",
-  "backgroundColor": "#fff",
-  "usingComponents": {
-    "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
-    "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item"
-  }
+  "backgroundColor": "#f5f5f5",
+  "usingComponents": {}
 }

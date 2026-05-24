@@ -1,26 +1,73 @@
 <!--index.wxml-->
-<t-navbar title="" >
-  <view class="left" slot="left">
-    <t-search t-class="search-box" t-class-input-container="search" model:value="{{searchKeyword}}" shape="round" placeholder="搜索菜谱" center bind:submit="handleToSearch" />
-  </view>
-</t-navbar>
+<t-navbar wx:if="{{isReady}}" title="程序员做饭指南" />
 
-<view scroll-y enable-flex class="container">
-  <!-- <list 
-    wx:for="{{list}}" 
-    name="{{item.name}}"
-    icon="{{item.icon}}"
-    wx:key="name"
-    bind:click="handleTap"
-    list="{{item.list}}" /> -->
-  <t-side-bar value="{{categoryIndex}}" bind:change="handleChange" t-class="side-bar">
-    <t-side-bar-item wx:for="{{list}}" wx:key="index" t-class="side-bar-item" label="{{item.name}}" value="{{index}}" icon="{{item.icon}}" />
-  </t-side-bar>
-  <block wx:for="{{list}}" wx:for-item="category">
-    <scroll-view wx:if="{{categoryIndex == index}}" class="content" scroll-y>
-      <t-cell wx:for="{{category.list}}" wx:key="index" title="{{item.name}}" data-item="{{item}}" arrow bind:tap="handleTap" />
+<view class="not-ready" wx:if="{{!isReady}}">
+  <text class="not-ready-text">当前支持的功能有：</text>
+  <t-button bind:tap="handleToStore">仓储管理</t-button>
+</view>
+
+<view wx:if="{{isReady}}" class="page-body">
+  <view class="search-row">
+    <view class="ai-card" bind:tap="handleToAiCook">
+      <text class="ai-card-icon">🤖</text>
+      <view class="ai-card-info">
+        <text class="ai-card-title">AI 智能做菜</text>
+        <text class="ai-card-desc">食材匹配菜谱</text>
+      </view>
+    </view>
+    <view class="search-btn" bind:tap="handleToSearchPage">
+      <t-icon name="search" size="44rpx" color="#666" />
+    </view>
+  </view>
+
+  <view class="main-content">
+    <scroll-view class="sidebar" scroll-y enhanced show-scrollbar="{{false}}">
+      <view
+        class="side-item {{categoryIndex == index ? 'side-item--active' : ''}}"
+        wx:for="{{list}}"
+        wx:key="index"
+        data-index="{{index}}"
+        bind:tap="handleTabChange"
+      >
+        <text class="side-emoji">{{item.icon}}</text>
+        <text class="side-label">{{item.name}}</text>
+      </view>
     </scroll-view>
-  </block>
+
+    <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}" scroll-top="{{scrollTop}}" bindscroll="handleScroll" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd">
+      <view class="content-inner">
+        <view class="content-header">
+          <text class="content-emoji">{{list[categoryIndex].icon}}</text>
+          <text class="content-title">{{list[categoryIndex].name}}</text>
+          <text class="content-count">({{list[categoryIndex].list.length}})</text>
+        </view>
+
+        <view
+          class="recipe-card"
+          wx:for="{{list[categoryIndex].list}}"
+          wx:key="index"
+          data-item="{{item}}"
+          bind:tap="handleTap"
+        >
+          <view class="recipe-num">{{index + 1}}</view>
+          <text class="recipe-name">{{item.name}}</text>
+          <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
+        </view>
+
+        <view class="scroll-spacer"></view>
+
+        <view wx:if="{{categoryIndex < list.length - 1}}" class="next-category {{pulling ? 'next-category--active' : ''}} {{notScrollable ? 'next-category--static' : ''}}" bind:tap="handleNextCategory">
+          <text wx:if="{{pulling}}" class="next-hint next-hint--active">释放切换到</text>
+          <text wx:elif="{{notScrollable}}" class="next-hint">点击切换到</text>
+          <text wx:else class="next-hint">下拉或点击切换到</text>
+          <text class="next-name">{{list[categoryIndex + 1].icon}} {{list[categoryIndex + 1].name}}</text>
+          <t-icon wx:if="{{!pulling}}" name="arrow-down" size="36rpx" color="#999" />
+          <t-icon wx:else name="arrow-up" size="36rpx" color="#0052d9" />
+        </view>
+        <view wx:else class="list-end">— 共 {{list[categoryIndex].list.length}} 道 —</view>
+      </view>
+    </scroll-view>
+  </view>
 </view>
 
 <t-dialog

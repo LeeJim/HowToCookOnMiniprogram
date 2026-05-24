@@ -1,93 +1,126 @@
 <import src="/templates/hyperText.wxml" />
 
-<view class="container">
-  <view class="title">{{title}}</view>
-  
-  <view wx:if="{{desc.length == 0}}" class="desc">可以动手试试</view>
+<t-navbar title="菜谱详情" left-arrow bind:go-back="handleBack" />
 
-  <view wx:for="{{desc}}" wx:key="index" class="desc">
-    <template is="hyper-text" data="{{ tokens: item }}"></template>
+<view class="container">
+  <view class="recipe-header">
+    <view class="header-top">
+      <text class="category-tag">{{categoryIcon}} {{categoryLabel}}</text>
+    </view>
+    <view class="title">{{name}}</view>
+    <view wx:if="{{desc.length > 0}}" class="desc-section">
+      <block wx:for="{{desc}}" wx:key="index">
+        <template is="hyper-text" data="{{ tokens: item }}"></template>
+      </block>
+    </view>
+    <view wx:else class="desc-section desc-section--empty">可以动手试试</view>
   </view>
 
-  <t-tabs defaultValue="{{0}}">
-    <t-tab-panel wx:for="{{detail}}" wx:key="index" wx:for-item="section" label="{{section.text}}" value="{{index}}">
-      <view class="tab-panel">
-        <block wx:for="{{section.content}}" wx:for-item="detail" wx:key="index" wx:for-index="sectionIndex">
-          <view wx:if="{{section.text == '操作'}}" class="steps">
-            <t-steps wx:if="{{detail.type == 'list'}}" readonly current="{{stepIndexes[sectionIndex]}}" layout="vertical">
-              <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step">
-                <view class="step-title" slot="title">
-                  <text wx:if="{{_.getType(step) == 'string'}}">{{step}}</text>
-                  <block wx:elif="{{_.getType(step) == 'object'}}">
-                    <template is="hyper-text" data="{{ tokens: step }}"></template>
-                  </block>
-                  <block wx:else>
-                    <block wx:for="{{step}}" wx:key="index">
-                      <view wx:if="{{item.type == 'list'}}" class="list list--inner">
-                        <view wx:for="{{item.items}}" wx:key="index" class="item">
-                          <template is="hyper-text" data="{{ tokens: item }}"></template>
-                        </view>
-                      </view>
-                      <template wx:else is="hyper-text" data="{{ tokens: item }}"></template>
+  <view class="tabs-card">
+    <t-tabs defaultValue="{{0}}">
+      <t-tab-panel wx:for="{{detail}}" wx:key="index" wx:for-item="section" label="{{section.text}}" value="{{index}}">
+        <view class="tab-panel">
+          <block wx:for="{{section.content}}" wx:for-item="detail" wx:key="index" wx:for-index="sectionIndex">
+            <!-- 操作步骤 -->
+            <view wx:if="{{section.text == '操作'}}" class="steps">
+              <t-steps wx:if="{{detail.type == 'list'}}" readonly current="{{stepIndexes[sectionIndex]}}" layout="vertical">
+                <t-step wx:for="{{detail.items}}" wx:key="index" wx:for-item="step">
+                  <view class="step-content" slot="title">
+                    <text wx:if="{{_.getType(step) == 'string'}}">{{step}}</text>
+                    <block wx:elif="{{_.getType(step) == 'object'}}">
+                      <template is="hyper-text" data="{{ tokens: step }}"></template>
                     </block>
-                  </block>
-                </view>
-                <view wx:if="{{stepIndexes[sectionIndex] == index}}" class="button-group" slot="extra">
-                  <block wx:if="{{index < detail.items.length - 1}}">
-                    <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">下一步</view>
-                  </block>
-                  <block wx:elif="{{index == detail.items.length - 1}}">
-                    <view class="button" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">重新做一次</view>
-                  </block>
-                  <view wx:if="{{_.getTime(step)}}" class="button button--primary" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
-                    开启倒计时 <t-icon style="margin-left: 6rpx" name="hourglass" size="28rpx" />
+                    <block wx:else>
+                      <block wx:for="{{step}}" wx:key="index">
+                        <view wx:if="{{item.type == 'list'}}" class="list list--inner">
+                          <view wx:for="{{item.items}}" wx:key="index" class="item">
+                            <template is="hyper-text" data="{{ tokens: item }}"></template>
+                          </view>
+                        </view>
+                        <template wx:else is="hyper-text" data="{{ tokens: item }}"></template>
+                      </block>
+                    </block>
+                  </view>
+                  <view wx:if="{{stepIndexes[sectionIndex] == index}}" class="step-actions" slot="extra">
+                    <block wx:if="{{index < detail.items.length - 1}}">
+                      <view class="step-btn" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">下一步</view>
+                    </block>
+                    <block wx:elif="{{index == detail.items.length - 1}}">
+                      <view class="step-btn step-btn--reset" bind:tap="toNext" data-index="{{sectionIndex}}" data-max="{{detail.items.length}}">重新做一次</view>
+                    </block>
+                    <view wx:if="{{_.getTime(step)}}" class="step-btn step-btn--timer" data-time="{{_.getTime(step)}}" bind:tap="handleStart">
+                      <t-icon class="timer-icon" name="hourglass" size="28rpx" /> 计时
+                    </view>
+                  </view>
+                </t-step>
+              </t-steps>
+              <view wx:elif="{{detail.type == 'heading'}}" class="section-heading">
+                <text class="section-heading-text">{{detail.text}}</text>
+              </view>
+              <view wx:else class="paragraph">
+                <template is="hyper-text" data="{{ tokens: detail }}"></template>
+              </view>
+            </view>
+
+            <!-- 列表（含分类） -->
+            <view wx:elif="{{detail.type === 'list'}}" class="list">
+              <block wx:if="{{detail.categorized}}">
+                <view wx:for="{{detail.categorized}}" wx:key="name" wx:for-item="cat" class="cat-group">
+                  <view class="cat-label">{{cat.name}}</view>
+                  <view wx:for="{{cat.items}}" wx:key="index" class="item">
+                    <template is="hyper-text" data="{{ tokens: item }}"></template>
                   </view>
                 </view>
-              </t-step>
-            </t-steps>
-            <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
-              <view class="detail-title">{{detail.text}}</view>
+              </block>
+              <block wx:else>
+                <view wx:for="{{detail.items}}" wx:key="index" class="item">
+                  <template is="hyper-text" data="{{ tokens: item }}"></template>
+                </view>
+              </block>
             </view>
-            <view wx:else class="paragraph">
+
+            <!-- 标题 -->
+            <view wx:elif="{{detail.type == 'heading'}}" class="section-heading">
+              <text class="section-heading-text">{{detail.text}}</text>
+            </view>
+
+            <!-- 段落 -->
+            <view class="paragraph" wx:else>
               <template is="hyper-text" data="{{ tokens: detail }}"></template>
             </view>
-          </view>
-          <view wx:elif="{{detail.type === 'list'}}" class="list">
-            <view wx:for="{{detail.items}}" wx:key="index" class="item">
-              <template is="hyper-text" data="{{ tokens: item }}"></template>
-            </view>
-          </view>
-          <view wx:elif="{{detail.type == 'heading'}}" class="title-block">
-              <view class="detail-title">{{detail.text}}</view>
-            </view>
-          <view class="paragraph" wx:else>
-            <template is="hyper-text" data="{{ tokens: detail }}"></template>
-          </view>
-        </block>
-      </view>
-    </t-tab-panel>
-  </t-tabs>
+          </block>
+        </view>
+      </t-tab-panel>
+    </t-tabs>
+  </view>
 
   <block wx:if="{{adFlag}}" >
     <ad-custom unit-id="adunit-376059436c4aaff9" style="margin-top: 32rpx"></ad-custom>
-    <view class="ad-tips">广告可以在 <text class="ad-tips__route" bind:tap="toMyCenter">“个人中心”</text> 关闭</view>
+    <view class="ad-tips">广告可以在 <text class="ad-tips__route" bind:tap="toMyCenter">"个人中心"</text> 关闭</view>
   </block>
 
   <t-toast id="t-toast" />
   <t-message id="t-message" />
-  
-  <view class="popup popup--top popup--{{startTimeout ? 'active' : 'normal'}}">
-    <t-count-down wx:if="{{timeout}}" content="default" time="{{timeout}}" size="large" theme="square" bind:change="handleCountdown" />
+
+  <view class="timer-popup timer-popup--{{startTimeout ? 'active' : 'hidden'}}">
+    <view class="timer-inner">
+      <text class="timer-label">倒计时</text>
+      <t-count-down wx:if="{{timeout}}" content="default" time="{{timeout}}" size="large" theme="square" bind:change="handleCountdown" />
+      <view class="timer-close" bind:tap="handleCloseTimer">关闭</view>
+    </view>
   </view>
 </view>
 
 <view class="actions actions--{{done ? 'active' : ''}}">
-  <t-button t-class="actions__button" size="large" variant="text" block data-type="like" bind:tap="toggleStarOrLike" icon="{{ { name: like ? 'heart-filled' : 'heart', color: like ? '#e34d59': '', size: '36rpx' } }}">
-    <text class="actions__text">{{likeCount ? likeCount + ' 人' : ''}}喜欢</text>
-  </t-button>
-  <t-button t-class="actions__button" size="large" variant="text" block data-type="star" bind:tap="toggleStarOrLike" icon="{{ { name: star ? 'star-filled' : 'star', color: star ? '#ed7b2f': '', size: '36rpx' } }}">
-    <text class="actions__text">收藏</text>
-  </t-button>
+  <view class="action-item" data-type="like" bind:tap="toggleStarOrLike">
+    <t-icon name="{{like ? 'heart-filled' : 'heart'}}" size="40rpx" color="{{like ? '#e34d59' : '#999'}}" />
+    <text class="action-text">{{likeCount ? likeCount : '喜欢'}}</text>
+  </view>
+  <view class="action-divider"></view>
+  <view class="action-item" data-type="star" bind:tap="toggleStarOrLike">
+    <t-icon name="{{star ? 'star-filled' : 'star'}}" size="40rpx" color="{{star ? '#ed7b2f' : '#999'}}" />
+    <text class="action-text">收藏</text>
+  </view>
 </view>
 
 <wxs module="_">
@@ -109,14 +142,14 @@ module.exports.getTime = function(str) {
     };
     var val = res[1];
     val = getRegExp('\d+').test(val) ? val : map[val];
-    
+
     return val * unit;
   }
 }
 
 module.exports.getType = function(obj) {
   if ("Array" === obj.constructor) return 'array'
-  
+
   return typeof obj;
-} 
+}
 </wxs>

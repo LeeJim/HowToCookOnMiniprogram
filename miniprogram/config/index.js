@@ -23,7 +23,22 @@ export const titleMap = {
   'meat_dish': '荤菜'
 }
 
+export const categoryIcons = {
+  breakfast: '🥣',
+  condiment: '🧂',
+  dessert: '🍰',
+  drink: '🥤',
+  'home-cooking': '🍳',
+  'semi-finished': '🍜',
+  soup: '🍲',
+  staple: '🍚',
+  aquatic: '🦐',
+  'vegetable_dish': '🥬',
+  'meat_dish': '🥩'
+}
+
 export default {
   titleMap,
-  chineseMap
+  chineseMap,
+  categoryIcons
 }

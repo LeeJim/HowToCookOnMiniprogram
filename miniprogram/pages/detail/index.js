@@ -1,19 +1,23 @@
-import infos from '../../data'
+import infos from '../../recipes-enriched'
 import tips from '../learn/data'
+import { titleMap, categoryIcons } from '../../config/index.js'
 import Toast from 'tdesign-miniprogram/toast/index';
 import Message from 'tdesign-miniprogram/message/index';
-import { post } from '../../utils/request';
 
 Page({
   data: {
     index: 0,
     id: null,
     visible: true,
-    liked: false,
-    starred: false,
+    like: false,
+    star: false,
+    likeCount: 0,
+    starCount: 0,
     done: false,
     stepIndexes: [],
     adFlag: false,
+    categoryLabel: '',
+    categoryIcon: '',
   },
 
   async onLoad(options) {
@@ -23,7 +27,9 @@ Page({
       const target = infos.find(item => item.id == id)
       if (target) {
         this.setData({
-          ...target
+          ...target,
+          categoryLabel: titleMap[target.category] || '',
+          categoryIcon: categoryIcons[target.category] || '📖',
         })
         const operation = this.data.detail.find(item => item.text == '操作')
         if (operation) {
@@ -47,25 +53,24 @@ Page({
 
   async getData() {
     const { id } = this.data;
-    
-    this.setData({ done: false })
+
     try {
-      const [starCount, likeCount, star, like] = await Promise.all([
-        post('action/get/all', { id, type: 'star'}),
-        post('action/get/all', { id, type: 'like'}),
-        post('action/get', { id, type: 'star'}),
-        post('action/get', { id, type: 'like' })
-      ])
+      const [starRes, likeRes] = await Promise.all([
+        wx.cloud.callFunction({ name: 'cookbookAction', data: { action: 'status', id, type: 'star' } }),
+        wx.cloud.callFunction({ name: 'cookbookAction', data: { action: 'status', id, type: 'like' } }),
+      ]);
+      const starData = starRes.result.data;
+      const likeData = likeRes.result.data;
       this.setData({
-        done: true,
-        likeCount,
-        starCount,
-        star,
-        like
+        star: starData.active,
+        starCount: starData.count,
+        like: likeData.active,
+        likeCount: likeData.count,
       });
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
+    this.setData({ done: true });
   },
 
   updateViews() {
@@ -126,12 +131,18 @@ Page({
     const { type } = dataset;
 
     try {
-      const data = await post('action/create', { type, id });
-
-      this.setData({ [type]: data })
-      wx.hideLoading()
-    } catch(err) {
+      const { result } = await wx.cloud.callFunction({
+        name: 'cookbookAction',
+        data: { action: 'toggle', id, type },
+      });
+      const { active, count } = result.data;
+      this.setData({
+        [type]: active,
+        [`${type}Count`]: count,
+      });
+    } catch (err) {
       console.log(err);
+      wx.showToast({ title: '操作失败，请稍后再试', icon: 'none' });
     }
   },
 
@@ -191,9 +202,17 @@ Page({
     }
   },
   
+  handleBack() {
+    wx.navigateBack({ delta: 1 });
+  },
+
+  handleCloseTimer() {
+    this.setData({ startTimeout: false, timeout: 0 });
+  },
+
   onShareAppMessage() {
     return {
-      title: this.data.title || '程序员做饭指南',
+      title: this.data.name || '程序员做饭指南',
       path: '/pages/detail/index?id=' + this.data.id
     }
   },

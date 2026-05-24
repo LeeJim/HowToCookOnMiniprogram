@@ -1,27 +1,80 @@
+@bg: #f5f5f5;
+@primary: #0052d9;
+
+page {
+  background: @bg;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
 .container {
-  padding: 32rpx 0;
+  padding: 20rpx 24rpx;
 }
 
-.title {
-  margin-left: 46rpx;
-  margin-bottom: 32rpx;
-  font-size: 42rpx;
-}
-
-.box {
+.loading-box {
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 80rpx 0;
 }
 
 .empty-box {
-  height: 100%;
+  padding-top: 200rpx;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  padding: 26rpx 20rpx;
+  margin-bottom: 12rpx;
+  background: #fff;
+  border-radius: 14rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  transition: all 0.15s;
+
+  &:active {
+    transform: scale(0.985);
+  }
+}
+
+.recipe-num {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  background: #f0f5ff;
+  color: @primary;
+  font-size: 22rpx;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 18rpx;
+  flex-shrink: 0;
 }
 
-page .t-tag {
-  display: flex;
+.recipe-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.recipe-meta {
+  margin-top: 6rpx;
+}
+
+.meta-tag {
+  display: inline-block;
+  font-size: 20rpx;
+  color: @primary;
+  background: #f0f5ff;
+  padding: 2rpx 12rpx;
+  border-radius: 8rpx;
 }

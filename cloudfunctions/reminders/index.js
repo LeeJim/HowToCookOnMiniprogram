@@ -5,7 +5,7 @@ const dayjs = require('dayjs')
 // cloud.init({
 //   env: cloud.default,
 // })
-cloud.init({ env: 'restart-9gd2a4k63f58d0c2' })
+cloud.init()
 const db = cloud.database()
 
 exports.main = async (event, context) => {
@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
     const { data: [user] } = await db.collection('userinfo').skip(i++).limit(1).get();
     const { data: skus } = await db.collection('sku').where({
       creator: user.openid,
-      expiredDate: _.lte(dayjs().add(2, 'day').toDate())
+      expiredDate: _.lte(dayjs().add(7, 'day').toDate())
     }).get();
     if (skus.length === 0) {
       continue;

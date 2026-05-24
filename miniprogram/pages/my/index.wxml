@@ -1,37 +1,99 @@
+<t-navbar title="个人中心" />
+
 <view class="container">
-  <t-cell
-    title="HowToCookOnMiniprogram"
-    arrow
-    description="点击复制 GitHub 地址"
-    t-class-image="title-image"
-    data-msg="https://github.com/LeeJim/HowToCookOnMiniprogram"
-    bind:click="handleCopy"
-  >
-  <button class="avatar-button"	hover-class="none" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" slot="left-icon">
-    <image class="avatar" src="{{avatarUrl}}" catch:tap=""></image>
-  </button>
-  </t-cell>
-  <t-cell title="订阅更新" hover arrow bind:click="handleSubscribe">
-    <t-icon name="notification" slot="left-icon" />
-  </t-cell>
-  <t-cell title="广告开关">
-    <t-icon name="money-circle" slot="left-icon" />
-    <t-switch value="{{adFlag}}" bind:change="handleToggleAd" slot="note" />
-  </t-cell>
-  <t-cell title="收藏" hover arrow url="../myStarred/index">
-    <t-icon name="control-platform" slot="left-icon" />
-  </t-cell>
-  <t-cell title="PowerBy" hover arrow bind:click="handleToMP">
-    <t-icon name="chart-bubble" slot="left-icon" />
-    <t-tag theme="primary" slot="note" variant="light-outline">TDesign Miniprogram</t-tag>
-  </t-cell>
-  <t-cell title="更新日志" hover arrow url="../changelog/index">
-    <t-icon name="history" slot="left-icon" />
-  </t-cell>
-  <t-cell title="当前版本">
-    <t-icon name="info-circle" slot="left-icon" />
-    <view slot="note">{{version}}</view>
-  </t-cell>
+  <view class="user-card">
+    <button class="avatar-btn" hover-class="none" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{avatarUrl}}" />
+    </button>
+    <view class="user-info">
+      <view class="nickname-row">
+        <input type="nickname" class="user-name" model:value="{{nickname}}" placeholder="点击设置昵称" bind:blur="onNicknameBlur" />
+      </view>
+      <view class="level-tag">{{level.icon}} {{level.name}}</view>
+    </view>
+  </view>
+
+  <view class="checkin-card">
+    <view wx:if="{{checkinLoading}}" class="checkin-loading">
+      <t-loading theme="circular" size="32rpx" text="加载打卡数据..." />
+    </view>
+    <block wx:else>
+      <view class="checkin-header">
+        <view class="checkin-title-row">
+          <text class="checkin-title">📅 每日打卡</text>
+          <text class="checkin-streak">连续 {{streak}} 天</text>
+        </view>
+        <view class="checkin-progress">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{progress / progressMax * 100}}%;"></view>
+          </view>
+          <view wx:if="{{level.next}}" class="progress-hint">
+            再坚持 <text class="hint-num">{{daysUntilNext}}</text> 天升为 <text class="hint-level">{{level.next.icon}} {{level.next.name}}</text>
+          </view>
+          <view wx:else class="progress-hint progress-hint--max">已达最高等级 🎉</view>
+        </view>
+      </view>
+
+      <view class="checkin-footer">
+        <view class="checkin-btn {{checkedToday ? 'checkin-btn--done' : ''}}" bind:tap="handleCheckIn">
+          {{checkedToday ? '✓ 已打卡' : '打卡'}}
+        </view>
+        <view class="checkin-rules" bind:tap="toggleRules">
+          <text>🏆 等级规则</text>
+          <t-icon name="chevron-right" size="24rpx" color="#ccc" />
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="menu-card">
+    <view class="menu-item" bind:tap="handleToStarred">
+      <view class="menu-left">
+        <text class="menu-icon">⭐</text>
+        <text class="menu-label">我的收藏</text>
+      </view>
+      <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
+    </view>
+  </view>
+
+  <view class="menu-card">
+    <view class="menu-item">
+      <view class="menu-left">
+        <text class="menu-icon">📢</text>
+        <text class="menu-label">广告开关</text>
+      </view>
+      <t-switch value="{{adFlag}}" bind:change="handleToggleAd" />
+    </view>
+  </view>
+
+  <view class="menu-card">
+    <button class="menu-item contact-btn" open-type="contact" hover-class="none" session-from="weapp">
+      <view class="menu-left">
+        <text class="menu-icon">💬</text>
+        <text class="menu-label">联系客服</text>
+      </view>
+      <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
+    </button>
+  </view>
 </view>
+
+<t-dialog
+  visible="{{showRules}}"
+  title="🏆 等级规则"
+  confirm-btn="知道了"
+  bind:confirm="closeRules"
+>
+  <view slot="content" class="rules-content">
+    <view class="rule-item" wx:for="{{allLevels}}" wx:key="index">
+      <text class="rule-icon">{{item.icon}}</text>
+      <view class="rule-info">
+        <text class="rule-name">{{item.name}}</text>
+        <text class="rule-cond">连续打卡 {{item.minStreak}} 天</text>
+      </view>
+      <view wx:if="{{item.icon === level.icon}}" class="rule-badge">当前</view>
+    </view>
+    <view class="rules-tip">⚠️ 断签会重置进度，记得每天打卡哦</view>
+  </view>
+</t-dialog>
 
 <include src="/templates/base.wxml" />

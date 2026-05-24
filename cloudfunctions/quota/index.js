@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk');
 
-cloud.init({ env: 'restart-9gd2a4k63f58d0c2' })
+cloud.init()
 const db = cloud.database()
 
 const extraTimes = 5
