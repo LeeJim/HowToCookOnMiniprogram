@@ -147,6 +147,10 @@ Page({
     wx.navigateTo({ url: '/pages/myStarred/index' })
   },
 
+  handleToChangelog() {
+    wx.navigateTo({ url: '/pages/changelog/index' })
+  },
+
   handleToggleAd({ detail }) {
     const adFlag = detail.value
     wx.setStorageSync('ad-flag', adFlag)

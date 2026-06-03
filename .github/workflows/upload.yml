@@ -1,0 +1,45 @@
+name: UPLOAD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  upload-and-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install miniprogram dependencies
+        run: cd miniprogram && npm install
+
+      - name: Install miniprogram-ci
+        run: npm install miniprogram-ci@latest
+
+      - name: Upload and Submit Audit
+        run: node script/ci-upload.js
+        env:
+          MINI_APP_ID: ${{ secrets.APP_ID }}
+          MINI_APP_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+
+      - name: Update changelog
+        run: node script/update-changelog.js
+        env:
+          PUSH_COMMITS: ${{ toJson(github.event.commits) }}
+
+      - name: Commit changelog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add miniprogram/pages/changelog/log.js
+          if git diff --staged --quiet; then
+            echo "No changelog changes to commit."
+          else
+            git commit -m "chore: update changelog [skip ci]"
+            git push
+          fi

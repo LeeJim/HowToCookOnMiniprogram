@@ -57,6 +57,16 @@
   </view>
 
   <view class="menu-card">
+    <view class="menu-item" bind:tap="handleToChangelog">
+      <view class="menu-left">
+        <text class="menu-icon">📋</text>
+        <text class="menu-label">更新日志</text>
+      </view>
+      <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
+    </view>
+  </view>
+
+  <view class="menu-card">
     <view class="menu-item">
       <view class="menu-left">
         <text class="menu-icon">📢</text>

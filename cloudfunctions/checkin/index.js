@@ -39,7 +39,7 @@ exports.main = async (event) => {
   const coll = db.collection('checkins');
 
   try {
-    const { data: records } = await coll.get();
+    const { data: records } = await coll.where({ _openid: OPENID }).get();
     const record = records[0] || { streak: 0, lastDate: '' };
 
     if (action === 'status') {
@@ -80,7 +80,7 @@ exports.main = async (event) => {
         });
       } else {
         await coll.add({
-          data: { streak: newStreak, lastDate: today, updateTime: Date.now() }
+          data: { _openid: OPENID, streak: newStreak, lastDate: today, updateTime: Date.now() }
         });
       }
 
