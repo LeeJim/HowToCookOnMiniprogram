@@ -27,7 +27,15 @@ async function main() {
   console.log(`📦 Version: ${version}`);
   console.log(`📝 Description: ${desc}`);
 
-  // Step 1: 上传体验版
+  // Step 1: 构建 npm 包（miniprogram-ci 不会自动处理 node_modules）
+  console.log('📦 Building npm...');
+  await ci.packNpmManually({
+    packageJsonPath: path.join(__dirname, '..', 'miniprogram', 'package.json'),
+    miniprogramNpmDistDir: path.join(__dirname, '..', 'miniprogram'),
+  });
+  console.log('✅ Npm build done');
+
+  // Step 2: 上传体验版
   console.log('⬆️  Uploading...');
   const uploadResult = await ci.upload({
     project,
@@ -49,7 +57,7 @@ async function main() {
   });
   console.log('✅ Upload success');
 
-  // Step 2: 提交审核
+  // Step 3: 提交审核
   console.log('📤 Submitting audit...');
   try {
     const auditResult = await ci.submitAudit({
