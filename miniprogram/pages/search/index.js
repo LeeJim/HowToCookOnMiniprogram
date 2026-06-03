@@ -1,4 +1,4 @@
-import cookbook from '../../data.js';
+import cookbook from '../../recipes-enriched';
 import config from '../../config/index'
 
 Page({

@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 const glob = require('glob')
 const {marked} = require('marked')
-const MagicString = require('magic-string')
 const md5 = require('md5')
 const cliProgress = require('cli-progress');
 const { uploadImage } = require('./upload')
@@ -125,14 +124,4 @@ glob(path.resolve(__dirname, '../HowToCook/dishes/**/*.md'), {}, async (err, fil
   }
 
   bar.stop()
-  
-  const jsonData = new MagicString('');
-  const s = new MagicString(JSON.stringify(dishes, null, 2))
-  dishes.forEach(item => {
-    jsonData.append(JSON.stringify(item) + '\n')
-  })
-
-  s.prepend('export default ')
-  fs.writeFileSync('./miniprogram/data.js', s.toString())
-  fs.writeFileSync('./data-v2.json', jsonData.toString())
 })

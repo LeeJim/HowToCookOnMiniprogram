@@ -1,6 +1,6 @@
-import infos from '../../data'
+import infos from '../../recipes-enriched'
 import utils from '../../utils/index.js'
-import { chineseMap, titleMap, categoryIcons } from '../../config/index.js'
+import { chineseMap, titleMap, categoryIcons, NEW_RECIPE_IDS } from '../../config/index.js'
 import Toast from 'tdesign-miniprogram/toast/index';
 import dayjs from 'dayjs';
 
@@ -26,7 +26,10 @@ Page({
       return {
         name: titleMap[category],
         icon: categoryIcons[category] || '📖',
-        list
+        list: list.map(item => ({
+          ...item,
+          isNew: NEW_RECIPE_IDS.has(item.id)
+        }))
       }
     })
     this.setData({

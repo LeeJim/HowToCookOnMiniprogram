@@ -1,5 +1,5 @@
 const info = require('./data.js').default
-const cookbooks = require('../../data').default
+const cookbooks = require('../../recipes-enriched').default
 // import Toast from 'tdesign-miniprogram/toast/index';
 import Message from 'tdesign-miniprogram/message/index';
 

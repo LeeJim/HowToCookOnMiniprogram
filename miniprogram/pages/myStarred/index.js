@@ -1,5 +1,5 @@
 import config from '../../config/index.js'
-import recipes from '../../data'
+import recipes from '../../recipes-enriched'
 
 Page({
   data: {

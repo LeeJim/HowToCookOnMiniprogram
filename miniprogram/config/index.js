@@ -37,6 +37,9 @@ export const categoryIcons = {
   'meat_dish': '🥩'
 }
 
+// 基于 v1 数据对比：v1 中没有的菜谱显示 "NEW" 标签
+export { NEW_RECIPE_IDS } from './new-recipes'
+
 export default {
   titleMap,
   chineseMap,

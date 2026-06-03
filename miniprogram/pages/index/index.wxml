@@ -51,6 +51,7 @@
         >
           <view class="recipe-num">{{index + 1}}</view>
           <text class="recipe-name">{{item.name}}</text>
+          <text wx:if="{{item.isNew}}" class="recipe-new">NEW</text>
           <t-icon name="chevron-right" size="36rpx" color="#c0c0c0" />
         </view>
 

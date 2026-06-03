@@ -17,8 +17,19 @@ Object.entries(classified).forEach(([cat, items]) => {
   });
 });
 
-// ── 读取原始菜谱 ──
-const dataPath = path.join(__dirname, '..', 'data.json');
+// ── 读取原始菜谱（从 data/ 目录取最新文件） ──
+const dataDir = path.join(__dirname, '..', 'data');
+const indexContent = fs.readFileSync(path.join(dataDir, 'index.js'), 'utf8');
+const match = indexContent.match(/from '\.\/(recipes-[^']+)\.js'/);
+const latestFile = match ? match[1] + '.json' : null;
+
+if (!latestFile) {
+  console.error('找不到最新的数据文件，请先运行 batch-convert.js');
+  process.exit(1);
+}
+
+const dataPath = path.join(dataDir, latestFile);
+console.log(`读取数据: ${latestFile}`);
 const lines = fs.readFileSync(dataPath, 'utf8').trim().split('\n');
 const recipes = lines.map(line => JSON.parse(line));
 
@@ -62,12 +73,7 @@ console.log(`菜谱总数: ${recipes.length}`);
 console.log(`已分类原料: ${taggedCount}, 未分类: ${untaggedCount}`);
 
 // ── 输出增强数据 ──
-// 输出 JSONL 格式用于云函数/AI匹配
-const jsonlPath = path.join(__dirname, '..', 'miniprogram', 'recipes-enriched.json');
-fs.writeFileSync(jsonlPath, recipes.map(r => JSON.stringify(r)).join('\n'), 'utf8');
-console.log(`已写入: ${jsonlPath}`);
-
-// 同时输出 JS 模块给小程序用
+// 输出 JS 模块给小程序用
 const jsLines = ['export default ' + JSON.stringify(recipes, null, 2)];
 const jsPath = path.join(__dirname, '..', 'miniprogram', 'recipes-enriched.js');
 fs.writeFileSync(jsPath, jsLines.join('\n'), 'utf8');

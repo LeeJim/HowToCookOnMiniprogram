@@ -11,6 +11,18 @@
       {
         "value": "node_modules",
         "type": "folder"
+      },
+      {
+        "value": "data",
+        "type": "folder"
+      },
+      {
+        "value": "assets",
+        "type": "folder"
+      },
+      {
+        "value": "test-output.json",
+        "type": "file"
       }
     ],
     "include": []
