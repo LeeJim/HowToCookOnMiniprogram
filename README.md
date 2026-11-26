@@ -49,6 +49,13 @@
 
 ### 启动
 
+> 本地开发前请先检查环境，确认 Node.js 与 npm 已正确安装：
+>
+> ```bash
+> node --version
+> npm --version
+> ```
+
 1. `cd miniprogram`
 2. `npm install`
 3. 开发者工具，点击菜单“工具 - 构建 npm”
