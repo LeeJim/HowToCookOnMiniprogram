@@ -1,0 +1,33 @@
+name: ai-native Issue 13 cloud validation
+
+on:
+  push:
+    branches: [codex/ai-native-ci-validation]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Verify the Issue 13 README patch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BASE_SHA: 57dd272477888893764e4409b00bc80d24b43412
+      PR_SHA: a3f2eff73f6bda0bebb781d1a62012bbaae3f1e6
+    steps:
+      - name: Verify the approved commit and README instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init -q
+          git remote add origin https://github.com/LeeJim/HowToCookOnMiniprogram.git
+          git fetch --no-tags --depth=1 origin "$BASE_SHA" "$PR_SHA"
+          test "$(git diff --name-only "$BASE_SHA" "$PR_SHA")" = README.md
+          git diff --check "$BASE_SHA" "$PR_SHA"
+          git show "$PR_SHA:README.md" > "$RUNNER_TEMP/issue-13-README.md"
+          grep -Fxq '> node --version' "$RUNNER_TEMP/issue-13-README.md"
+          grep -Fxq '> npm --version' "$RUNNER_TEMP/issue-13-README.md"
+          node --version
+          npm --version
+          printf 'Verified PR #14 at %s\n' "$PR_SHA" >> "$GITHUB_STEP_SUMMARY"
