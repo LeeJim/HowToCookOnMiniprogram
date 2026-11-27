@@ -1,0 +1,49 @@
+name: ai-native draft validation
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    if: >-
+      github.event.pull_request.draft &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'codex/ai-native-issue-')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Check patch scope and JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$BASE_SHA" =~ ^[a-f0-9]{40}$ && "$HEAD_SHA" =~ ^[a-f0-9]{40}$ ]]
+          merge_base="$(gh api "repos/LeeJim/HowToCookOnMiniprogram/compare/$BASE_SHA...$HEAD_SHA" --jq .merge_base_commit.sha)"
+          [[ "$merge_base" =~ ^[a-f0-9]{40}$ ]]
+          git init -q
+          git remote add origin https://github.com/LeeJim/HowToCookOnMiniprogram.git
+          git fetch --no-tags --depth=1 origin "$merge_base" "$HEAD_SHA"
+          git diff --check "$merge_base" "$HEAD_SHA"
+          git diff --name-only --no-renames -z "$merge_base" "$HEAD_SHA" > "$RUNNER_TEMP/files"
+          git diff --summary "$merge_base" "$HEAD_SHA" > "$RUNNER_TEMP/summary"
+          test ! -s "$RUNNER_TEMP/summary"
+          count=0
+          while IFS= read -r -d '' file; do
+            count=$((count + 1))
+            test "$count" -le 12
+            if [[ "$file" == README.md ]]; then
+              continue
+            fi
+            [[ "$file" =~ ^([A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(js|mjs|cjs)$ ]]
+            syntax_file="$RUNNER_TEMP/source.${file##*.}"
+            git show "$HEAD_SHA:$file" > "$syntax_file"
+            node --check "$syntax_file"
+          done < "$RUNNER_TEMP/files"
+          test "$count" -ge 1
