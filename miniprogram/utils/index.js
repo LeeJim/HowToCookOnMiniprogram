@@ -1,4 +1,5 @@
-const formatTime = date => {
+const formatTime = (date, options = {}) => {
+  const { includeSeconds = true } = options || {}
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -6,7 +7,11 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
+  const time = includeSeconds
+    ? [hour, minute, second].map(formatNumber).join(':')
+    : [hour, minute].map(formatNumber).join(':')
+
+  return `${[year, month, day].map(formatNumber).join('/')} ${time}`
 }
 
 const formatNumber = n => {
